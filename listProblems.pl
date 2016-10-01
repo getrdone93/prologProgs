@@ -48,14 +48,3 @@ palindrome(L) :-
     checkMatch(L, RevL).
 
 checkMatch(L, L).
-
-%cut example
-match([_ | T]) :-
-    display(T).
-
-match([H | _]) :-
-    !,
-    display(H).
-
-match([_ | _]) :-
-    display('I get cut!\n').
