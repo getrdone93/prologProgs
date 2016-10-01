@@ -52,7 +52,8 @@ checkMatch(L, L).
 %Eliminate consecutive duplicates of list elements
 %1.08
 compress(In, CL) :-
-    comp(In, CL, []).
+    reverseList(In, RevIn),
+    comp(RevIn, CL, []).
 
 comp([], CL, CL) :- !.
 
