@@ -51,15 +51,19 @@ checkMatch(L, L).
 
 %Eliminate consecutive duplicates of list elements
 %1.08
-compress(Input, CompressedList) :-
-    comp(Input, CompressedList, []).
+compress(In, CL) :-
+    comp(In, CL, []).
 
-comp([], CompressedList, CompressedList) :- !.
+comp([], CL, CL) :- !.
 
-comp([I | IT], CompressedList, Res) :- %just add the first element if we have none
-%    !,
-    numElements(CompressedList, Num),
-    Num =:= 0,
-    comp(IT, CompressedList, [I | Res]).
+comp([H | T], CL, Res) :-
+    eleExists(H, Res),
+    !,
+    comp(T, CL, Res).
 
-%comp([I | IT], CompressedList, Res) :-
+comp([H | T], CL, Res) :-
+    comp(T, CL, [H | Res]).
+
+eleExists(E, [E | _]) :- !.
+eleExists(E, [_ | T]) :-
+    eleExists(E, T).
