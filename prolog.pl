@@ -31,11 +31,18 @@ addElement(E, [], [E]).
 addElement(E, [H | T], [E, H | T]).
 
 %reverse a list
+%P05
 reverseList(L1, L2) :-
     revList(L1, L2, []).
 revList([], L2, L2) :- !.
 revList([H | T], L2, L3) :-
     revList(T, L2, [H | L3]).
+
+%find out whether a list is a palindrome
+%P06
+
+
+
 
 %cut example
 match([_ | T]) :-
