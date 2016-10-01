@@ -1,3 +1,6 @@
+%Most of these problems are from the following URL:
+%https://sites.google.com/site/prologsite/prolog-problems/1
+
 %P01
 %find the last element of a list
 lastElement([H], H).
