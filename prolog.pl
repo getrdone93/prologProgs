@@ -43,9 +43,11 @@ revList([H | T], L2, L3) :-
 
 %find out whether a list is a palindrome
 %P06
+palindrome(L) :-
+    reverseList(L, RevL),
+    checkMatch(L, RevL).
 
-
-
+checkMatch(L, L).
 
 %cut example
 match([_ | T]) :-
