@@ -1,14 +1,14 @@
 %Most of these problems are from the following URL:
 %https://sites.google.com/site/prologsite/prolog-problems/1
 
-%P01
+%1.01
 %find the last element of a list
 lastElement([H], H).
 
 lastElement([_ | T], Last) :-
      lastElement(T, Last).
 
-%P03
+%1.03
 %find the Nth element in a list
 nthElement([H | _], 1, H).
 
@@ -17,7 +17,7 @@ nthElement([_ | T], N, E) :-
      N1 > 0,
      nthElement(T, N1, E).
 
-%P04
+%1.04
 %find the number of elements in a list
 numElements([], 0).
 
@@ -34,7 +34,7 @@ addElement(E, [], [E]).
 addElement(E, [H | T], [E, H | T]).
 
 %reverse a list
-%P05
+%1.05
 reverseList(L1, L2) :-
     revList(L1, L2, []).
 revList([], L2, L2) :- !.
@@ -42,9 +42,24 @@ revList([H | T], L2, L3) :-
     revList(T, L2, [H | L3]).
 
 %find out whether a list is a palindrome
-%P06
+%1.06
 palindrome(L) :-
     reverseList(L, RevL),
     checkMatch(L, RevL).
 
 checkMatch(L, L).
+
+%Eliminate consecutive duplicates of list elements
+%1.08
+compress(Input, CompressedList) :-
+    comp(Input, CompressedList, []).
+
+comp([], CompressedList, CompressedList) :- !.
+
+comp([I | IT], CompressedList, Res) :- %just add the first element if we have none
+%    !,
+    numElements(CompressedList, Num),
+    Num =:= 0,
+    comp(IT, CompressedList, [I | Res]).
+
+%comp([I | IT], CompressedList, Res) :-
