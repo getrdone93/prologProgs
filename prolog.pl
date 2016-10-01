@@ -36,3 +36,14 @@ reverseList(L1, L2) :-
 revList([], L2, L2) :- !.
 revList([H | T], L2, L3) :-
     revList(T, L2, [H | L3]).
+
+%cut example
+match([_ | T]) :-
+    display(T).
+
+match([H | _]) :-
+    !,
+    display(H).
+
+match([_ | _]) :-
+    display('I get cut!\n').
