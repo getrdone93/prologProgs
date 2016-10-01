@@ -1,9 +1,11 @@
+%P01
 %find the last element of a list
 lastElement([H], H).
 
 lastElement([_ | T], Last) :-
      lastElement(T, Last).
 
+%P03
 %find the Nth element in a list
 nthElement([H | _], 1, H).
 
@@ -12,6 +14,7 @@ nthElement([_ | T], N, E) :-
      N1 > 0,
      nthElement(T, N1, E).
 
+%P04
 %find the number of elements in a list
 numElements([], 0).
 
@@ -28,17 +31,8 @@ addElement(E, [], [E]).
 addElement(E, [H | T], [E, H | T]).
 
 %reverse a list
-reverseList([], ).
-
-reverseList([H | T], L) :-
-     addElement(H, L, L1),
-%     display(L1),
-     reverseList(T, L1).
-
-
-
-     %display(ListToReverse),
-     %lastElement(ListToReverse, Last),
-     %remove(Last, ListToReverse, TempListToRev),
-     %RevTemp = [Last | Reverse],
-     %display(RevTemp),
+reverseList(L1, L2) :-
+    revList(L1, L2, []).
+revList([], L2, L2) :- !.
+revList([H | T], L2, L3) :-
+    revList(T, L2, [H | L3]).
