@@ -20,18 +20,9 @@ nthElement([_ | T], N, E) :-
 %1.04
 %find the number of elements in a list
 numElements([], 0).
-
 numElements([_ | T], N) :-
      numElements(T, N1),
      N is N1 + 1.
-
-%remove an element from a list
-remove(H, [H | T], T).
-remove(H, [H1 | T], [H1 | T1]) :-
-     remove(H, T, T1).
-
-addElement(E, [], [E]).
-addElement(E, [H | T], [E, H | T]).
 
 %reverse a list
 %1.05
@@ -46,7 +37,6 @@ revList([H | T], L2, L3) :-
 palindrome(L) :-
     reverseList(L, RevL),
     checkMatch(L, RevL).
-
 checkMatch(L, L).
 
 %Eliminate consecutive duplicates of list elements
@@ -58,13 +48,33 @@ compress(In, CL) :-
 comp([], CL, CL) :- !.
 
 comp([H | T], CL, Res) :-
-    eleExists(H, Res),
+    occurance(H, Res, NumOccur),
+    NumOccur < 1,
     !,
+    comp(T, CL, [H | Res]).
+
+comp([_ | T], CL, Res) :-
     comp(T, CL, Res).
 
-comp([H | T], CL, Res) :-
-    comp(T, CL, [H | Res]).
+
+%Lib
+occurance(_, [], 0).
+occurance(H, [H | T], N) :-
+    !,
+    occurance(H, T, N1),
+    N is N1 + 1.
+occurance(H, [_ | T], N) :-
+    occurance(H, T, N1),
+    N is N1.
 
 eleExists(E, [E | _]) :- !.
 eleExists(E, [_ | T]) :-
     eleExists(E, T).
+
+%remove an element from a list
+remove(H, [H | T], T).
+remove(H, [H1 | T], [H1 | T1]) :-
+     remove(H, T, T1).
+
+addElement(E, [], [E]).
+addElement(E, [H | T], [E, H | T]).
