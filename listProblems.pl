@@ -47,15 +47,13 @@ compress(In, CL) :-
 
 comp([], CL, CL) :- !.
 
-comp([H | T], CL, Res) :-
-    occurance(H, Res, NumOccur),
-    NumOccur < 1,
+comp([H | T], CL, [H | Res]) :-
     !,
     comp(T, CL, [H | Res]).
 
-comp([_ | T], CL, Res) :-
-    comp(T, CL, Res).
-
+comp([H | T], CL, Res) :-
+    !,
+    comp(T, CL, [H | Res]).
 
 %Lib
 occurance(_, [], 0).
