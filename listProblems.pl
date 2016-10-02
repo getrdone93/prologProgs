@@ -46,11 +46,9 @@ compress(In, CL) :-
     comp(RevIn, CL, []).
 
 comp([], CL, CL) :- !.
-
 comp([H | T], CL, [H | Res]) :-
     !,
     comp(T, CL, [H | Res]).
-
 comp([H | T], CL, Res) :-
     !,
     comp(T, CL, [H | Res]).
