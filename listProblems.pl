@@ -53,6 +53,15 @@ comp([H | T], CL, Res) :-
     !,
     comp(T, CL, [H | Res]).
 
+%Pack consecutive duplicates of list elements into sublists.
+%1.09
+pack(L, L1) :-
+     sublist(L, L1, Res).
+
+sublist([], Res, Res).
+sublist([H | T], L1, [[H | _] | Res]) :-
+
+
 %Lib
 occurance(_, [], 0).
 occurance(H, [H | T], N) :-
