@@ -59,8 +59,11 @@ pack(L, L1) :-
      sublist(L, L1, Res).
 
 sublist([], Res, Res).
-sublist([H | T], L1, [[H | _] | Res]) :-
-
+sublist([H | T], L1, [[H | T1] | Res]) :-
+     removeElement([H | T1], Res, ResTemp),
+     addElement(H, [H | T1], TempSub),
+     addElement(TempSub, ResTemp, ResNew),
+     sublist(T, L1, ResNew).
 
 %Lib
 occurance(_, [], 0).
@@ -77,9 +80,9 @@ eleExists(E, [_ | T]) :-
     eleExists(E, T).
 
 %remove an element from a list
-remove(H, [H | T], T).
-remove(H, [H1 | T], [H1 | T1]) :-
-     remove(H, T, T1).
+removeElement(H, [H | T], T).
+removeElement(H, [H1 | T], [H1 | T1]) :-
+     removeElement(H, T, T1).
 
 addElement(E, [], [E]).
 addElement(E, [H | T], [E, H | T]).
