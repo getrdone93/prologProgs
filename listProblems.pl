@@ -56,13 +56,17 @@ comp([H | T], CL, Res) :-
 %Pack consecutive duplicates of list elements into sublists.
 %1.09
 pack(L, L1) :-
-     sublist(L, L1, Res).
+     sublist(L, L1, []).
 
 sublist([], Res, Res).
 sublist([H | T], L1, [[H | T1] | Res]) :-
+     !,
      removeElement([H | T1], Res, ResTemp),
      addElement(H, [H | T1], TempSub),
      addElement(TempSub, ResTemp, ResNew),
+     sublist(T, L1, ResNew).
+sublist([H | T], L1, Res) :-
+     addElement([H], Res, ResNew),
      sublist(T, L1, ResNew).
 
 %Lib
