@@ -70,6 +70,19 @@ sublist([H | T], L1, Res) :-
      addElement([H], Res, ResNew),
      sublist(T, L1, ResNew).
 
+%Run length encoding of a list
+%1.10
+runLengthEncode(L, L1) :-
+     pack(L, PackedL),
+     reverseList(PackedL, RevPackedL),
+     encode(RevPackedL, L1, []).
+
+encode([], L, L).
+encode([H | T], L1, Res) :-
+     numElements(H, Len),
+     nthElement(H, 1, H1),
+     encode(T, L1, [[Len , H1] | Res]).
+
 %Lib
 occurance(_, [], 0).
 occurance(H, [H | T], N) :-
