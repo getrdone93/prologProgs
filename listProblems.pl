@@ -83,6 +83,22 @@ encode([H | T], L1, Res) :-
      nthElement(H, 1, H1),
      encode(T, L1, [[Len , H1] | Res]).
 
+%Modified run length encoding
+%1.11
+modifiedRunLengthEncode(L, L1) :-
+     pack(L, PackedL),
+     reverseList(PackedL, RevPackedL),
+     modifiedEncode(RevPackedL, L1, []).
+modifiedEncode([], L, L).
+modifiedEncode([H | T], L1, Res) :-
+     numElements(H, Len),
+     Len > 1,
+     nthElement(H, 1, H1),
+     modifiedEncode(T, L1, [[Len , H1] | Res]).
+modifiedEncode([H | T], L1, Res) :-
+     nthElement(H, 1, H1),
+     modifiedEncode(T, L1, [H1 | Res]).
+
 %Lib
 occurance(_, [], 0).
 occurance(H, [H | T], N) :-
