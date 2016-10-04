@@ -16,3 +16,30 @@ has_factor(N,L) :-
      L * L < N,
      L2 is L + 2,
      has_factor(N,L2).
+
+%A list of prime numbers
+%2.04
+matchList(L, L).
+primeNumberList(LB, UB, L) :-
+     generateList(LB, UB, L, []).
+generateList(UB, UB, Res, Res).
+generateList(LB, UB, L, Res) :-
+     LB =< UB,
+     is_prime(LB),
+     LBNew is LB + 1,
+     generateList(LBNew, UB, L, [LB | Res]).
+generateList(LB, UB, L, Res) :-
+     LBNew is LB + 1,
+     generateList(LBNew, UB, L, Res).
+
+primeNumberList(LB, UB, L) :-
+     generateList(LB, UB, L, []).
+generateList(UB, UB, Res, Res).
+generateList(LB, UB, L, Res) :-
+     LB =< UB,
+     is_prime(LB),
+     LBNew is LB + 1,
+     generateList(LBNew, UB, L, [LB | Res]).
+generateList(LB, UB, L, Res) :-
+     LBNew is LB + 1,
+     generateList(LBNew, UB, L, Res).
