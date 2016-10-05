@@ -119,11 +119,12 @@ dup([H | T], L1, [H, H | Res]) :-
 %     dupN(RevL, L1, Res, N1).
 % dupN([], L, L, 0).
 % %dupN([H | T], L1, Res, N) :-
-% genList(E, [E], 0) :- !.
-% genList(E, L, N) :-
-%     genList(E, L1, N1),
-%     addElement(E, L1, L),
-%     N is N1 - 1.
+
+genList(E, [E], 1) :- !.
+genList(E, [E | L], N) :-
+    genList(E, L, N1),
+    display(L),nl,
+    N is N1 - 1.
 
 %Lib
 occurance(_, [], 0).
