@@ -111,12 +111,6 @@ dup([H | T], L1, Res) :-
 dup([H | T], L1, [H, H | Res]) :-
     dup(T, L1, Res).
 
-%this is bottom up.
-dupli([],[]).
-dupli([X | Xs], [X, X | Ys]) :-
-    dupli(Xs, Ys),
-            display(Ys),nl.
-
 %Lib
 occurance(_, [], 0).
 occurance(H, [H | T], N) :-
@@ -138,3 +132,8 @@ removeElement(H, [H1 | T], [H1 | T1]) :-
 
 addElement(E, [], [E]).
 addElement(E, [H | T], [E, H | T]).
+
+%this is bottom up. Think this way when possible.
+dupli([],[]).
+dupli([X | Xs], [X, X | Ys]) :-
+    dupli(Xs, Ys).
