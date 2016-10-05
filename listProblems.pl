@@ -113,16 +113,17 @@ dup([H | T], L1, [H, H | Res]) :-
 
 %Duplicate the elements of a list a given number of times
 %1.15
-duplicateN(L, L1, N) :-
-    reverseList(L, RevL),
-    N1 is N - 1,
-    dupN(RevL, L1, Res, N1).
-dupN([], L, L, 0).
-%dupN([H | T], L1, Res, N) :-
-genList(E, [E], 0) :- !.
-genList(E, L, N) :-
-    genList(E, L, N1),
-    N is N1 - 1.
+% duplicateN(L, L1, N) :-
+%     reverseList(L, RevL),
+%     N1 is N - 1,
+%     dupN(RevL, L1, Res, N1).
+% dupN([], L, L, 0).
+% %dupN([H | T], L1, Res, N) :-
+% genList(E, [E], 0) :- !.
+% genList(E, L, N) :-
+%     genList(E, L1, N1),
+%     addElement(E, L1, L),
+%     N is N1 - 1.
 
 %Lib
 occurance(_, [], 0).
