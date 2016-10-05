@@ -99,6 +99,24 @@ modifiedEncode([H | T], L1, Res) :-
      nthElement(H, 1, H1),
      modifiedEncode(T, L1, [H1 | Res]).
 
+%Duplicate the elements of a list
+%1.14
+duplicate(L, L1) :-
+    reverseList(L, LR),
+    dup(LR, L1, []).
+dup([], L, L).
+dup([H | T], L1, Res) :-
+    !,
+    dup(T, L1, [H, H | Res]).
+dup([H | T], L1, [H, H | Res]) :-
+    dup(T, L1, Res).
+
+%this is bottom up.
+dupli([],[]).
+dupli([X | Xs], [X, X | Ys]) :-
+    dupli(Xs, Ys),
+            display(Ys),nl.
+
 %Lib
 occurance(_, [], 0).
 occurance(H, [H | T], N) :-
