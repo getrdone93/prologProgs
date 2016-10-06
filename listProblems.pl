@@ -117,7 +117,6 @@ dupN([H | T], L1, Res, N) :-
      generateList(H, TempList, N),
      append(L1, TempList, NewList),
      dupN(T, NewList, Res, N).
-
 generateList(E, L, N) :-
      genList(E, [], L, N, 0).
 genList(_, L, L, N, N).
