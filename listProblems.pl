@@ -110,6 +110,13 @@ dup([H | T], L1, Res) :-
 
 % Duplicate the elements of a list a given number of times
 % 1.15
+duplicateNTimes(L, L1, N) :-
+     dupN(L, [], L1, N).
+dupN([], L, L, _).
+dupN([H | T], L1, Res, N) :-
+     generateList(H, TempList, N),
+     append(L1, TempList, NewList),
+     dupN(T, NewList, Res, N).
 
 generateList(E, L, N) :-
      genList(E, [], L, N, 0).
