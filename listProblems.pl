@@ -120,18 +120,12 @@ dup([H | T], L1, [H, H | Res]) :-
 % dupN([], L, L, 0).
 % %dupN([H | T], L1, Res, N) :-
 
-% genList(E, [E], 1) :- !.
-% genList(E, [E | L], N) :-
-%     genList(E, L, N1),
-%     display(L),nl,
-%     N is N1 - 1.
-
 gList(E, L, N) :-
-     genList(E, L, N).
-genList(L, L, 0).
-genList(E, L, N) :-
-     genList(E, [E | L], N1),
-     N is N1 - 1.
+     genList(E, [], L, N, 0).
+genList(_, L, L, N, N).
+genList(E, L, Res, N, C) :-
+     C1 is C + 1,
+     genList(E, [E | L], Res, N, C1).
 
 %Lib
 occurance(_, [], 0).
