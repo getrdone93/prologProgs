@@ -106,21 +106,12 @@ duplicate(L, L1) :-
     dup(LR, L1, []).
 dup([], L, L).
 dup([H | T], L1, Res) :-
-    !,
     dup(T, L1, [H, H | Res]).
-dup([H | T], L1, [H, H | Res]) :-
-    dup(T, L1, Res).
 
-%Duplicate the elements of a list a given number of times
-%1.15
-% duplicateN(L, L1, N) :-
-%     reverseList(L, RevL),
-%     N1 is N - 1,
-%     dupN(RevL, L1, Res, N1).
-% dupN([], L, L, 0).
-% %dupN([H | T], L1, Res, N) :-
+% Duplicate the elements of a list a given number of times
+% 1.15
 
-gList(E, L, N) :-
+generateList(E, L, N) :-
      genList(E, [], L, N, 0).
 genList(_, L, L, N, N).
 genList(E, L, Res, N, C) :-
