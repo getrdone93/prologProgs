@@ -108,7 +108,7 @@ dup([], L, L).
 dup([H | T], L1, Res) :-
     dup(T, L1, [H, H | Res]).
 
-% Duplicate the elements of a list a given number of times
+%Duplicate the elements of a list a given number of times
 % 1.15
 duplicateNTimes(L, L1, N) :-
      dupN(L, [], L1, N).
@@ -123,6 +123,18 @@ genList(_, L, L, N, N).
 genList(E, L, Res, N, C) :-
      C1 is C + 1,
      genList(E, [E | L], Res, N, C1).
+
+%Drop every N'th element from a list
+%1.16
+drop(L, L1, N) :-
+    dropEveryNthEle(L, L1, [], N, 0).
+dropEveryNthEle([], L, L, _, _).
+dropEveryNthEle([_ | T], L1, Res, N, N) :-
+    dropEveryNthEle(T, L1, Res, N, 0).
+dropEveryNthEle([H | T], L1, Res, N, C) :-
+    C1 is C + 1,
+    display(L1),nl,
+    dropEveryNthEle(T, [H | L1], Res, N, C1).
 
 %Lib
 occurance(_, [], 0).
