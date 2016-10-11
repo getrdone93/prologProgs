@@ -149,6 +149,8 @@ split([H | T], N, C, [H | L1], L2) :-
     C1 is C - 1,
     split(T, N, C1, L1, L2).
 
+
+
 %Lib
 occurance(_, [], 0).
 occurance(H, [H | T], N) :-
