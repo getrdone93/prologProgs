@@ -125,7 +125,6 @@ genList(E, L, Res, N, C) :-
      genList(E, [E | L], Res, N, C1).
 
 %Drop every N'th element from a list
-%need to reverse the order
 %1.16
 drop(L, L1, N) :-
     dropEveryNthEle(L, [], L1, N, 1).
