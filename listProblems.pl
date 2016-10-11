@@ -159,13 +159,15 @@ slice(L, LB, UB, Res) :-
      removeBeginningElements(L, LB, BegL),
      numElements(BegL, LenBegL),
      NewUB is UB - (LenL - LenBegL),
-     removeEndingElements(BegL, UB, NumL, Res). %subtract NumL until it is UB
+     removeEndingElements(BegL, NewUB, LenBegL, Res). %subtract NumL until it is UB
 removeBeginningElements([], 1, []).
 removeBeginningElements([H | T], LB, [H | T]) :-
      TempLB is LB - 1,
      removeBeginningElements(T, TempLB, T).
 removeEndingElements([], N, N, []).
-removeEndingElements()
+removeEndingElements([H | T], UB, C, [H | T]) :-
+     C1 is C + 1,
+     removeEndingElements(T, UB, C1, T).
 
 %Lib
 occurance(_, [], 0).
