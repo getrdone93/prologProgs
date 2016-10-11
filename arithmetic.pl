@@ -36,10 +36,6 @@ generateList(LB, UB, L, Res) :-
 
 %Goldbach's conjecture
 %2.05
-goldbach(N, _) :-
-    N mod 2 =:= 1,
-    !,
-    fail.
 goldbach(N, Ans) :-
     N mod 2 =:= 0,
     goldbach(N, Ans, 2).
