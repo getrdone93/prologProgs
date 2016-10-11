@@ -1,3 +1,6 @@
+addElement(E, [], [E]).
+addElement(E, [H | T], [E, H | T]).
+
 %Determine whether a given integer number is prime
 %2.01
 is_prime(2).
@@ -30,3 +33,18 @@ generateList(LB, UB, L, Res) :-
 generateList(LB, UB, L, Res) :-
      LBNew is LB + 1,
      generateList(LBNew, UB, L, Res).
+
+%Goldbach's conjecture
+%2.05
+goldbach(N, Ans) :-
+    N mod 2 =:= 0,
+    goldbach(N, Ans, 2).
+goldbach(0, H, H1, [H, H1]) :- !.
+goldbach(N, Ans, C) :-
+    is_prime(C),
+    Temp is N - C,
+    is_prime(Temp),
+    goldbach(0, C, Temp, Ans).
+goldbach(N, Ans, C) :-
+    C1 is C + 1,
+    goldbach(N, Ans, C1).
