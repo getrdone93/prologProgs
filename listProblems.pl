@@ -165,8 +165,10 @@ removeBeginningElements([H | T], LB, [H | T]) :-
      TempLB is LB - 1,
      removeBeginningElements(T, TempLB, T).
 removeEndingElements([], N, N, []).
-removeEndingElements([H | T], UB, C, [H | T]) :-
-     C1 is C + 1,
+removeEndingElements([H | T], N, N, [H | T1]) :-
+     removeEndingElements(T, N, N, T1).
+removeEndingElements([_ | T], UB, C, T) :-
+     C1 is C - 1,
      removeEndingElements(T, UB, C1, T).
 
 %Lib
