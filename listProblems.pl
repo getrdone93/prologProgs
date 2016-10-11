@@ -138,6 +138,17 @@ dropEveryNthEle([H | T], L1, Res, N, C) :-
     C1 is C + 1,
     dropEveryNthEle(T, [H | L1], Res, N, C1).
 
+%Split a list into two parts; the length of the first part is given
+%1.17
+split(L, N, L1, L2) :-
+    split(L, N, N, L1, L2).
+split([], _, 0, [], []).
+split([H | T], N, 0, L1, [H | L2]) :-
+    split(T, N, 0, L1, L2).
+split([H | T], N, C, [H | L1], L2) :-
+    C1 is C - 1,
+    split(T, N, C1, L1, L2).
+
 %Lib
 occurance(_, [], 0).
 occurance(H, [H | T], N) :-
