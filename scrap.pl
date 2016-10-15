@@ -29,7 +29,7 @@
         append([TailTerm], [HeadTerm], RevList),
         RevTerm =.. RevList.
 
-    % 
+    %
     % reverseArgs(Term, RevTerm) :-
     %     [H | T] = Term,
     %     reverseArgs(H, HL),
@@ -38,3 +38,22 @@
     %     Term =.. [H | T],
     %     reverseArgs(H, HL),
     %     reverseArgs(T, TL).
+
+    reverseArgs(Term, RevTerm) :-
+        reverseFunctor(Term, RevTerm),
+        !.
+    reverseArgs(Term, RevTerm) :-
+        reverseL(Term, RevTerm).
+
+    reverseArgs(Term, RevTerm) :-
+        \+ Term = [_ | _],
+        Term =.. [H | T], %passed a functor
+        reverseFunctor(H, HeadTerm),
+        reverseFunctor(T, TailTerm),
+        append([TailTerm], [HeadTerm], RevList),
+        RevTerm =.. RevList.
+    reverseArgs([H | T], RevTerm) :- %passed a list
+        reverseL(H, HeadTerm),
+        reverseL(T, TailTerm),
+        append([TailTerm], [HeadTerm], RevList),
+        RevTerm =.. RevList.
