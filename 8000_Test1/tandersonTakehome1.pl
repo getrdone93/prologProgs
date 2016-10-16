@@ -47,7 +47,8 @@ validMove(State, NewState) :-
     NetMoved is NetM + NetC,
     NetMoved >= 1,
     NetMoved =< 2,
-    CurrB \== NewB.
+    CurrB \== NewB,
+    validState(NewM, NewC).
 
 netChange(X, Y, Z) :-
     X >= Y,
