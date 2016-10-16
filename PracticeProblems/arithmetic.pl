@@ -48,3 +48,12 @@ goldbach(N, Ans, C) :-
 goldbach(N, Ans, C) :-
     C1 is C + 1,
     goldbach(N, Ans, C1).
+
+
+    max(X, Y, X) :-
+        X > Y,
+        !.
+    max(X, Y, Y) :-
+        X < Y,
+        !.
+    max(X, X, X).

@@ -28,8 +28,31 @@ revList([H | T], L2, L3) :-
     revList(T, L2, [H | L3]).
 
 %3
+sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
+cannibal :-
+    sc([state(3, 3, left)], Solution),
+    display(Solution). %needs to be show states
+% sc(State, PriorStates) :-
 
 
+validMove(State, _) :-
+    getM(State, CurrM),
+    getC(State, CurrC),
+    getB(State, CurrB),
+    getM(NewState, NewM),
+    getC(NewState, NewC),
+    getB(NewState, NewB),
+
+
+buildNewState(M, C, B, NewState) :-
+    NewState =.. [state, M, C, B].
+
+getM(State, M) :-
+    arg(1, State, M).
+getC(State, C) :-
+    arg(2, State, C).
+getB(State, B) :-
+    arg(3, State, B).
 
 validState(M, C) :-
     validMAndC(M, C),
@@ -50,6 +73,3 @@ validMAndC(M, C) :-
     M =< 3,
     C >= 0,
     C =< 3.
-
-    % display(MOnRight),display(' '),display(COnRight),display(' '),
-    % display(RightVal),display(' '),display(LeftVal),display(' ')
