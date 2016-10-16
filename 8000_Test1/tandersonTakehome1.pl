@@ -35,14 +35,27 @@ cannibal :-
 % sc(State, PriorStates) :-
 
 
-validMove(State, _) :-
+validMove(State, NewState) :-
     getM(State, CurrM),
     getC(State, CurrC),
     getB(State, CurrB),
     getM(NewState, NewM),
     getC(NewState, NewC),
     getB(NewState, NewB),
+    netChange(CurrM, NewM, NetM),
+    netChange(CurrC, NewC, NetC),
+    NetMoved is NetM + NetC,
+    NetMoved >= 1,
+    NetMoved =< 2,
+    CurrB \== NewB.
 
+netChange(X, Y, Z) :-
+    X >= Y,
+    Z is X - Y,
+    !.
+netChange(X, Y, Z) :-
+    X < Y,
+    Z is Y - X.
 
 buildNewState(M, C, B, NewState) :-
     NewState =.. [state, M, C, B].
