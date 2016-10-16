@@ -39,11 +39,7 @@
     %     reverseArgs(H, HL),
     %     reverseArgs(T, TL).
 
-    reverseArgs(Term, RevTerm) :-
-        reverseFunctor(Term, RevTerm),
-        !.
-    reverseArgs(Term, RevTerm) :-
-        reverseL(Term, RevTerm).
+
 
     reverseArgs(Term, RevTerm) :-
         \+ Term = [_ | _],
@@ -57,3 +53,32 @@
         reverseL(T, TailTerm),
         append([TailTerm], [HeadTerm], RevList),
         RevTerm =.. RevList.
+
+
+        % reverseL([H | T], RevTerm) %reverse a list
+        %     \+ containCompound([H | T]),
+        %      reverseList([H | T], RevT),
+        %      RevTerm =.. RevT.
+        % reverseL([H | T], RevTerm) :-
+        %     reverseArgs([H | T], RevTerm).
+
+        reverseFunctor([H | T], RevTerm) :-
+            % \+ containCompound(T),
+            reverseList(T, RevT),
+            RevTerm =.. [H | RevT].
+        % reverseFunctor([H | T], RevTerm) :-
+        %     NewTerm =.. T,
+        %     revArgs(NewTerm, RevTerm).
+
+
+        reverseArgs(Term, RevTerm) :-
+            revArgs(Term, RevTerm, []).
+        revArgs([], RevTerm, RevTerm).
+        revArgs(Term, RevTerm, L) :-
+            \+ Term = [_ | _],
+            Term =.. [H | T],
+            reverseFunctor([H | T], TempTerm),
+            revArgs(T, RevTerm, [TempTerm | L]).
+
+        % revArgs(Term, RevTerm, L) :-
+        %     reverseL(Term, RevTerm).

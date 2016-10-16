@@ -1,27 +1,14 @@
-
-% reverseL([H | T], RevTerm) %reverse a list
-%     \+ containCompound([H | T]),
-%      reverseList([H | T], RevT),
-%      RevTerm =.. RevT.
-% reverseL([H | T], RevTerm) :-
-%     reverseArgs([H | T], RevTerm).
-
-reverseFunctor([H | T], RevTerm) :- %reverse a functor
-    \+ containCompound([H | T]),
-    reverseList(T, RevT),
-    RevTerm =.. [H | RevT].
-
-reverseFunctor(Term, RevTerm) :-
-    Term =.. [H | T], %passed a functor
-    reverseFunctor([H | T], RevTerm).
-
 reverseArgs(Term, RevTerm) :-
+    Term = [_ | _],
+    !,
     revArgs(Term, RevTerm).
-revArgs(Term, RevTerm) :-
-    reverseFunctor(Term, RevTerm),
-    !.
-revArgs(Term, RevTerm) :-
-    reverseL(Term, RevTerm).
+reverseArgs(Term, RevTerm) :-
+    Term =.. [H | T], %Term is of type functor here
+    revArgs(T, RevList), %keep the head because it cannot be shuffled to the end
+    RevTerm =.. [H | RevList].
+revArgs([H | T], L) :-
+    \+ containCompound([H | T]),
+    reverseList([H | T], L).
 
 
 
