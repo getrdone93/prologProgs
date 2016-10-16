@@ -1,24 +1,24 @@
-reverseArgs(Term, RevTerm) :-
-    Term = [_ | _],
+reverseArgs(Term, RevTerm) :- %type is list here
+    isList(Term),
     !,
-    revArgs(Term, RevTerm).
-reverseArgs(Term, RevTerm) :-
-    Term =.. [H | T], %Term is of type functor here
-    revArgs(T, RevList), %keep the head because it cannot be shuffled to the end
+    revArgs(Term, List),
+    reverseList(List, RevTerm).
+reverseArgs(Term, RevTerm) :- %type functor here
+    Term =.. [H | T],
+    revArgs(T, List), %keep the head because it cannot be shuffled to the end
+    reverseList(List, RevList),
     RevTerm =.. [H | RevList].
-revArgs([H | T], L) :-
-    \+ containCompound([H | T]),
-    reverseList([H | T], L).
+revArgs([], []).
+revArgs([H | T], [H | L]) :-
+    \+ compound(H),
+    !,
+    revArgs(T, L).
+revArgs([H | T], [TermH | L]) :-
+    reverseArgs(H, TermH),
+    revArgs(T, L).
 
-
-
-
-
-containCompound([H | _]) :-
-    compound(H),
-    !.
-containCompound([_ | T]) :-
-    containCompound(T).
+isList(Term) :-
+    Term = [_ | _].
 
 reverseList(L1, L2) :-
     revList(L1, L2, []).

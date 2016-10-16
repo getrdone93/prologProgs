@@ -197,3 +197,9 @@ addElement(E, [H | T], [E, H | T]).
 dupli([],[]).
 dupli([X | Xs], [X, X | Ys]) :-
     dupli(Xs, Ys).
+
+containCompound([H | _]) :-
+    compound(H),
+    !.
+containCompound([_ | T]) :-
+    containCompound(T).
