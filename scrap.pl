@@ -82,3 +82,13 @@
 
         % revArgs(Term, RevTerm, L) :-
         %     reverseL(Term, RevTerm).
+
+
+        generateAllStates([state(0, 0, right) | AllStates], [state(0, 0, right) | AllStates]).
+        generateAllStates(State, [State | AllStates]) :-
+            getM(State, CurrM),
+            getC(State, CurrC),
+            getB(State, CurrB),
+            NewM is CurrM - 1,
+            buildNewState(NewM, CurrC, CurrB, NewState),
+            generateAllStates(NewState, AllStates).

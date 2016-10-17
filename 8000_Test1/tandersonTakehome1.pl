@@ -35,6 +35,20 @@ cannibal :-
 % sc(State, PriorStates) :-
 
 
+% generateValidStates(State, ValidStates) :-
+
+getAllStates(AllStates) :-
+    AllStates = [state(3, 3, left),
+    state(3, 2, left), state(3, 2, right),
+    state(3, 1, left), state(3, 1, right),
+    state(3, 0, left), state(3, 0, right),
+    state(2, 2, left), state(2, 2, right),
+    state(1, 1, left), state(1, 1, right),
+    state(0, 3, left), state(0, 3, right),
+    state(0, 2, left), state(0, 2, right),
+    state(0, 1, left), state(0, 1, right),
+    state(0, 0, right)].
+
 validMove(State, NewState) :-
     getM(State, CurrM),
     getC(State, CurrC),
@@ -72,7 +86,7 @@ validState(M, C) :-
     validMAndC(M, C),
     M =:= 0,
     !.
-validState(M, C) :-
+vvalidState(M, C) :-
     validMAndC(M, C),
     M =:= 3,
     !.
