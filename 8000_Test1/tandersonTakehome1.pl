@@ -62,7 +62,7 @@ validMove(State, NewState) :-
     NetMoved >= 1,
     NetMoved =< 2,
     CurrB \== NewB,
-    validState(NewM, NewC).
+    validState(State).
 
 netChange(X, Y, Z) :-
     X >= Y,
@@ -82,22 +82,9 @@ getC(State, C) :-
 getB(State, B) :-
     arg(3, State, B).
 
-validState(M, C) :-
-    validMAndC(M, C),
-    M =:= 0,
-    !.
-vvalidState(M, C) :-
-    validMAndC(M, C),
-    M =:= 3,
-    !.
-validState(M, C) :-
-    validMAndC(M, C),
-    MRight is 3 - M,
-    CRight is 3 - C,
-    MRight >= CRight,
-    M >= C.
-validMAndC(M, C) :-
-    M >= 0,
-    M =< 3,
-    C >= 0,
-    C =< 3.
+validState(State) :-
+    getAllStates(AllStates),
+    validSt(State, AllStates).
+validSt(State, [State | _]) :- !.
+validSt(State, [_ | T]) :-
+    validSt(State, T).

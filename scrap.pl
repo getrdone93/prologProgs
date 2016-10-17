@@ -92,3 +92,24 @@
             NewM is CurrM - 1,
             buildNewState(NewM, CurrC, CurrB, NewState),
             generateAllStates(NewState, AllStates).
+
+
+            validState(M, C) :-
+                validMAndC(M, C),
+                M =:= 0,
+                !.
+            vvalidState(M, C) :-
+                validMAndC(M, C),
+                M =:= 3,
+                !.
+            validState(M, C) :-
+                validMAndC(M, C),
+                MRight is 3 - M,
+                CRight is 3 - C,
+                MRight >= CRight,
+                M >= C.
+            validMAndC(M, C) :-
+                M >= 0,
+                M =< 3,
+                C >= 0,
+                C =< 3.
