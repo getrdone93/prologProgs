@@ -28,11 +28,15 @@ revList([H | T], L2, L3) :-
     revList(T, L2, [H | L3]).
 
 %3
-sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
 cannibal :-
     sc([state(3, 3, left)], Solution),
     display(Solution). %needs to be show states
-% sc(State, PriorStates) :-
+sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
+sc(State, [State | PriorStates]) :-
+    getAllStates(AllStates),
+    diffList(AllStates, PriorStates, MoveSet),
+    generateValidMoves(State, MoveSet, [NextState | _]),
+    sc(NextState, PriorStates).
 
 generateValidMoves(_, [], []).
 generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
@@ -85,9 +89,19 @@ getC(State, C) :-
 getB(State, B) :-
     arg(3, State, B).
 
-validState(State) :-
-    getAllStates(AllStates),
-    validSt(State, AllStates).
-validSt(State, [State | _]) :- !.
-validSt(State, [_ | T]) :-
-    validSt(State, T).
+%3
+%return eles in L1 but not in L2
+diffList(L1, L2, L) :-
+     diffList(L1, L2, [], L).
+diffList([], _, L, L).
+diffList([H | T], L2, L, Res) :-
+     eleExists(H, L2),
+     diffList(T, L2, L, Res).
+diffList([H | T], L2, L, Res) :-
+     addElement(H, L, TempL),
+     diffList(T, L2, TempL, Res).
+addElement(E, [], [E]).
+addElement(E, [H | T], [E, H | T]).
+eleExists(E, [E | _]) :- !.
+eleExists(E, [_ | T]) :-
+    eleExists(E, T).

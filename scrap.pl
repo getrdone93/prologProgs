@@ -113,3 +113,11 @@
                 M =< 3,
                 C >= 0,
                 C =< 3.
+
+
+                validState(State) :-
+                    getAllStates(AllStates),
+                    validSt(State, AllStates).
+                validSt(State, [State | _]) :- !.
+                validSt(State, [_ | T]) :-
+                    validSt(State, T).
