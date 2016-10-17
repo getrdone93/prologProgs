@@ -34,8 +34,12 @@ cannibal :-
     display(Solution). %needs to be show states
 % sc(State, PriorStates) :-
 
-
-% generateValidStates(State, ValidStates) :-
+generateValidMoves(_, [], []).
+generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
+    validMove(State, H),
+    generateValidMoves(State, AllStates, ValidMoves).
+generateValidMoves(State, [_ | AllStates], ValidMoves) :-
+    generateValidMoves(State, AllStates, ValidMoves).
 
 getAllStates(AllStates) :-
     AllStates = [state(3, 3, left),
