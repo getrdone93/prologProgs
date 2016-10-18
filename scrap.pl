@@ -121,3 +121,11 @@
                 validSt(State, [State | _]) :- !.
                 validSt(State, [_ | T]) :-
                     validSt(State, T).
+
+
+                    sc([CurrentState | PriorStates], [CurrentState | PriorStates]) :-
+                        !,
+                        getAllStates(AllStates),
+                        diffList(AllStates, [CurrentState | PriorStates], UnmarkedStates),
+                        generateValidMoves(CurrentState, UnmarkedStates, NextStates),
+                        sc(NextStates, PriorStates).

@@ -32,11 +32,13 @@ cannibal :-
     sc([state(3, 3, left)], Solution),
     display(Solution). %needs to be show states
 sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
-sc(State, [State | PriorStates]) :-
+sc([CurrentState | NextStates], [_ | PriorStates]) :-
     getAllStates(AllStates),
-    diffList(AllStates, PriorStates, MoveSet),
-    generateValidMoves(State, MoveSet, [NextState | _]),
-    sc(NextState, PriorStates).
+    diffList(AllStates, [CurrentState | PriorStates], UnmarkedStates),
+    generateValidMoves(CurrentState, UnmarkedStates, NextStates),
+    length(NextStates, Len),
+    Len > 0,
+    sc(NextStates, PriorStates).
 
 generateValidMoves(_, [], []).
 generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
@@ -105,3 +107,7 @@ addElement(E, [H | T], [E, H | T]).
 eleExists(E, [E | _]) :- !.
 eleExists(E, [_ | T]) :-
     eleExists(E, T).
+
+    % nl,nl,display('PS: '),display([CurrentState | PriorStates]),nl,halt,
+
+    % nl,nl,display('PS: '),display(PriorStates),nl,nl,display('MS: '),display(MoveSet),nl,halt,
