@@ -32,13 +32,16 @@ cannibal :-
     sc([state(3, 3, left)], Solution),
     display(Solution). %needs to be show states
 sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
-sc([CurrentState | NextStates], [_ | PriorStates]) :-
+sc([], []).
+sc([CurrentState | NextStates], [CurrentState | PriorStates]) :-
+    sc(NextStates, PriorStates),
     getAllStates(AllStates),
-    diffList(AllStates, [CurrentState | PriorStates], UnmarkedStates),
-    generateValidMoves(CurrentState, UnmarkedStates, NextStates),
-    length(NextStates, Len),
-    Len > 0,
-    sc(NextStates, PriorStates).
+    diffList(AllStates, PriorStates, UnmarkedStates),
+    generateValidMoves(CurrentState, UnmarkedStates, PossibleMoves),
+    nl,nl,display('CS: '),display(CurrentState),nl,nl,display('PM: '),display(PossibleMoves),nl,
+    length(PossibleMoves, Len),
+    Len > 0.
+
 
 generateValidMoves(_, [], []).
 generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
