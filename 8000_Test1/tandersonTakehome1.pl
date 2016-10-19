@@ -32,16 +32,20 @@ cannibal :-
     sc([state(3, 3, left)], Solution),
     display(Solution). %needs to be show states
 sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
-sc([], []).
-sc([CurrentState | NextStates], [CurrentState | PriorStates]) :-
-    sc(NextStates, PriorStates),
-    getAllStates(AllStates),
-    diffList(AllStates, PriorStates, UnmarkedStates),
-    generateValidMoves(CurrentState, UnmarkedStates, PossibleMoves),
-    nl,nl,display('CS: '),display(CurrentState),nl,nl,display('PM: '),display(PossibleMoves),nl,
-    length(PossibleMoves, Len),
-    Len > 0.
+sc([CurrentState | PriorStates], Solution) :-
+    getPossibleMoves([CurrentState | PriorStates], PossibleMoves),
+    moveState(PossibleMoves, [CurrentState | PriorStates], Solution).
+moveState(PossibleMoves, [_,PreviousState | PriorStates], Solution) :-
+    PossibleMoves = [],
+    getPossibleMoves([PreviousState | PriorStates], TempPossibleMoves),
+    moveState(TempPossibleMoves, [PreviousState | PriorStates], Solution).
+moveState([NextMove | _], PriorStates, Solution) :-
+    sc([NextMove | PriorStates], Solution).
 
+getPossibleMoves([CurrentState | PriorStates], PossibleMoves) :-
+    getAllStates(AllStates),
+    diffList(AllStates, [CurrentState | PriorStates], UnmarkedStates),
+    generateValidMoves(CurrentState, UnmarkedStates, PossibleMoves).
 
 generateValidMoves(_, [], []).
 generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
@@ -112,5 +116,6 @@ eleExists(E, [_ | T]) :-
     eleExists(E, T).
 
     % nl,nl,display('PS: '),display([CurrentState | PriorStates]),nl,halt,
+    % nl,nl,display('CS: '),display(CurrentState),nl,nl,display('PM: '),display(PossibleMoves),nl,
 
     % nl,nl,display('PS: '),display(PriorStates),nl,nl,display('MS: '),display(MoveSet),nl,halt,
