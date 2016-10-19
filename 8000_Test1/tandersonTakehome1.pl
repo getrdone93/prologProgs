@@ -88,9 +88,6 @@ netChange(X, Y, Z) :-
     X < Y,
     Z is Y - X.
 
-buildNewState(M, C, B, NewState) :-
-    NewState =.. [state, M, C, B].
-
 getM(State, M) :-
     arg(1, State, M).
 getC(State, C) :-
@@ -98,7 +95,6 @@ getC(State, C) :-
 getB(State, B) :-
     arg(3, State, B).
 
-%3
 %return eles in L1 but not in L2
 diffList(L1, L2, L) :-
      diffList(L1, L2, [], L).

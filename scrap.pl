@@ -129,3 +129,8 @@
                         diffList(AllStates, [CurrentState | PriorStates], UnmarkedStates),
                         generateValidMoves(CurrentState, UnmarkedStates, NextStates),
                         sc(NextStates, PriorStates).
+
+
+
+                        buildNewState(M, C, B, NewState) :-
+                            NewState =.. [state, M, C, B].
