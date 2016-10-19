@@ -66,19 +66,25 @@ getAllStates(AllStates) :-
     state(0, 1, left), state(0, 1, right),
     state(0, 0, right)].
 
+
+    % netChange(CurrM, NewM, NetM),
+    % netChange(CurrC, NewC, NetC),
+    % NetMoved is NetM + NetC,
+    % NetMoved >= 1,
+    % NetMoved =< 2,
+    %CurrB \== NewB.
+
 validMove(State, NewState) :-
-    getM(State, CurrM),
-    getC(State, CurrC),
+    getM(State, LeftM),
+    getC(State, LeftC),
     getB(State, CurrB),
-    getM(NewState, NewM),
-    getC(NewState, NewC),
+    getM(NewState, NewLeftM),
+    getC(NewState, NewLeftC),
     getB(NewState, NewB),
-    netChange(CurrM, NewM, NetM),
-    netChange(CurrC, NewC, NetC),
-    NetMoved is NetM + NetC,
-    NetMoved >= 1,
-    NetMoved =< 2,
-    CurrB \== NewB.
+    vldMove(LeftM, LeftC, CurrB, NewLeftM, NewLeftC, NewB).
+
+vldMove(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+
 
 netChange(X, Y, Z) :-
     X >= Y,
