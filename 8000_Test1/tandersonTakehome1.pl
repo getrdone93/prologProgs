@@ -84,7 +84,10 @@ validMove(State, NewState) :-
     vldMove(LeftM, LeftC, CurrB, NewLeftM, NewLeftC, NewB).
 
 vldMove(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
-
+    netChange(LeftM, NewLeftM, NetM),
+    netChange(LeftC, NewLeftC, NetC),
+    LeftM =:= NetM,
+    LeftC =:= NetC.
 
 netChange(X, Y, Z) :-
     X >= Y,
