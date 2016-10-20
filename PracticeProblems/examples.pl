@@ -21,8 +21,3 @@ goldbach(N, _) :-
     N mod 2 =:= 1,
     !,
     fail.
-
-test(N) :-
-    (N >= 1, N =< 5 -> true
-    ; (N =:= 57 -> true
-    ; fail)).

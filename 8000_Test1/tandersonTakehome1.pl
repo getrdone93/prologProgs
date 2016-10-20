@@ -47,12 +47,9 @@ getPossibleMoves([CurrentState | PriorStates], PossibleMoves) :-
     diffList(AllStates, [CurrentState | PriorStates], UnmarkedStates),
     generateValidMoves(CurrentState, UnmarkedStates, PossibleMoves).
 
-generateValidMoves(_, [], []).
-generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
-    validMove(State, H),
-    generateValidMoves(State, AllStates, ValidMoves).
-generateValidMoves(State, [_ | AllStates], ValidMoves) :-
-    generateValidMoves(State, AllStates, ValidMoves).
+generateValidMoves(State, GivenStates, ValidMoves) :-
+    validMove(State, TheoreticalMoves),
+    intersection(GivenStates, TheoreticalMoves, ValidMoves).
 
 getAllStates(AllStates) :-
     AllStates = [state(3, 3, left),
@@ -66,51 +63,33 @@ getAllStates(AllStates) :-
     state(0, 1, left), state(0, 1, right),
     state(0, 0, right)].
 
+validMove(state(M, C, left), ValidMoves) :-
+    M1 is M - 1,
+    C1 is C - 1,
+    M2 is M - 2,
+    C2 is C - 2,
+    buildNewState(M1, C, right, OneMissionary),
+    buildNewState(M, C1, right, OneCannibal),
+    buildNewState(M1, C1, right, OneMissionaryOneCannibal),
+    buildNewState(M2, C, right, TwoMissionary),
+    buildNewState(M, C2, right, TwoCannibal),
+    [OneMissionary, OneCannibal, OneMissionaryOneCannibal, TwoMissionary
+    , TwoCannibal] = ValidMoves.
+validMove(state(M, C, right), ValidMoves) :-
+    M1 is M + 1,
+    C1 is C + 1,
+    M2 is M + 2,
+    C2 is C + 2,
+    buildNewState(M1, C, left, OneMissionary),
+    buildNewState(M, C1, left, OneCannibal),
+    buildNewState(M1, C1, left, OneMissionaryOneCannibal),
+    buildNewState(M2, C, left, TwoMissionary),
+    buildNewState(M, C2, left, TwoCannibal),
+    [OneMissionary, OneCannibal, OneMissionaryOneCannibal, TwoMissionary
+    , TwoCannibal] = ValidMoves.
 
-    % netChange(CurrM, NewM, NetM),
-    % netChange(CurrC, NewC, NetC),
-    % NetMoved is NetM + NetC,
-    % NetMoved >= 1,
-    % NetMoved =< 2,
-    %CurrB \== NewB.
-
-validMove(State, NewState) :-
-    getM(State, LeftM),
-    getC(State, LeftC),
-    getB(State, CurrB),
-    getM(NewState, NewLeftM),
-    getC(NewState, NewLeftC),
-    getB(NewState, NewB),
-    ChangeM is LeftM - NewLeftM,
-    ChangeC is LeftC - NewLeftC,
-    vldLeftToRight(LeftM, LeftC, CurrB, ChangeM, ChangeC, NewB),
-    !.
-validMove(State, NewState) :-
-    getM(State, LeftM),
-    getC(State, LeftC),
-    getB(State, CurrB),
-    getM(NewState, NewLeftM),
-    getC(NewState, NewLeftC),
-    getB(NewState, NewB),
-    RightM is 3 - LeftM,
-    RightC is 3 - LeftC,
-    NewRightM is 3 - NewLeftM,
-    NewRightC is 3 - NewLeftC,
-    ChangeM is RightM - NewRightM,
-    ChangeC is RightC - NewRightC,
-    vldRightToLeft(RightM, RightC, CurrB, ChangeM, ChangeC, NewB).
-
-vldLeftToRight(LeftM, LeftC, left, ChangeM, ChangeC, right) :-
-    NetChange is ChangeM + ChangeC,
-    (LeftM =:= 0, LeftC \= 0, ChangeC >= 1, ChangeC =< 2 -> true
-    ; (LeftC =:= 0, LeftM \= 0, ChangeM >= 1, ChangeM =< 2 -> true
-    ; (LeftM > 0, LeftC > 0, NetChange >= 1, NetChange =< 2 -> true))).
-
-vldRightToLeft(RightM, RightC, right, ChangeM, ChangeC, left) :-
-    NetChange is ChangeM + ChangeC,
-    (RightM =:= 0, RightC \= 0, ChangeC >= 1, ChangeC =< 2 -> true
-    ; (RightC =:= 0, RightM \= 0, ChangeM >= 1, ChangeM =< 2 -> true
-    ; (RightM > 0, RightC > 0, NetChange >= 1, NetChange =< 2 -> true))).
+buildNewState(M, C, B, NewState) :-
+    NewState =.. [state, M, C, B].
 
 netChange(X, Y, Z) :-
     X >= Y,
