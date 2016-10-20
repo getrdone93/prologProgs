@@ -30,7 +30,8 @@ revList([H | T], L2, L3) :-
 %3
 cannibal :-
     sc([state(3, 3, left)], Solution),
-    display(Solution). %needs to be show states
+    reverseList(Solution, RevSol),
+    show_states(RevSol). %needs to be show states
 sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
 sc([CurrentState | PriorStates], Solution) :-
     getPossibleMoves([CurrentState | PriorStates], PossibleMoves),
@@ -50,6 +51,36 @@ getPossibleMoves([CurrentState | PriorStates], PossibleMoves) :-
 generateValidMoves(State, GivenStates, ValidMoves) :-
     validMove(State, TheoreticalMoves),
     intersection(GivenStates, TheoreticalMoves, ValidMoves).
+
+show_states([]).
+show_states(state(M, C, B)) :-
+    showM(M),
+    showC(C),
+    showBoat(B),
+    RightM is 3 - M,
+    RightC is 3 - C,
+    showM(RightM),
+    showC(RightC),
+    nl.
+show_states([state(M, C, B) | T]) :-
+    show_states(state(M, C, B)),
+    show_states(T).
+showM(0).
+showM(M) :-
+    M1 is M - 1,
+    display('M'),
+    showM(M1).
+showC(0).
+showC(C) :-
+    C1 is C - 1,
+    display('C'),
+    showC(C1).
+showBoat(left) :-
+    display(' (____)   ').
+showBoat(right) :-
+    display('     (____) ').
+
+
 
 getAllStates(AllStates) :-
     AllStates = [state(3, 3, left),
