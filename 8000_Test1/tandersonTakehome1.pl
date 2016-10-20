@@ -36,10 +36,13 @@ sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
 sc([CurrentState | PriorStates], Solution) :-
     getPossibleMoves([CurrentState | PriorStates], PossibleMoves),
     moveState(PossibleMoves, [CurrentState | PriorStates], Solution).
+
+%this is the backtracking piece
 moveState(PossibleMoves, [_,PreviousState | PriorStates], Solution) :-
     PossibleMoves = [],
     getPossibleMoves([PreviousState | PriorStates], TempPossibleMoves),
     moveState(TempPossibleMoves, [PreviousState | PriorStates], Solution).
+
 moveState([NextMove | _], PriorStates, Solution) :-
     sc([NextMove | PriorStates], Solution).
 
@@ -80,8 +83,6 @@ showBoat(left) :-
 showBoat(right) :-
     display('     (____) ').
 
-
-
 getAllStates(AllStates) :-
     AllStates = [state(3, 3, left),
     state(3, 2, left), state(3, 2, right),
@@ -121,21 +122,6 @@ validMove(state(M, C, right), ValidMoves) :-
 
 buildNewState(M, C, B, NewState) :-
     NewState =.. [state, M, C, B].
-
-netChange(X, Y, Z) :-
-    X >= Y,
-    Z is X - Y,
-    !.
-netChange(X, Y, Z) :-
-    X < Y,
-    Z is Y - X.
-
-getM(State, M) :-
-    arg(1, State, M).
-getC(State, C) :-
-    arg(2, State, C).
-getB(State, B) :-
-    arg(3, State, B).
 
 %return eles in L1 but not in L2
 diffList(L1, L2, L) :-

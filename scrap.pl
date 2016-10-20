@@ -23,6 +23,20 @@ generateValidMoves(State, [_ | AllStates], ValidMoves) :-
 
 
 
+netChange(X, Y, Z) :-
+    X >= Y,
+    Z is X - Y,
+    !.
+netChange(X, Y, Z) :-
+    X < Y,
+    Z is Y - X.
+
+getM(State, M) :-
+    arg(1, State, M).
+getC(State, C) :-
+    arg(2, State, C).
+getB(State, B) :-
+    arg(3, State, B).
 
     reverseArgs([H | T], RevTerm) :-
         \+ containCompound([H | T]),

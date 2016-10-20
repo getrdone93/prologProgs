@@ -21,3 +21,13 @@ goldbach(N, _) :-
     N mod 2 =:= 1,
     !,
     fail.
+
+backTrack(N) :-
+    N =:= 1,
+    display("1").
+backTrack(N) :-
+    N =:= 1,
+    display("2").
+backTrack(N) :-
+    N =:= 1,
+    display("3").
