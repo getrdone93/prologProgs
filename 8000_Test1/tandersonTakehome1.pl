@@ -30,16 +30,21 @@ revList([H | T], L2, L3) :-
 %3
 cannibal :-
     sc([state(3, 3, left)], Solution),
-    reverseList(Solution, RevSol),
-    show_states(RevSol). %needs to be show states
+    reverseList(Solution, RevSol).
+    % show_states(RevSol). %needs to be show states
 sc([state(0, 0, right) | PriorStates], [state(0, 0, right) | PriorStates]).
 sc([CurrentState | PriorStates], Solution) :-
     getPossibleMoves([CurrentState | PriorStates], PossibleMoves),
+    display('CS: '),display(CurrentState),display('     '),display(PossibleMoves),nl,
     moveState(PossibleMoves, [CurrentState | PriorStates], Solution).
 
 moveState([], [CurrentState,PreviousState | PriorStates], Solution) :-
+    % display(CurrentState),nl,
     getPossibleMoves([PreviousState,CurrentState | PriorStates], TempPossibleMoves),
     moveState(TempPossibleMoves, [PreviousState | PriorStates], Solution).
+% moveState([], PriorStates, Solution) :-
+%     lastElement(PriorStates, StartState),
+%     moveState(StartState, PriorStates, Solution).
 
 moveState([NextMove | _], PriorStates, Solution) :-
     sc([NextMove | PriorStates], Solution).
@@ -137,6 +142,11 @@ eleExists(E, [E | _]) :- !.
 eleExists(E, [_ | T]) :-
     eleExists(E, T).
 
+
+    lastElement([H], H).
+
+    lastElement([_ | T], Last) :-
+         lastElement(T, Last).
     % nl,nl,display('PS: '),display([CurrentState | PriorStates]),nl,halt,
     % nl,nl,display('CS: '),display(CurrentState),nl,nl,display('PM: '),display(PossibleMoves),nl,
 
