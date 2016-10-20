@@ -101,7 +101,61 @@
             vvalidState(M, C) :-
                 validMAndC(M, C),
                 M =:= 3,
-                !.
+                !.vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+    netChange(RightM, NewRightM, NetM),
+    netChange(RightC, NewRightC, NetC),
+    RightM =:= 0,
+    NetC >= 1,
+    NetC =< 2,
+    !.
+vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+    netChange(RightM, NewRightM, NetM),
+    netChange(RightC, NewRightC, NetC),
+    RightC =:= 0,
+    NetM >= 1,
+    NetM =< 2,
+    !.
+vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+    netChange(RightM, NewRightM, NetM),
+    netChange(RightC, NewRightC, NetC),
+    NetM =:= 1,
+    NetC >= 0,
+    NetC =< 1,
+    !.
+vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+    netChange(RightM, NewRightM, NetM),
+    netChange(RightC, NewRightC, NetC),
+    NetC =:= 1,
+    NetM >= 0,
+    NetM =< 1.
+
+vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+    netChange(LeftM, NewLeftM, NetM),
+    netChange(LeftC, NewLeftC, NetC),
+    LeftM =:= 0,
+    NetC >= 1,
+    NetC =< 2,
+    !.
+vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+    netChange(LeftM, NewLeftM, NetM),
+    netChange(LeftC, NewLeftC, NetC),
+    LeftC =:= 0,
+    NetM >= 1,
+    NetM =< 2,
+    !.
+vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+    netChange(LeftM, NewLeftM, NetM),
+    netChange(LeftC, NewLeftC, NetC),
+    NetM =:= 1,
+    NetC >= 0,
+    NetC =< 1,
+    !.
+vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+    netChange(LeftM, NewLeftM, NetM),
+    netChange(LeftC, NewLeftC, NetC),
+    NetC =:= 1,
+    NetM >= 0,
+    NetM =< 1.
             validState(M, C) :-
                 validMAndC(M, C),
                 MRight is 3 - M,
@@ -134,3 +188,67 @@
 
                         buildNewState(M, C, B, NewState) :-
                             NewState =.. [state, M, C, B].
+
+
+                            vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+                                netChange(RightM, NewRightM, NetM),
+                                netChange(RightC, NewRightC, NetC),
+                                RightM =:= 0,
+                                NetC >= 1,
+                                NetC =< 2,
+                                !.
+                            vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+                                netChange(RightM, NewRightM, NetM),
+                                netChange(RightC, NewRightC, NetC),
+                                RightC =:= 0,
+                                NetM >= 1,
+                                NetM =< 2,
+                                !.
+                            vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+                                netChange(RightM, NewRightM, NetM),
+                                netChange(RightC, NewRightC, NetC),
+                                NetM =:= 1,
+                                NetC >= 0,
+                                NetC =< 1,
+                                !.
+                            vldRightToLeft(RightM, RightC, right, NewRightM, NewRightC, left) :-
+                                netChange(RightM, NewRightM, NetM),
+                                netChange(RightC, NewRightC, NetC),
+                                NetC =:= 1,
+                                NetM >= 0,
+                                NetM =< 1.
+
+                            vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+                                netChange(LeftM, NewLeftM, NetM),
+                                netChange(LeftC, NewLeftC, NetC),
+                                LeftM =:= 0,
+                                NetC >= 1,
+                                NetC =< 2,
+                                !.
+                            vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+                                netChange(LeftM, NewLeftM, NetM),
+                                netChange(LeftC, NewLeftC, NetC),
+                                LeftC =:= 0,
+                                NetM >= 1,
+                                NetM =< 2,
+                                !.
+                            vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+                                netChange(LeftM, NewLeftM, NetM),
+                                netChange(LeftC, NewLeftC, NetC),
+                                NetM =:= 1,
+                                NetC >= 0,
+                                NetC =< 1,
+                                !.
+                            vldLeftToRight(LeftM, LeftC, left, NewLeftM, NewLeftC, right) :-
+                                netChange(LeftM, NewLeftM, NetM),
+                                netChange(LeftC, NewLeftC, NetC),
+                                NetC =:= 1,
+                                NetM >= 0,
+                                NetM =< 1.
+
+
+                                vldLeftToRight(LeftM, LeftC, left, NetM, NetC, right) :-
+                                    NetChange is NetM + NetC,
+                                    (LeftM =:= 0, LeftC \= 0, NetC >= 1, NetC =< 2 -> true
+                                    ; (LeftC =:= 0, LeftM \= 0, NetM >= 1, NetM =< 2 -> true
+                                    ; (LeftM > 0, LeftC > 0, NetChange >= 1, NetChange =< 2 -> true))).
