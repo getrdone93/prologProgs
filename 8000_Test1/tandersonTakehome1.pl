@@ -100,11 +100,6 @@ validMove(State, NewState) :-
     ChangeC is RightC - NewRightC,
     vldRightToLeft(RightM, RightC, CurrB, ChangeM, ChangeC, NewB).
 
-test(N) :-
-    (N >= 1, N =< 5 -> true
-    ; (N =:= 57 -> true
-    ; fail)).
-
 vldLeftToRight(LeftM, LeftC, left, ChangeM, ChangeC, right) :-
     NetChange is ChangeM + ChangeC,
     (LeftM =:= 0, LeftC \= 0, ChangeC >= 1, ChangeC =< 2 -> true
