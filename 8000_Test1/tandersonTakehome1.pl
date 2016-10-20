@@ -120,24 +120,3 @@ validMove(state(M, C, right), ValidMoves) :-
 
 buildNewState(M, C, B, NewState) :-
     NewState =.. [state, M, C, B].
-
-%return eles in L1 but not in L2
-diffList(L1, L2, L) :-
-     diffList(L1, L2, [], L).
-diffList([], _, L, L).
-diffList([H | T], L2, L, Res) :-
-     eleExists(H, L2),
-     diffList(T, L2, L, Res).
-diffList([H | T], L2, L, Res) :-
-     addElement(H, L, TempL),
-     diffList(T, L2, TempL, Res).
-addElement(E, [], [E]).
-addElement(E, [H | T], [E, H | T]).
-eleExists(E, [E | _]) :- !.
-eleExists(E, [_ | T]) :-
-    eleExists(E, T).
-
-    % nl,nl,display('PS: '),display([CurrentState | PriorStates]),nl,halt,
-    % nl,nl,display('CS: '),display(CurrentState),nl,nl,display('PM: '),display(PossibleMoves),nl,
-
-    % nl,nl,display('PS: '),display(PriorStates),nl,nl,display('MS: '),display(MoveSet),nl,halt,
