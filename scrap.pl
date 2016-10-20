@@ -1,4 +1,5 @@
 %
+
 generateValidMoves(_, [], []).
 generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
     validMove(State, H),

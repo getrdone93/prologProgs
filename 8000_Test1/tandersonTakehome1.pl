@@ -37,10 +37,9 @@ sc([CurrentState | PriorStates], Solution) :-
     getPossibleMoves([CurrentState | PriorStates], PossibleMoves),
     moveState(PossibleMoves, [CurrentState | PriorStates], Solution).
 
-%this is the backtracking piece
-moveState(PossibleMoves, [_,PreviousState | PriorStates], Solution) :-
+moveState(PossibleMoves, [CurrentState,PreviousState | PriorStates], Solution) :-
     PossibleMoves = [],
-    getPossibleMoves([PreviousState | PriorStates], TempPossibleMoves),
+    getPossibleMoves([PreviousState,CurrentState | PriorStates], TempPossibleMoves),
     moveState(TempPossibleMoves, [PreviousState | PriorStates], Solution).
 
 moveState([NextMove | _], PriorStates, Solution) :-
@@ -48,7 +47,7 @@ moveState([NextMove | _], PriorStates, Solution) :-
 
 getPossibleMoves([CurrentState | PriorStates], PossibleMoves) :-
     getAllStates(AllStates),
-    diffList(AllStates, [CurrentState | PriorStates], UnmarkedStates),
+    subtract(AllStates, [CurrentState | PriorStates], UnmarkedStates),
     generateValidMoves(CurrentState, UnmarkedStates, PossibleMoves).
 
 generateValidMoves(State, GivenStates, ValidMoves) :-
