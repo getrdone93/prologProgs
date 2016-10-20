@@ -39,7 +39,7 @@ sc([CurrentState | PriorStates], Solution) :-
 
 moveState([], [CurrentState,PreviousState | PriorStates], Solution) :-
     getPossibleMoves([PreviousState,CurrentState | PriorStates], TempPossibleMoves),
-    moveState(TempPossibleMoves, [PreviousState,CurrentState | PriorStates], Solution).
+    moveState(TempPossibleMoves, [PreviousState | PriorStates], Solution).
 
 moveState([NextMove | _], PriorStates, Solution) :-
     sc([NextMove | PriorStates], Solution).
