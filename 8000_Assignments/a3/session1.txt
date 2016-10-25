@@ -1,0 +1,8 @@
+on
+(4 + 12) * 2
+total
+1+lastanswer
+total
+if lastanswer+1,0,2+4
+total
+off
