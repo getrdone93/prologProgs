@@ -10,19 +10,27 @@ parser(SessionProgram, Tree) :-
 
 
 
-p( palindrome(e) ) --> [].
-p( palindrome(0) ) --> [0].
-p( palindrome(1) ) --> [1].
-p( palindrome(0, T, 0) ) -->
- [0], p( T ), [0].
-p( palindrome(1, T, 1) ) --> [1], p( T ), [1].
+% p( palindrome(e) ) --> [].
+% p( palindrome(0) ) --> [0].
+% p( palindrome(1) ) --> [1].
+% p( palindrome(0, T, 0) ) -->
+%  [0], p( T ), [0].
+% p( palindrome(1, T, 1) ) --> [1], p( T ), [1].
 
+% s --> [].
+% s --> [a], s, [b].
 
-% p --> [].
-% p --> [0].
-% p --> [1].
-% p --> [0], p, [0].
-% p --> [1], p, [1].
+p --> [].
+p --> [0].
+p --> [1].
+p --> [0], p, [0].
+p --> [1], p, [1].
+
+p2([], []).
+p2(L1, L2) :-
+    L1 = [1 | L3],
+    p2(L3, L2).
+
 
 % syntaxCheck -->
 %
