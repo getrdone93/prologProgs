@@ -7,7 +7,11 @@ generateValidMoves(State, [H | AllStates], [H | ValidMoves]) :-
 generateValidMoves(State, [_ | AllStates], ValidMoves) :-
     generateValidMoves(State, AllStates, ValidMoves).
 
-
+    loopThrough([]).
+    loopThrough([H | T]) :-
+        display(H),
+        nl,
+        loopThrough(T).
 %[H | ArgList] = TempList,
 % reverseList(ArgList, RevArgList)
 %
