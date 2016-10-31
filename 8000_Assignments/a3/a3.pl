@@ -2,34 +2,39 @@
 %'/home/tanderson/graduateWork/prologProgs/8000_Assignments/a3/session1.txt'
 parser(SessionProgram, Tree) :-
     readfile(SessionProgram, TokenList),
-    syntaxCheck(TokenList, []),
-    parse(TokenList, Tree).
+    parse(Tree, TokenList, []).
 
 
 
 
 
+parse(tree(Left, Data, Right)) --> on, expSeq.
+expSeq --> exp, total, off.
 
-% p( palindrome(e) ) --> [].
-% p( palindrome(0) ) --> [0].
-% p( palindrome(1) ) --> [1].
-% p( palindrome(0, T, 0) ) -->
-%  [0], p( T ), [0].
-% p( palindrome(1, T, 1) ) --> [1], p( T ), [1].
+exp(tree()) --> f.
+
+
+on --> [on | _].
+off --> [off].
+total --> [total].
+
+
+test( func(0) ) --> [1].
+test( func(1) ) --> [0].
+
+
+p( palindrome(e) ) --> [].
+p( palindrome(0) ) --> [0].
+p( palindrome(1) ) --> [1].
+p( palindrome(0, T, 0) ) -->
+ [0], p( T ), [0].
+p( palindrome(1, T, 1) ) -->
+    [1], p( T ), [1].
 
 % s --> [].
 % s --> [a], s, [b].
 
-p --> [].
-p --> [0].
-p --> [1].
-p --> [0], p, [0].
-p --> [1], p, [1].
 
-p2([], []).
-p2(L1, L2) :-
-    L1 = [1 | L3],
-    p2(L3, L2).
 
 
 % syntaxCheck -->
@@ -41,7 +46,7 @@ p2(L1, L2) :-
 % sb --> [b], sb.
 % sc --> [].
 % sc --> [c], sc.
-
+%
 % s(L1, L2) :- sa(L1, L3),
 % 	     sb(L3, L4),
 % 	     sc(L4, L2).

@@ -27,6 +27,34 @@ generateValidMoves(State, [_ | AllStates], ValidMoves) :-
 % revArgs([H | _], Term, L) :-
 
 
+p --> [].
+p --> [0].
+p --> [1].
+p --> [0], p, [0].
+p --> [1], p, [1].
+
+p2([], []).
+p2(L1, L2) :-
+    L1 = [0 | L3],
+    matchLast0(L3, TempL),
+    p2(TempL, L2).
+p2(L1, L2) :-
+    L1 = [1 | L3],
+    matchLast1(L3, TempL),
+    p2(TempL, L2).
+
+matchLast0(L, L1) :-
+    matchLast0(L, [], L1).
+matchLast0([1], L, L).
+matchLast0([H | T], L, Res) :-
+    matchLast0(T, [H | L], Res).
+
+matchLast0(L, L1) :-
+    matchLast0(L, [], L1).
+matchLast0([0], L, L).
+matchLast0([H | T], L, Res) :-
+    matchLast0(T, [H | L], Res).
+
 
 netChange(X, Y, Z) :-
     X >= Y,
