@@ -17,12 +17,13 @@ exp(tree(1, 1, 1)) --> [1].
 
 
 expression( tree(Left, Element, Right) ) -->
-    [Left, Element, Right],
+    [Left, Element, Right | _],
     {
         number(Left),
         operator(Element),
         number(Right)
-    }.
+    },
+    !.
 
 expression( tree(Left, Element, Right) ) -->
     ['(', Left, Element, Right, ')'],
