@@ -8,10 +8,43 @@ parser(SessionProgram, Tree) :-
 
 
 
-parse(tree(Left, Data, Right)) --> on, expSeq.
-expSeq --> exp, total, off.
+parse(tree(Left, Element, Right)) --> expSeq(tree(Left, Element, Right)).
+expSeq(tree(Left, Element, Right)) -->
+    exp(tree(Left, Element, Right)).
 
-exp(tree()) --> f.
+exp(tree(1, 1, 1)) --> [1].
+
+
+% expression(tree(N1, Op, N2)) -->
+%     [N1, Op, N2],
+%     number(N1),
+%     operator(Op),
+%     number(N2).
+
+expression( tree(Left, Element, Right) ) -->
+    [Left, Element, Right],
+    {
+        number(Left),
+        operator(Element),
+        number(Right)
+    }.
+
+expression( tree(Left, Element, Right) ) -->
+    ['(', Left, Element, Right, ')'],
+    {
+        number(Left),
+        operator(Element),
+        number(Right)
+    }.
+
+
+% expression( tree(Left, T, Right) ) -->
+%     [Left]
+
+operator(+).
+operator(-).
+operator(*).
+operator(/).
 
 
 on --> [on | _].
