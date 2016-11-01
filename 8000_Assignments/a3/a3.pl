@@ -16,9 +16,6 @@ expSeq(tree(Left, Element, Right)) -->
 exp(tree(1, 1, 1)) --> [1].
 
 
-expression( tree(Left, Element, Right) ) --> f(tree(Left, Element, Right)).
-
-
 expression( tree(Left, Element, Right) ) -->
     [Left, Element, Right],
     {
@@ -34,8 +31,6 @@ expression( tree(Left, Element, Right) ) -->
         operator(Element),
         number(Right)
     }.
-
-expression( tree() ) -->
 
 operator(+).
 operator(-).
