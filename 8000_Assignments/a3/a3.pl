@@ -8,18 +8,12 @@ parser(SessionProgram, Tree) :-
 
 
 
-parse(tree(Left, Element, Right)) --> expSeq(tree(Left, Element, Right)).
+parse(tree(Left, Element, Right)) -->
+    expSeq(tree(Left, Element, Right)).
 expSeq(tree(Left, Element, Right)) -->
     exp(tree(Left, Element, Right)).
 
 exp(tree(1, 1, 1)) --> [1].
-
-
-% expression(tree(N1, Op, N2)) -->
-%     [N1, Op, N2],
-%     number(N1),
-%     operator(Op),
-%     number(N2).
 
 expression( tree(Left, Element, Right) ) -->
     [Left, Element, Right],
@@ -36,10 +30,6 @@ expression( tree(Left, Element, Right) ) -->
         operator(Element),
         number(Right)
     }.
-
-
-% expression( tree(Left, T, Right) ) -->
-%     [Left]
 
 operator(+).
 operator(-).
