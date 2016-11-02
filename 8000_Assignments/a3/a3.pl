@@ -6,6 +6,28 @@ parser(SessionProgram, Tree) :-
 
 
 
+% aLang(struct(a)) -->
+%      [a].
+% aLang(struct(T)) -->
+%      [a],
+%      aLang(T).
+% aLang(struct(T)) -->
+%      [H],
+%      {
+%      H \== a
+%      },
+%      aLang(T).
+aLang(struct(e)) -->
+     [].
+aLang(struct(a)) -->
+     [a].
+aLang(struct(T)) -->
+     [a],
+     aLang(T).
+aLang(struct(T)) -->
+     [b],
+     aLang(T).
+
 
 
 parse(tree(Left, Element, Right)) -->
