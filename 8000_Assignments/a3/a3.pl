@@ -16,8 +16,9 @@ expSeq(tree(Left, Element, Right)) -->
 exp(tree(1, 1, 1)) --> [1].
 
 
+
 expression( tree(Left, Element, Right) ) -->
-    [Left, Element, Right | _],
+    [Left, Element, Right],
     {
         number(Left),
         operator(Element),
@@ -55,6 +56,28 @@ p( palindrome(0, T, 0) ) -->
  [0], p( T ), [0].
 p( palindrome(1, T, 1) ) -->
     [1], p( T ), [1].
+
+s( s(A, B, C) ) --> as(N, A),
+	   bs(N, B), cs(N, C).
+as(0, as(e)) --> [].
+as(N1, as(a, T)) -->
+    [a],
+    as(N, T),
+    { N1 is N + 1 }.
+bs(0, bs(e)) --> [].
+bs(N1, bs(b, T)) -->
+    [b],
+    bs(N, T),
+    {N1 is N + 1 }.
+cs(0, cs(e)) --> [].
+cs(N1, cs(c, T)) -->
+    [c],
+    cs(N, T),
+    {N1 is N + 1 }.
+
+
+
+
 
 % s --> [].
 % s --> [a], s, [b].
