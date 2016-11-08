@@ -9,6 +9,8 @@ donald([D,O,N,A,L,D] +
      #= 100000*R + 10000*O + 1000*B + 100*E + 10*R + T,
      label([D,O,N,A,L,G,E,R,B,T]).
 
+
+
 %3
 assign(Profit, [W1, W2, W3, W4]):-
 	[W1, W2, W3, W4] ins 1..6, %4 workers, 6 tasks
