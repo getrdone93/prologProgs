@@ -15,7 +15,17 @@ getLists([(r1,r2), (r1,r4), (r1,r5), (r1,r6), (r2,r3), (r2,r4), (r2,r9),
 
 threeColor(L) :-
 	getLists(RelationList, RegionList),
-	getColorList(RegionList, L).
+	getColorList(RegionList, ColorList),
+	checkSolution(RelationList, ColorList, L).
+checkSolution([], L, L).
+checkSolution([(R1, R2) | TRel], ColorList, L) :-
+	getValue(R1, ColorList, V1),
+	getValue(R2, ColorList, V2),
+	V1 \= V2,
+	checkSolution(TRel, ColorList, L).
+getValue(Region, [color(Region, Value) | _], Value) :- !.
+getValue(Region, [_ | TCol], Value) :-
+	getValue(Region, TCol, Value).
 getColorList(RegionList, ColorList) :-
 	getColorList(RegionList, ColorList, []).
 getColorList([], L, L).
