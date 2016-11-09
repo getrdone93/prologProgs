@@ -45,3 +45,5 @@ assign(Profit, [W1, W2, W3, W4]):-
 	element(W4,[4,2,1,3,3,1],C4),
 	C1 + C2 + C3 + C4 #= Profit,
     maximize(Profit, [W1, W2, W3, W4]).
+
+%4
