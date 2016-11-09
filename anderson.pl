@@ -34,10 +34,6 @@ getColorList([H | T], Res, T1) :-
 	label([V]),
 	getColorList(T, Res, [color(H, V) | T1]).
 
-
-
-
-
 %3
 assign(Profit, [W1, W2, W3, W4]):-
 	[W1, W2, W3, W4] ins 1..6, %4 workers, 6 tasks
