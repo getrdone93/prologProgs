@@ -12,7 +12,8 @@ donald([D,O,N,A,L,D] +
 %2.
 threeColor(L) :-
 	getLists(RelationList, RegionList),
-	getColorList(RegionList, ColorList),
+	getColorList(RegionList, TempColorList),
+	reverse(TempColorList, ColorList),
 	checkSolution(RelationList, ColorList, L).
 checkSolution([], L, L).
 checkSolution([(R1, R2) | TRel], ColorList, L) :-
