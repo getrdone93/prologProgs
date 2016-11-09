@@ -13,6 +13,7 @@ getLists([(r1,r2), (r1,r4), (r1,r5), (r1,r6), (r2,r3), (r2,r4), (r2,r9),
 (r3,r4), (r3,r5), (r3,r9), (r4,r5), (r5,r6), (r5,r7), (r5,r9),
 (r6,r7), (r6,r8), (r7,r8), (r7,r9), (r8,r9)], [r1,r2,r3,r4,r5,r6,r7,r8,r9]).
 
+%2.
 threeColor(L) :-
 	getLists(RelationList, RegionList),
 	getColorList(RegionList, ColorList),
