@@ -1,3 +1,13 @@
+getDomainForRegion(RelationList, H, AdjacentRegions),
+adjacentRegions(H, AdjacentRegions),
+
+getDomainForRegion(RelationList, Region, DomainList) :-
+getDomainForRegion(RelationList, Region, DomainList, []).
+getDomainForRegion([], _, L, L).
+getDomainForRegion([(R1, R2) | TRelation], R1, Res, DomainList) :-
+getDomainForRegion(TRelation, R1, Res, [R2 | DomainList]).
+getDomainForRegion([_ | TRelation], R1, Res, DomainList) :-
+getDomainForRegion(TRelation, R1, Res, DomainList).
 %
 
 generateValidMoves(_, [], []).

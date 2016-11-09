@@ -14,15 +14,14 @@ getLists([(r1,r2), (r1,r4), (r1,r5), (r1,r6), (r2,r3), (r2,r4), (r2,r9),
 (r6,r7), (r6,r8), (r7,r8), (r7,r9), (r8,r9)], [r1,r2,r3,r4,r5,r6,r7,r8,r9]).
 
 threeColor(L) :-
-	getLists(RelationList, [_,H | _]),
-	getDomainForRegion(RelationList, H, L).
-getDomainForRegion(RelationList, Region, DomainList) :-
-	getDomainForRegion(RelationList, Region, DomainList, []).
-getDomainForRegion([], _, L, L).
-getDomainForRegion([(R1, R2) | TRelation], R1, Res, DomainList) :-
-	getDomainForRegion(TRelation, R1, Res, [R2 | DomainList]).
-getDomainForRegion([_ | TRelation], R1, Res, DomainList) :-
-	getDomainForRegion(TRelation, R1, Res, DomainList).
+	getLists(RelationList, RegionList),
+	getColorList(RegionList, L).
+getColorList(RegionList, ColorList) :-
+	getColorList(RegionList, ColorList, []).
+getColorList([], L, L).
+getColorList([H | T], Res, T1) :-
+	V ins 1..3,
+	getColorList(T, Res, [color(H) | T1]).
 
 
 
