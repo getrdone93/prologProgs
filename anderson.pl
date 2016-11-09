@@ -20,8 +20,9 @@ getColorList(RegionList, ColorList) :-
 	getColorList(RegionList, ColorList, []).
 getColorList([], L, L).
 getColorList([H | T], Res, T1) :-
-	V ins 1..3,
-	getColorList(T, Res, [color(H) | T1]).
+	V in 1..3,
+	label([V]),
+	getColorList(T, Res, [color(H, V) | T1]).
 
 
 
