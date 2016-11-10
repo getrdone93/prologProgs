@@ -71,23 +71,17 @@ puzzle(AteMostName, HowMuch, WhatKind) :-
 	label(FlavorList),
 	checkFourScoopPerson(PersonList),
 	checkChocolateMoreThanVanillaSwirl(PersonList),
-	getWhoChosePeach(PersonList, person(AteMostName, HowMuch, NumWhatKind)),
+	getPersonByFlavor(4, PersonList, person(AteMostName, HowMuch, NumWhatKind)),
 	mapNumToFlavor(NumWhatKind, WhatKind).
 checkFourScoopPerson([person(_, 4, 3) | _]) :- !.
 checkFourScoopPerson([_ | T]) :-
 	checkFourScoopPerson(T).
-getWhoChoseChocolate([person(_, NumScoops, 6) | _], person(_, NumScoops, 6)) :- !.
-getWhoChoseChocolate([_ | T], Person) :-
-	getWhoChoseChocolate(T, Person).
-getWhoChoseVanillaSwirl([person(_, NumScoops, 3) | _], person(_, NumScoops, 3)) :- !.
-getWhoChoseVanillaSwirl([_ | T], Person) :-
-	getWhoChoseVanillaSwirl(T, Person).
-getWhoChosePeach([person(Name, NumScoops, 4) | _], person(Name, NumScoops, 4)) :- !.
-getWhoChosePeach([_ | T], Person) :-
-	getWhoChosePeach(T, Person).
+getPersonByFlavor(FlavorNum, [person(Name, NumScoops, FlavorNum) | _], person(Name, NumScoops, FlavorNum)) :- !.
+getPersonByFlavor(FlavorNum, [_ | T], Person) :-
+	getPersonByFlavor(FlavorNum, T, Person).
 checkChocolateMoreThanVanillaSwirl(PersonList) :-
-	getWhoChoseChocolate(PersonList, person(_, NumChocoScoops, _)),
-	getWhoChoseVanillaSwirl(PersonList, person(_, NumVanSwirlScoops, _)),
+	getPersonByFlavor(6, PersonList, person(_, NumChocoScoops, _)),
+	getPersonByFlavor(3, PersonList, person(_, NumVanSwirlScoops, _)),
 	NumChocoScoops - NumVanSwirlScoops =:= 2.
 mapNumToFlavor(1, 'strawberry').
 mapNumToFlavor(2, 'raspberry').
