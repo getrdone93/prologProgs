@@ -1,3 +1,4 @@
+:- [clputility].
 %1
 donald([D,O,N,A,L,D] +
 		 [G,E,R,A,L,D] =
