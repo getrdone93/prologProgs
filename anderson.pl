@@ -47,3 +47,47 @@ assign(Profit, [W1, W2, W3, W4]):-
     maximize(Profit, [W1, W2, W3, W4]).
 
 %4
+puzzle(AteMostName, HowMuch, WhatKind) :-
+	PersonList = [person('Caleb', NumScoopsCaleb, FlavorCaleb), person('Dakota', NumScoopsDakota, FlavorDakota),
+	person('Joey', NumScoopsJoey, FlavorJoey), person('Sara', NumScoopsSara, FlavorSara),
+	person('Loren', NumScoopsLoren, FlavorLoren), person('Sydney', NumScoopsSydney, FlavorSydney)],
+	NumScoopList = [NumScoopsCaleb, NumScoopsDakota, NumScoopsJoey, NumScoopsSara, NumScoopsLoren,
+	NumScoopsSydney],
+	FlavorList = [FlavorCaleb, FlavorDakota, FlavorJoey, FlavorSara, FlavorLoren, FlavorSydney],
+	FlavorList ins 1..6,
+	NumScoopList ins 2..7,
+	all_different(NumScoopList),
+	NumScoopsCaleb / 2 #= NumScoopsSara,
+	FlavorJoey #\= 2,
+	FlavorLoren #\= 2,
+	NumScoopsJoey #=< NumScoopsSydney,
+	FlavorDakota #\= 5,
+	NumScoopsSara * 2 #< NumScoopsLoren,
+	FlavorSydney #= 5,
+	NumScoopsSydney - NumScoopsJoey #= 3,
+	NumScoopsLoren - NumScoopsDakota #= 3,
+	NumScoopsLoren - NumScoopsSydney #= 2,
+	label(NumScoopList),
+	label(FlavorList),
+	checkFourScoopPerson(PersonList),
+	checkChocolateMoreThanVanillaSwirl(PersonList),
+	getWhoChosePeach(person(AteMostName, HowMuch, WhatKind)).
+	%the one who ate peach won
+	%the one who ate four scoops chose vanilla swirl
+	%the one who chose chocolate ate two more scoops than the one who chose vanilla swirl
+checkFourScoopPerson([person(_, 4, 3) | _]).
+checkFourScoopPerson([_ | T]) :-
+	checkFourScoopPerson(T).
+getWhoChoseChocolate([person(_, _, 6) | _], person(_, _, 6)).
+getWhoChoseChocolate([_ | T], Person) :-
+	getWhoChoseChocolate(T, Person).
+getWhoChoseVanillaSwirl([person(_, _, 3) | _], person(_, _, 3)).
+getWhoChoseVanillaSwirl([_ | T], Person) :-
+	getWhoChoseVanillaSwirl(T, Person).
+getWhoChosePeach([person(Name, NumScoops, 4) | _], person(Name, NumScoops, 4)).
+getWhoChosePeach([_ | T], Person) :-
+	getWhoChosePeach(T, Person).
+checkChocolateMoreThanVanillaSwirl(PersonList) :-
+	getWhoChoseChocolate(PersonList, person(_, NumChocoScoops, _)),
+	getWhoChoseVanillaSwirl(PersonList, person(_, NumVanSwirlScoops, _)),
+	NumChocoScoops - NumVanSwirlScoops =:= 2.
