@@ -57,7 +57,7 @@ puzzle(AteMostName, HowMuch, WhatKind) :-
 	FlavorList ins 1..6,
 	NumScoopList ins 2..7,
 	all_different(NumScoopList),
-	NumScoopsCaleb / 2 #= NumScoopsSara,
+	NumScoopsCaleb // 2 #= NumScoopsSara,
 	FlavorJoey #\= 2,
 	FlavorLoren #\= 2,
 	NumScoopsJoey #=< NumScoopsSydney,
@@ -71,20 +71,17 @@ puzzle(AteMostName, HowMuch, WhatKind) :-
 	label(FlavorList),
 	checkFourScoopPerson(PersonList),
 	checkChocolateMoreThanVanillaSwirl(PersonList),
-	getWhoChosePeach(person(AteMostName, HowMuch, WhatKind)).
-	%the one who ate peach won
-	%the one who ate four scoops chose vanilla swirl
-	%the one who chose chocolate ate two more scoops than the one who chose vanilla swirl
+	getWhoChosePeach(PersonList, person(AteMostName, HowMuch, WhatKind)).
 checkFourScoopPerson([person(_, 4, 3) | _]).
 checkFourScoopPerson([_ | T]) :-
 	checkFourScoopPerson(T).
-getWhoChoseChocolate([person(_, _, 6) | _], person(_, _, 6)).
+getWhoChoseChocolate([person(_, NumScoops, 6) | _], person(_, NumScoops, 6)) :- !.
 getWhoChoseChocolate([_ | T], Person) :-
 	getWhoChoseChocolate(T, Person).
-getWhoChoseVanillaSwirl([person(_, _, 3) | _], person(_, _, 3)).
+getWhoChoseVanillaSwirl([person(_, NumScoops, 3) | _], person(_, NumScoops, 3)) :- !.
 getWhoChoseVanillaSwirl([_ | T], Person) :-
 	getWhoChoseVanillaSwirl(T, Person).
-getWhoChosePeach([person(Name, NumScoops, 4) | _], person(Name, NumScoops, 4)).
+getWhoChosePeach([person(Name, NumScoops, 4) | _], person(Name, NumScoops, 4)) :- !.
 getWhoChosePeach([_ | T], Person) :-
 	getWhoChosePeach(T, Person).
 checkChocolateMoreThanVanillaSwirl(PersonList) :-
