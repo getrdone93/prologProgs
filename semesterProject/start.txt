@@ -1,0 +1,6 @@
+--How does B-Prolog differ from SWI-Prolog?
+     -Is it fundamentally different?
+
+--What is PRISM?
+     -User manual: http://rjida.meijo-u.ac.jp/prism/download/prism22.pdf
+     -Based off of B-Prolog
