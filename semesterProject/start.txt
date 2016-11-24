@@ -31,11 +31,34 @@
         its counterpart that is written by using standard clauses, if multi-level indexing is
         effective.
 
-        
+
 
 --What is PRISM?
      -User manual: http://rjida.meijo-u.ac.jp/prism/download/prism22.pdf
      -Based off of B-Prolog
+
+     Syntactically, PRISM is just Prolog augmented with a probabilistic
+     built-in predicate and declarations. There is no restriction on the
+     use of function symbols, predicate symbols or recursion, and PRISM
+     programs are executed in a top-down left-to-right manner just like Prolog
+
+     1.1 Building a probabilistic model with random switches
+        The most characteristic feature of PRISM is that it provides random switches to make probabilistic choices. A
+        random switch has a name, a space of possible outcomes, and a probability distribution. The first example is a
+        simple program that uses just one random switch:
+        values(coin,[head,tail]).
+
+        load program with prism(fileName)
+            -must have the .psm file extension
+
+        call predicate with sample(direction(D)).
+        check distribution with show_sw.
+        change distribution with set_sw(switchName, [prob1, prob2, etc..])
+            -e.g. set_sw(coin, [0.7, 0.3]).
+
+    1.2 Basic probabilistic inference and parameter learning
+
+
 
 
 --References

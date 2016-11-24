@@ -1,0 +1,9 @@
+%This clause declares the outcome space of a switch named
+%coin.
+values(coin,[head,tail]).
+
+%This predicate is probabilistic because D is either bound to
+%left or right depending on the value of Face.
+direction(D):-
+    msw(coin,Face), %this call makes a probabilistic choice
+    ( Face == head -> D=left ; D=right).
