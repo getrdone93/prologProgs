@@ -1,0 +1,9 @@
+values(gene,[a,b,o]).
+bloodtype(P) :-
+    genotype(X,Y),
+    ( X=Y -> P=X
+    ; X=o -> P=Y
+    ; Y=o -> P=X
+    ; P=ab
+    ).
+genotype(X,Y) :- msw(gene,X),msw(gene,Y).values(gene,[a,b,o]).

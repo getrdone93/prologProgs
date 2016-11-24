@@ -57,7 +57,7 @@
             -e.g. set_sw(coin, [0.7, 0.3]).
 
     1.2 Basic probabilistic inference and parameter learning
-
+        
 
 
 
