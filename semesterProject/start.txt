@@ -1,6 +1,42 @@
---How does B-Prolog differ from SWI-Prolog?
-     -Is it fundamentally different?
+-- B-Prolog
+     B-Prolog is a high-performance implementation of the standard Prolog
+     language with several extended features including matching clauses,
+     action rules for event handling, finite-domain constraint solving,
+     arrays and hash tables, declarative loops, and tabling.
+
+     B-Prolog is a Prolog system with extensions for programming concurrency,
+     constraints, and interactive graphics
+
+     B-Prolog does not only accept standard-form Prolog programs, but also
+     accepts matching clauses, in which the determinacy and input/output unifications
+     are explicitly denoted. Matching clauses are compiled into more compact and
+     faster code than standard-form clauses. The compiler and most of the libraries are
+     written in matching clauses
+
+     B-Prolog provides a bi-directional interface with C and Java. This
+     interface makes it possible to integrate Prolog with C, C++, and Java
+
+     B-Prolog offers a language, called AR (action rules), which is useful for programming con-
+     currency, implementing constraint propagators, and developing interactive user in-
+     terfaces
+
+     matching clauses
+        pg. 53
+        Matching clauses are determinate, and employ one-directional matching rather
+        than unification in the execution. The compiler takes advantage of these facts in
+        order to generate faster and more compact code for matching clauses. While the
+        compiler generates indexing code for Prolog clauses on at most one argument, it
+        generates indexing code on as many arguments as possible for matching clauses. A
+        program that is written by using matching clauses can be significantly faster than
+        its counterpart that is written by using standard clauses, if multi-level indexing is
+        effective.
+
+        
 
 --What is PRISM?
      -User manual: http://rjida.meijo-u.ac.jp/prism/download/prism22.pdf
      -Based off of B-Prolog
+
+
+--References
+http://www.picat-lang.org/bprolog/
