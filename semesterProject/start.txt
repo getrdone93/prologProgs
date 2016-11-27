@@ -34,8 +34,9 @@
 
 
 --What is PRISM?
-     -User manual: http://rjida.meijo-u.ac.jp/prism/download/prism22.pdf
      -Based off of B-Prolog
+     -PRISM = Prolog + probability + parameter learning
+
 
      PRISM programs are roughly defined as logic programs with a probability
      distribution given to facts.
@@ -74,19 +75,19 @@
     probabilistic predicate, msw/2
 
     Three parts to a prism program
+        Declarations
+            -the clauses of some particular built-in predicates which contain additional information on the
+            model (of course, they are non-probabilistic).
+            e.g. target declaration, data declaration, switch declaration
         Modeling part
             -the definitions of all probabilistic predicates, and of some non-probabilistic predicates which
             are called from probabilistic predicates. This part corresponds to the definition of the model.
             -logic program whose purpose is to generate possible proof trees of a target atom
-            which representations observations
+            which represents observations
         Utility part
             -the remaining definitions of non-probabilistic predicates. This part is a usual Prolog program
             that utilizes the model, and often that can be seen as a meta program of the modeling part.
             e.g. learn, sample, prob, cprob, set_sw
-        Declarations
-            -the clauses of some particular built-in predicates which contain additional information on the
-            model (of course, they are non-probabilistic).
-            e.g. target declaration, data declaration
 
 --What are some of these theoretical things?
     -Hidden Markov Model
@@ -101,7 +102,7 @@
         given string
     -Baum-Welch learning algorithm to estimate the probability parameters of an HMM
 
-
+--Parameter learning
 
 
 --References
