@@ -97,10 +97,10 @@
         -what can be observed from outside is only an output string consisting
             of emitted alphabets while the state transition is not observable,
             hence the name of HMM
-    -forward-backward algorithm for calculating the probability of a given string
-    -Viterbi algorithm for deciding the most likely state transition sequence for the
+    -forward-backward, algorithm for calculating the probability of a given string
+    -Viterbi, algorithm for deciding the most likely state transition sequence for the
         given string
-    -Baum-Welch learning algorithm to estimate the probability parameters of an HMM
+    -Baum-Welch, learning algorithm to estimate the probability parameters of an HMM
 
 --Parameter learning
 
