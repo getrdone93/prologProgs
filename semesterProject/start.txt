@@ -45,7 +45,7 @@
      use of function symbols, predicate symbols or recursion, and PRISM
      programs are executed in a top-down left-to-right manner just like Prolog
 
-     PRISM programming does through three phases: programming, learning and
+     PRISM programming goes through three phases: programming, learning and
      execution.
 
      1.1 Building a probabilistic model with random switches
@@ -88,9 +88,23 @@
             model (of course, they are non-probabilistic).
             e.g. target declaration, data declaration
 
+--What are some of these theoretical things?
+    -Hidden Markov Model
+        -basic tool for speech recoginition
+        -stands for a class of finite state automata in which transition is
+            probabilistic and an alphabet is emitted on each transition
+        -what can be observed from outside is only an output string consisting
+            of emitted alphabets while the state transition is not observable,
+            hence the name of HMM
+    -forward-backward algorithm for calculating the probability of a given string
+    -Viterbi algorithm for deciding the most likely state transition sequence for the
+        given string
+    -Baum-Welch learning algorithm to estimate the probability parameters of an HMM
 
 
 
 
 --References
 http://www.picat-lang.org/bprolog/
+https://blackboard.unomaha.edu/bbcswebdav/pid-1569792-dt-content-rid-3545800_1/courses/CSCI8000001.1168/prismIJCAI.pdf
+http://rjida.meijo-u.ac.jp/prism/download/prism22.pdf
