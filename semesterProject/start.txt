@@ -37,10 +37,16 @@
      -User manual: http://rjida.meijo-u.ac.jp/prism/download/prism22.pdf
      -Based off of B-Prolog
 
+     PRISM programs are roughly defined as logic programs with a probability
+     distribution given to facts.
+
      Syntactically, PRISM is just Prolog augmented with a probabilistic
      built-in predicate and declarations. There is no restriction on the
      use of function symbols, predicate symbols or recursion, and PRISM
      programs are executed in a top-down left-to-right manner just like Prolog
+
+     PRISM programming does through three phases: programming, learning and
+     execution.
 
      1.1 Building a probabilistic model with random switches
         The most characteristic feature of PRISM is that it provides random switches to make probabilistic choices. A
@@ -52,12 +58,37 @@
             -must have the .psm file extension
 
         call predicate with sample(direction(D)).
-        check distribution with show_sw.
+        show distribution with show_sw.
         change distribution with set_sw(switchName, [prob1, prob2, etc..])
             -e.g. set_sw(coin, [0.7, 0.3]).
+        compute probability of probabilistic goal with prob(predicate(goal))
+            -e.g. prob(direction(left))
 
     1.2 Basic probabilistic inference and parameter learning
-        
+        -not sure about this one...
+
+    1.3 Utility programs and advanced probabilistic inferences
+        -not sure about this one but a little more sure than 1.2...
+
+    probabilistic predicate - a predicate which eventually calls the built-in
+    probabilistic predicate, msw/2
+
+    Three parts to a prism program
+        Modeling part
+            -the definitions of all probabilistic predicates, and of some non-probabilistic predicates which
+            are called from probabilistic predicates. This part corresponds to the definition of the model.
+            -logic program whose purpose is to generate possible proof trees of a target atom
+            which representations observations
+        Utility part
+            -the remaining definitions of non-probabilistic predicates. This part is a usual Prolog program
+            that utilizes the model, and often that can be seen as a meta program of the modeling part.
+            e.g. learn, sample, prob, cprob, set_sw
+        Declarations
+            -the clauses of some particular built-in predicates which contain additional information on the
+            model (of course, they are non-probabilistic).
+            e.g. target declaration, data declaration
+
+
 
 
 

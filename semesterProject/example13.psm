@@ -1,0 +1,20 @@
+values(init,[s0,s1]).   %Switch for state initialization
+values(out(_),[a,b]).   %symbol emission
+values(tr(_),[s0,s1]).  %state transition
+
+hmm(L):-            %To observe a string L:
+    str_length(N),  %Get the string length as N
+    msw(init,S),    %Choose an initial state randomly
+    hmm(1,N,S,L).   %Start stochastic transition (loop)
+
+hmm(T,N,_,[]):-
+    T>N,
+    !.  % Stop the loop
+
+hmm(T,N,S,[Ob|Y]) :-    % Loop: the state is S at time T
+    msw(out(S),Ob),     %Output Ob at the state S
+    msw(tr(S),Next),    %Transit from S to Next.
+    T1 is T+1,          %Count up time
+    hmm(T1,N,Next,Y).   %Go next (recursion)
+
+str_length(10). % String length is 10
