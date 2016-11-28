@@ -102,6 +102,12 @@
         given string
     -Baum-Welch, learning algorithm to estimate the probability parameters of an HMM
 
+--Some neat things
+    -can specify large outcome space with [1-27] rather than [1, 2, 3..] by
+        using expand_values (e.g. expand_values([1-20], C), C = [1, 2, 3...] )
+
+    -msw does not backtrack! pg 41
+
 --Parameter learning
 
 
@@ -109,3 +115,5 @@
 http://www.picat-lang.org/bprolog/
 https://blackboard.unomaha.edu/bbcswebdav/pid-1569792-dt-content-rid-3545800_1/courses/CSCI8000001.1168/prismIJCAI.pdf
 http://rjida.meijo-u.ac.jp/prism/download/prism22.pdf
+https://en.wikipedia.org/wiki/B-Prolog
+http://www.picat-lang.org/bprolog/download/manual.pdf
