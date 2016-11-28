@@ -108,6 +108,9 @@
 
     -msw does not backtrack! pg 41
 
+--What is sample?
+    running a goal G og prolog style is the same as sample(G) pg. 11
+
 --Parameter learning
 
 
