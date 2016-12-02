@@ -1,0 +1,7 @@
+%Declaration section
+values(coin,[head,tail]).
+
+%Model section
+direction(D):-
+    msw(coin,Face),
+    ( Face==head -> D=left ; D=right).  

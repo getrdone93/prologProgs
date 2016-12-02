@@ -111,8 +111,11 @@
 --What is sample?
     running a goal G og prolog style is the same as sample(G) pg. 11
 
+--Switches
+    values(coin,[head,tail], [0.5, 0.5]) makes show_sw show the switch upon program load
+    values(coin,[head,tail]) show_sw returns nothing because the probability distribution is unknown (switch hasn't been referenced)
 --Parameter learning
-
+    pg. 54 for learn
 
 --References
 http://www.picat-lang.org/bprolog/

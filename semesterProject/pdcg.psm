@@ -1,0 +1,36 @@
+go:- pdcg_learn(100).
+max_str_len(20).
+
+%%------------------------------------
+%%  Declarations:
+
+values('S',[['S','S'],a,b],[0.4,0.5,0.1]).
+
+%%------------------------------------
+%%  Modeling part:
+
+start_symbol('S').
+
+pdcg(L):-
+   start_symbol(I),
+   pdcg2(I,L-[]).
+
+pdcg2(I,L0-L2):-
+   msw(I,RHS),
+   ( RHS == ['S','S'],
+       pdcg2('S',L0-L1),
+       pdcg2('S',L1-L2)
+   ; RHS == a,
+       L0 = [RHS | L2]
+   ; RHS == b,
+       L0 = [RHS | L2] ).
+
+%%------------------------------------
+%%  Utility part:
+
+pdcg_learn(N):-
+   max_str_len(MaxStrL),
+   get_samples_c(N,pdcg(X),(length(X,Y),Y =< MaxStrL),Goals,[Ns,_]),
+   format("#sentenctes= ~d~n",[Ns]),
+   unfix_sw('S'),
+   learn(Goals).

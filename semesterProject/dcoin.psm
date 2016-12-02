@@ -1,0 +1,35 @@
+go:- dcoin_learn(500).
+
+%%------------------------------------
+%%  Declarations:
+
+values(coin(1),[head,tail],[0.5,0.5]).
+values(coin(2),[head,tail],[0.7,0.3]).
+
+%%------------------------------------
+%%  Modeling part:
+
+dcoin(N,Rs) :-
+   dcoin(N,coin(1),Rs).        
+
+dcoin(N,Coin,[R|Rs]) :-
+   N > 0,
+   msw(Coin,R),
+   ( R == head, NextCoin = coin(2)
+   ; R == tail, NextCoin = coin(1) ),
+   N1 is N-1,
+   dcoin(N1,NextCoin,Rs).
+dcoin(0,_,[]).
+
+%%------------------------------------
+%%  Utility part:
+
+dcoin_learn(N) :-
+   set_params,
+   sample(dcoin(N,Rs)),
+   Goals = [dcoin(N,Rs)],
+   learn(Goals).
+
+set_params :-
+   set_sw(coin(1),[0.5,0.5]),
+   set_sw(coin(2),[0.7,0.3]).
