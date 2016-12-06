@@ -23,6 +23,7 @@ schoolBus(OrderList) :-
     label(StreetOrder),
 
     %whoever has huckleberry as street gets off before whoever has blueberry as street
+    %just pass a student instead i.e. student(Place, _, Street)
     getStudentByStreet(OrderList, 3, student(StudentOnHuckleberry, _, _)),
     getStudentByStreet(OrderList, 2, student(StudentOnBlueberry, _, _)),
     getStudentByStreet(OrderList, 1, student(StudentOnMulberry, _, _)),
