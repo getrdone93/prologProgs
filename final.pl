@@ -14,24 +14,26 @@ schoolBus(OrderList) :-
     DannyPlace #< TracyPlace,
     JustinPlace #< DianaPlace,
     TracyPlace #> BrucePlace,
-    DianaStreet #\= 1,
-    DianaStreet #\= 3,
     label(StudentOrder),
     label(StreetOrder),
-
-    getStudentByStreet(OrderList, student(StudentOnHuckleberry, _, 3)),
-    getStudentByStreet(OrderList, student(StudentOnBlueberry, _, 2)),
     getStudentByStreet(OrderList, student(StudentOnMulberry, _, 1)),
+    getStudentByStreet(OrderList, student(StudentOnBlueberry, _, 2)),
+    getStudentByStreet(OrderList, student(StudentOnHuckleberry, _, 3)),
+    getStudentByStreet(OrderList, student(StudentOnCherry, _, 4)),
+    getStudentByStreet(OrderList, student(StudentOnElderberryPlace, _, 5)),
     StudentOnHuckleberry #< StudentOnBlueberry,
     StudentOnMulberry #< StudentOnBlueberry,
-
-    getStudentByStreet(OrderList, student(StudentOnCherry, _, 4)),
     StudentOnHuckleberry #> StudentOnCherry,
-
-    getStudentByStreet(OrderList, student(ElderberryPlace, _, 5)),
-    StudentOnHuckleberry #< ElderberryPlace,
+    StudentOnHuckleberry #< StudentOnElderberryPlace,
+    DianaPlace #> StudentOnHuckleberry,
+    DianaPlace #< StudentOnMulberry,
     checkNameOfSecondPerson(OrderList),     %name of second person off bus doesnt begin with D
-    checkSecondToLastPerson(OrderList).
+    checkSecondToLastPerson(OrderList, student(Place, _, _)),
+    Place #> StudentOnElderberryPlace,
+    Place #< StudentOnBlueberry.
+getStudentByName([student(Place, Name, _) | _], student(Place, Name, _)).
+getStudentByName([_ | T], Student) :-
+     getStudentByName(T, Student).
 getStudentByStreet([student(Place, _, Street) | _], student(Place, _, Street)).
 getStudentByStreet([_ | T], Student) :-
      getStudentByStreet(T, Student).
@@ -40,11 +42,9 @@ mapNumToStreet(2, 'Blueberry').
 mapNumToStreet(3, 'Huckleberry').
 mapNumToStreet(4, 'Cherry').
 mapNumToStreet(5, 'Elderberry').
-checkSecondToLastPerson([student(4, _, Street) | _]) :-
-    Street #\= 2,
-    Street #\= 5.
-checkSecondToLastPerson([_ | T]) :-
-    checkSecondToLastPerson(T).
+checkSecondToLastPerson([student(4, _, Street) | _], student(4, _, Street)).
+checkSecondToLastPerson([_ | T], Student) :-
+    checkSecondToLastPerson(T, Student).
 checkNameOfSecondPerson([student(2, Name, _) | _]) :-
     string_chars(Name, [FirstLetter | _]),
     FirstLetter \== 'D',
