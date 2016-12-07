@@ -28,8 +28,8 @@ schoolBus(OrderList) :-
     StudentOnHuckleberry #< StudentOnBlueberry,
     StudentOnMulberry #< StudentOnBlueberry,
     checkNameOfSecondPerson(OrderList),
-    4 #>= StudentOnElderberryPlace,
-    4 #=< StudentOnBlueberry.
+    4 #=< StudentOnElderberryPlace,
+    4 #>= StudentOnBlueberry.
 getStudentByStreet([student(Place, _, Street) | _], student(Place, _, Street)).
 getStudentByStreet([_ | T], Student) :-
      getStudentByStreet(T, Student).
