@@ -28,9 +28,8 @@ schoolBus(OrderList) :-
     DianaPlace #> StudentOnHuckleberry,
     DianaPlace #< StudentOnMulberry,
     checkNameOfSecondPerson(OrderList),     %name of second person off bus doesnt begin with D
-    checkSecondToLastPerson(OrderList, student(Place, _, _)),
-    Place #> StudentOnElderberryPlace,
-    Place #< StudentOnBlueberry.
+    4 #> StudentOnElderberryPlace,
+    4 #< StudentOnBlueberry.
 getStudentByName([student(Place, Name, _) | _], student(Place, Name, _)).
 getStudentByName([_ | T], Student) :-
      getStudentByName(T, Student).
@@ -42,9 +41,6 @@ mapNumToStreet(2, 'Blueberry').
 mapNumToStreet(3, 'Huckleberry').
 mapNumToStreet(4, 'Cherry').
 mapNumToStreet(5, 'Elderberry').
-checkSecondToLastPerson([student(4, _, Street) | _], student(4, _, Street)).
-checkSecondToLastPerson([_ | T], Student) :-
-    checkSecondToLastPerson(T, Student).
 checkNameOfSecondPerson([student(2, Name, _) | _]) :-
     string_chars(Name, [FirstLetter | _]),
     FirstLetter \== 'D',
