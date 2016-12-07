@@ -27,23 +27,20 @@ schoolBus(OrderList) :-
     StudentOnHuckleberry #< StudentOnElderberryPlace,
     DianaPlace #> StudentOnHuckleberry,
     DianaPlace #< StudentOnMulberry,
-    checkNameOfSecondPerson(OrderList),     
+    checkNameOfSecondPerson(OrderList),
     4 #> StudentOnElderberryPlace,
     4 #< StudentOnBlueberry.
-getStudentByName([student(Place, Name, _) | _], student(Place, Name, _)).
-getStudentByName([_ | T], Student) :-
-     getStudentByName(T, Student).
 getStudentByStreet([student(Place, _, Street) | _], student(Place, _, Street)).
 getStudentByStreet([_ | T], Student) :-
      getStudentByStreet(T, Student).
-mapNumToStreet(1, 'Mulberry').
-mapNumToStreet(2, 'Blueberry').
-mapNumToStreet(3, 'Huckleberry').
-mapNumToStreet(4, 'Cherry').
-mapNumToStreet(5, 'Elderberry').
 checkNameOfSecondPerson([student(2, Name, _) | _]) :-
     string_chars(Name, [FirstLetter | _]),
     FirstLetter \== 'D',
     !.
 checkNameOfSecondPerson([_ | T]) :-
     checkNameOfSecondPerson(T).
+mapNumToStreet(1, 'Mulberry').
+mapNumToStreet(2, 'Blueberry').
+mapNumToStreet(3, 'Huckleberry').
+mapNumToStreet(4, 'Cherry').
+mapNumToStreet(5, 'Elderberry').
