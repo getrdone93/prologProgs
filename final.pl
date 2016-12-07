@@ -4,15 +4,12 @@ schoolBus(OrderList) :-
     OrderList = [student(DianaPlace, 'Diana', DianaStreet), student(BrucePlace, 'Bruce', BruceStreet),
     student(TracyPlace, 'Tracy', TracyStreet), student(DannyPlace, 'Danny', DannyStreet),
     student(JustinPlace, 'Justin', JustinStreet)],
-    %StreetOrder = [MulberryPlace, BlueberryPlace, HuckleberryPlace, CherryPlace, ElderberryPlace],
     StreetOrder = [DianaStreet, BruceStreet, TracyStreet, DannyStreet, JustinStreet],
     StudentOrder = [DianaPlace, BrucePlace, TracyPlace, DannyPlace, JustinPlace],
     StudentOrder ins 1..5,
-    % StreetList ins 1..5,
     StreetOrder ins 1..5,
     all_different(StudentOrder),
     all_different(StreetOrder),
-    % all_different(StreetList),
     DannyPlace #< JustinPlace,
     DannyPlace #< TracyPlace,
     JustinPlace #< DianaPlace,
@@ -22,30 +19,22 @@ schoolBus(OrderList) :-
     label(StudentOrder),
     label(StreetOrder),
 
-    %whoever has huckleberry as street gets off before whoever has blueberry as street
-    %just pass a student instead i.e. student(Place, _, Street)
-    getStudentByStreet(OrderList, 3, student(StudentOnHuckleberry, _, _)),
-    getStudentByStreet(OrderList, 2, student(StudentOnBlueberry, _, _)),
-    getStudentByStreet(OrderList, 1, student(StudentOnMulberry, _, _)),
+    getStudentByStreet(OrderList, student(StudentOnHuckleberry, _, 3)),
+    getStudentByStreet(OrderList, student(StudentOnBlueberry, _, 2)),
+    getStudentByStreet(OrderList, student(StudentOnMulberry, _, 1)),
     StudentOnHuckleberry #< StudentOnBlueberry,
     StudentOnMulberry #< StudentOnBlueberry,
-    % HuckleberryPlace #< BlueberryPlace,
-    % MulberryPlace #< BlueberryPlace,
 
-    getStudentByStreet(OrderList, 4, student(StudentOnCherry, _, _)),
-    % HuckleberryPlace #> CherryPlace,
+    getStudentByStreet(OrderList, student(StudentOnCherry, _, 4)),
     StudentOnHuckleberry #> StudentOnCherry,
 
-    getStudentByStreet(OrderList, 5, student(ElderberryPlace, _, _)),
-    % HuckleberryPlace #< ElderberryPlace,
+    getStudentByStreet(OrderList, student(ElderberryPlace, _, 5)),
     StudentOnHuckleberry #< ElderberryPlace,
-    % label(StreetList),
-    %name of second person off bus doesnt begin with D
-    checkNameOfSecondPerson(OrderList),
+    checkNameOfSecondPerson(OrderList),     %name of second person off bus doesnt begin with D
     checkSecondToLastPerson(OrderList).
-getStudentByStreet([student(Place, _, Street]) | _], Street, student(Place, _, Street)).
-getStudentByStreet([_ | T], Street, Student]) :-
-     getStudentByStreet(T, Street, Student).
+getStudentByStreet([student(Place, _, Street) | _], student(Place, _, Street)).
+getStudentByStreet([_ | T], Student) :-
+     getStudentByStreet(T, Student).
 mapNumToStreet(1, 'Mulberry').
 mapNumToStreet(2, 'Blueberry').
 mapNumToStreet(3, 'Huckleberry').
