@@ -27,7 +27,7 @@ schoolBus(OrderList) :-
     StudentOnHuckleberry #< StudentOnElderberryPlace,
     DianaPlace #> StudentOnHuckleberry,
     DianaPlace #< StudentOnMulberry,
-    checkNameOfSecondPerson(OrderList),     %name of second person off bus doesnt begin with D
+    checkNameOfSecondPerson(OrderList),     
     4 #> StudentOnElderberryPlace,
     4 #< StudentOnBlueberry.
 getStudentByName([student(Place, Name, _) | _], student(Place, Name, _)).
