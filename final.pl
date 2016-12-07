@@ -21,15 +21,15 @@ schoolBus(OrderList) :-
     getStudentByStreet(OrderList, student(StudentOnHuckleberry, _, 3)),
     getStudentByStreet(OrderList, student(StudentOnCherry, _, 4)),
     getStudentByStreet(OrderList, student(StudentOnElderberryPlace, _, 5)),
+    StudentOnHuckleberry #< StudentOnCherry,
+    StudentOnHuckleberry #> StudentOnElderberryPlace,
+    DianaPlace #< StudentOnHuckleberry,
+    DianaPlace #> StudentOnMulberry,
     StudentOnHuckleberry #< StudentOnBlueberry,
     StudentOnMulberry #< StudentOnBlueberry,
-    StudentOnHuckleberry #> StudentOnCherry,
-    StudentOnHuckleberry #< StudentOnElderberryPlace,
-    DianaPlace #> StudentOnHuckleberry,
-    DianaPlace #< StudentOnMulberry,
     checkNameOfSecondPerson(OrderList),
-    4 #> StudentOnElderberryPlace,
-    4 #< StudentOnBlueberry.
+    4 #< StudentOnElderberryPlace,
+    4 #> StudentOnBlueberry.
 getStudentByStreet([student(Place, _, Street) | _], student(Place, _, Street)).
 getStudentByStreet([_ | T], Student) :-
      getStudentByStreet(T, Student).
