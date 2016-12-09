@@ -25,15 +25,17 @@ getCoveredEdges([Node | NodeList], EdgeList, CoveredEdges, Res) :-
     getEdges(Node, EdgeList, CoveredEdgesByNode),
     append(CoveredEdges, CoveredEdgesByNode, TempCoveredEdges),
     getCoveredEdges(NodeList, EdgeList, TempCoveredEdges, Res).
-getEdges(Res, [], Res).
-getEdges(Node, [edge(Node, Y) | T], [edge(Node, Y) | Res]) :-
-    getEdges(Node, T, Res),
+getEdges(Node, EdgeList, CoveredEdgesByNode) :-
+    getEdges(Node, EdgeList, CoveredEdgesByNode, []).
+getEdges(_, [], Res, Res).
+getEdges(Node, [edge(Node, Y) | T], [edge(Node, Y) | Res], Result) :-
+    getEdges(Node, T, Res, Result),
     !.
-getEdges(Node, [edge(X, Node) | T], [edge(X, Node) | Res]) :-
-    getEdges(Node, T, Res),
+getEdges(Node, [edge(X, Node) | T], [edge(X, Node) | Res], Result) :-
+    getEdges(Node, T, Res, Result),
     !.
-getEdges(Node, [_ | T], Res) :-
-    getEdges(Node, T, Res).
+getEdges(Node, [_ | T], Res, Result) :-
+    getEdges(Node, T, Res, Result).
 getNodeList(AllNodes, NodeList, N) :-
     getNodeList(AllNodes, NodeList, [], N, 0).
 getNodeList(_, NodeList, NodeList, N, N).
