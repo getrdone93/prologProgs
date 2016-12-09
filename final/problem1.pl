@@ -5,7 +5,15 @@ edge(d, e).
 edge(a, x).
 
 vertexCover(K, Vertices) :-
-    vertexCover(K, 1, Vertices).
+    findall(TempVertices, vertexCover(K, 1, TempVertices), Res),
+    [FirstList | _] = Res,
+    length(FirstList, FLen),
+    Diff is K - FLen,
+    member(Vertices, Res),
+    length(Vertices, VertLen),
+    CurrentListDiff is K - VertLen,
+    CurrentListDiff =:= Diff.
+
 vertexCover(K, N, Vertices) :-
     N =< K,
     getAllNodes(AllNodes),
