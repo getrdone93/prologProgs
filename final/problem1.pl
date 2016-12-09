@@ -9,8 +9,8 @@ vertexCover(K, Vertices) :-
 vertexCover(K, N, Vertices) :-
     N =< K,
     getAllNodes(AllNodes),
-    getNodeList(AllNodes, N, Vertices),
     getGraph(EdgeList),
+    getNodeList(AllNodes, N, Vertices),
     cover(Vertices, EdgeList).
 vertexCover(K, N, Vertices) :-
     N1 is N + 1,
