@@ -8,3 +8,6 @@ display(StudentOnBlueberry),display(' '),
 display(StudentOnHuckleberry),display(' '),
 display(StudentOnCherry),display(' '),
 display(StudentOnElderberryPlace),display(' '),nl,
+
+getAllNodes(AllNodes) :-
+    findall(edge(X, Y), edge(X, Y), AllNodes).
