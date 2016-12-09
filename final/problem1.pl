@@ -6,16 +6,15 @@ edge(a, x).
 
 vertexCover(K, Vertices) :-
     vertexCover(K, 1, Vertices).
-% vertexCover(N, N, Vertices, Vertices).
 vertexCover(K, N, Vertices) :-
     N =< K,
     getAllNodes(AllNodes),
-    getNodeList(AllNodes, Vertices, N),
+    getNodeList(AllNodes, N, Vertices),
     getGraph(EdgeList),
-    cover(Vertices, EdgeList),
-    % vertexCover(N, N, Vertices, Res).
+    cover(Vertices, EdgeList).
 vertexCover(K, N, Vertices) :-
     N1 is N + 1,
+    N1 =< K,
     vertexCover(K, N1, Vertices).
 
 cover(NodeList, EdgeList) :-
@@ -43,13 +42,6 @@ getEdges(Node, [edge(X, Node) | T], [edge(X, Node) | Res], Result) :-
 getEdges(Node, [_ | T], Res, Result) :-
     getEdges(Node, T, Res, Result).
 
-getNodeList(AllNodes, NodeList, N) :-
-    getNodeList(AllNodes, NodeList, [], N, 0).
-getNodeList(_, NodeList, NodeList, N, N).
-getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
-    C1 is C + 1,
-    getNodeList(AllNodes, NodeList, Res, N, C1).
-
 getGraph(Graph) :-
     findall(edge(X, Y), edge(X, Y), Graph).
 
@@ -58,3 +50,14 @@ getAllNodes(AllNodes) :-
     findall(Y, edge(X, Y), Ys),
     append(Xs, Ys, TempAllNodes),
     sort(TempAllNodes, AllNodes).
+
+getNodeList(AllNodes, N, NodeList) :-
+    powerset(AllNodes, NodeList),
+    length(NodeList, Len),
+    Len =:= N.
+
+powerset([], []).
+powerset([_ | T], P) :-
+    powerset(T, P).
+powerset([H | T], [H | P]) :-
+    powerset(T, P).

@@ -9,5 +9,9 @@ display(StudentOnHuckleberry),display(' '),
 display(StudentOnCherry),display(' '),
 display(StudentOnElderberryPlace),display(' '),nl,
 
-getAllNodes(AllNodes) :-
-    findall(edge(X, Y), edge(X, Y), AllNodes).
+getNodeList(AllNodes, NodeList, N) :-
+    getNodeList(AllNodes, NodeList, [], N, 0).
+getNodeList(_, NodeList, NodeList, N, N).
+getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
+    C1 is C + 1,
+    getNodeList(AllNodes, NodeList, Res, N, C1).
