@@ -39,15 +39,6 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     Asat + Bsat + Csat + Dsat + Esat #= SatWork,
     SatWork #>= Sat,
 
-    % Sun #= 22,
-    % Mon #= 17,
-    % Tue #= 13,
-    % Wed #= 14,
-    % Thu #= 15,
-    % Fri #= 18,
-    % Sat #= 24,
-
-
     SchedA = [Atue, Awed, Athu, Afri, Asat],
     SchedB = [Bsun, Bwed, Bthu, Bfri, Bsat],
     SchedC = [Csun, Cmon, Cthu, Cfri, Csat],
@@ -55,6 +46,10 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     SchedE = [Esun, Emon, Etue, Ewed, Esat],
     SchedF = [Fsun, Fmon, Ftue, Fwed, Fthu],
     SchedG = [Gmon, Gtue, Gwed, Gthu, Gfri],
+
+
+
+
     Atue #= Awed #= Athu #= Afri #= Asat,
     SchedA ins 2..4,
     % Bsun #= Bwed #= Bthu #= Bfri #= Bsat,
@@ -77,6 +72,14 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     label(SchedF),
     label(SchedG),
 
+    % display(Atue),nl,
+    % display(Awed),nl,
+    % display(Athu),nl,
+    % display(Afri),nl,
+    % display(Fsun),nl,
+    % homogeneousList([E], E) :- !.
+    % homogeneousList([E | T], E) :-
+    %     homogeneousList(T, E).
 
     label(SunWork),
     label(MonWork),
@@ -90,13 +93,7 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     display(Dsun),nl,
     display(Esun),nl,
     display(Fsun),nl,
-    SchedA = [Atue, Awed, Athu, Afri, Asat],
-    SchedB = [Bsun, Bwed, Bthu, Bfri, Bsat],
-    SchedC = [Csun, Cmon, Cthu, Cfri, Csat],
-    SchedD = [Dsun, Dmon, Dtue, Dfri, Dsat],
-    SchedE = [Esun, Emon, Etue, Ewed, Esat],
-    SchedF = [Fsun, Fmon, Ftue, Fwed, Fthu],
-    SchedG = [Gmon, Gtue, Gwed, Gthu, Gfri],
+
     SunWork = [Bsun, Csun, Dsun, Esun, Fsun],
     MonWork = [Cmon, Dmon, Emon, Fmon, Gmon],
     TueWork = [Atue, Dtue, Etue, Ftue, Gtue],
@@ -104,6 +101,15 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     ThuWork = [Athu, Bthu, Cthu, Fthu, Gthu],
     FriWork = [Afri, Bfri, Cfri, Dfri, Gfri],
     SatWork = [Asat, Bsat, Csat, Dsat, Esat],
+
+
+    [Bsun, Csun, Dsun, Esun, Fsun] ins 4..5,
+    [Cmon, Dmon, Emon, Fmon, Gmon] ins 3..4,
+    [Atue, Dtue, Etue, Ftue, Gtue] ins 2..3,
+    [Awed, Bwed, Ewed, Fwed, Gwed] ins 2..3,
+    [Athu, Bthu, Cthu, Fthu, Gthu] ins 3,
+    [Afri, Bfri, Cfri, Dfri, Gfri] ins 3..4,
+    [Asat, Bsat, Csat, Dsat, Esat] ins 4..5,
 
 
     sum([Bsun, Csun, Dsun, Esun, Fsun], #>=, Sun),

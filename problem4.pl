@@ -1,13 +1,20 @@
 :- [clputility].
 
 schedule([Sun, Mon, Tue, Wed, Thu, Fri, Sat], TotalPayroll) :-
-    [Bsun, Csun, Dsun, Esun, Fsun] ins 4..5,
-    [Cmon, Dmon, Emon, Fmon, Gmon] ins 3..4,
-    [Atue, Dtue, Etue, Ftue, Gtue] ins 2..3,
-    [Awed, Bwed, Ewed, Fwed, Gwed] ins 2..3,
-    [Athu, Bthu, Cthu, Fthu, Gthu] ins 3,
-    [Afri, Bfri, Cfri, Dfri, Gfri] ins 3..4,
-    [Asat, Bsat, Csat, Dsat, Esat] ins 4..5,
+    [Atue, Awed, Athu, Afri, Asat] ins 2..4,
+    [Bsun, Bwed, Bthu, Bfri, Bsat] ins 3..5,
+    [Csun, Cmon, Cthu, Cfri, Csat] ins 3..5,
+    [Dsun, Dmon, Dtue, Dfri, Dsat] ins 2..5,
+    [Esun, Emon, Etue, Ewed, Esat] ins 3 \/ 5,
+    [Fsun, Fmon, Ftue, Fwed, Fthu] ins 3..5,
+    [Gmon, Gtue, Gwed, Gthu, Gfri] ins 3 \/ 4,
+    homogeneousList([Atue, Awed, Athu, Afri, Asat], Atue),
+    homogeneousList([Bsun, Bwed, Bthu, Bfri, Bsat], Bsun),
+    homogeneousList([Csun, Cmon, Cthu, Cfri, Csat], Csun),
+    homogeneousList([Dsun, Dmon, Dtue, Dfri, Dsat], Dsun),
+    homogeneousList([Esun, Emon, Etue, Ewed, Esat], Esun),
+    homogeneousList([Fsun, Fmon, Ftue, Fwed, Fthu], Fsun),
+    homogeneousList([Gmon, Gtue, Gwed, Gthu, Gfri], Gmon),
     Sun #= Bsun + Csun + Dsun + Esun + Fsun,
     Mon #= Cmon + Dmon + Emon + Fmon + Gmon,
     Tue #= Atue + Dtue + Etue + Ftue + Gtue,
@@ -36,3 +43,9 @@ schedule([Sun, Mon, Tue, Wed, Thu, Fri, Sat], TotalPayroll) :-
     + Thu * 40
     + Fri * 40
     + Sat * 40.
+homogeneousList([H], E) :-
+    H #= E,
+    !.
+homogeneousList([H | T], E) :-
+    H #= E,
+    homogeneousList(T, E).
