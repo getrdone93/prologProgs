@@ -13,3 +13,17 @@ binary(b(+)).
 binary(b(-)).
 binary(b(*)).
 binary(b(/)).
+
+fourPicker(FourList, N) :-
+    findall(pick(Four, Count), pick(Four, Count), AllFours),
+    fourPicker(FourList, AllFours, N).
+fourPicker(FourList, AllFours, N) :-
+    powerset(AllFours, FourList),
+    length(FourList, Len),
+    Len =:= N.
+
+powerset([], []).
+powerset([_ | T], P) :-
+    powerset(T, P).
+powerset([H | T], [H | P]) :-
+    powerset(T, P).
