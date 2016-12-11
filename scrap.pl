@@ -1,3 +1,23 @@
+fourPicker(FourList, AllFours, N) :-
+    powerset(AllFours, FourList),
+    length(FourList, Len),
+    Len =:= N.
+equationBuilder(Answer, 1) :-
+    fourPicker(FourList, 1),
+    buildEquationOneFour(FourList, Answer).
+buildEquationOneFour([Four], Answer) :-
+    findall(Operation, unary(u(Operation)), UnaryOps),
+    execute(Four, UnaryOps, AnswerList),
+    member(Answer, AnswerList).
+
+execute(Four, [+, -, sqrt, !, square], AnswerList) :-
+    PlusAnswer is 0 + Four,
+    MinusAnswer is 0 - Four,
+    SqrtAnswer is sqrt(Four),
+    factorialWrapper(Four, FactorialAnswer),
+    SquareAnswer is Four ** 2,
+    AnswerList = [PlusAnswer, MinusAnswer, SqrtAnswer, FactorialAnswer, SquareAnswer].
+
 execute(Four, UnaryOps, AnswerList) :-
     execute(Four, UnaryOps, [], AnswerList).
 execute(_, _, AnswerList, AnswerList).

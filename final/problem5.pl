@@ -1,7 +1,7 @@
 pick(4, 1).
 pick(44, 2).
 pick(0.4, 1).
-pick(infinity(0.4), 1).
+% pick(infinity(0.4), 1).
 
 unary(u(+)).
 unary(u(-)).
@@ -14,31 +14,38 @@ binary(b(-)).
 binary(b(*)).
 binary(b(/)).
 
-%must permute four list when n >= 2     permutation(FourList, PermFourList),
+builderFourElements([F1, F2, F3, F4], Equation) :-
+    findall(Op, binary(Op), BinaryOps),
 
-equationBuilder(Answer, 1) :-
-    fourPicker(FourList, 1),
-    buildEquationOneFour(FourList, Answer).
-buildEquationOneFour([Four], Answer) :-
-    findall(Operation, unary(u(Operation)), UnaryOps),
-    execute(Four, UnaryOps, AnswerList),
-    member(Answer, AnswerList).
+fourPicker(FourList, 4) :-
+    findall((Four, Count), pick(Four, Count), AllFours),
+    member(Four, AllFours),
+    repeatElement(Four, TempFourList, 4),
+    validFourList(TempFourList),
+    getFours(TempFourList, FourList).
 
-execute(Four, [+, -, sqrt, !, square], AnswerList) :-
-    PlusAnswer is 0 + Four,
-    MinusAnswer is 0 - Four,
-    SqrtAnswer is sqrt(Four),
-    factorialWrapper(Four, FactorialAnswer),
-    SquareAnswer is Four ** 2,
-    AnswerList = [PlusAnswer, MinusAnswer, SqrtAnswer, FactorialAnswer, SquareAnswer].
+getFours(FourList) :-
+    getFours(FourList, []).
+getFours([], []).
+getFours([(Four, _) | FourList], [Four | Result]) :-
+    getFours(FourList, Result).
 
-fourPicker(FourList, N) :-
-    findall(pick(Four, Count), pick(Four, Count), AllFours),
-    fourPicker(FourList, AllFours, N).
-fourPicker(FourList, AllFours, N) :-
-    powerset(AllFours, FourList),
-    length(FourList, Len),
-    Len =:= N.
+validFourList(FourList) :-
+    validFourList(FourList, 0).
+validFourList([], Count) :-
+    Count >= 1,
+    Count =< 4.
+validFourList([(_, Count) | FourList], TotalCount) :-
+    TempTotalCount is TotalCount + Count,
+    validFourList(FourList, TempTotalCount).
+
+repeatElement(E, List, N) :-
+    repeatElement(E, [], List, N, 0).
+repeatElement(_, Res, Res, N, N) :- !.
+repeatElement(E, List, Res, N, C) :-
+    C =< N,
+    C1 is C + 1,
+    repeatElement(E, [E | List], Res, N, C1).
 
 factorialWrapper(N, F) :-
     N1 is floor(N),
