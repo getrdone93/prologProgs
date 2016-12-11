@@ -14,8 +14,16 @@ binary(b(-)).
 binary(b(*)).
 binary(b(/)).
 
-builderFourElements([F1, F2, F3, F4], Equation) :-
-    findall(Op, binary(Op), BinaryOps),
+evaluator(Equation, Result) :-
+    evaluator(Equation, 0, Result).
+evaluator([])
+
+builderFourElements(FourList, Equation) :-
+    findall(Op, binary(b(Op)), BinaryOps),
+    member(Function, BinaryOps),
+    constructEquation(Function, FourList, Equation).
+constructEquation(Function, [F1, F2, F3, F4], Equation) :-
+    Equation = [F1, Function, F2, Function, F3, Function, F4].
 
 fourPicker(FourList, 4) :-
     findall((Four, Count), pick(Four, Count), AllFours),
