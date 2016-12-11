@@ -9,10 +9,13 @@ edge(d, t, 3).
 
 %edge(Outgoing, Incoming)
 
-getNodeFlow(Node, OutFlow, InFlow) :-
+
+
+getNodeFlow(Node, node(Node, OutFlow, InFlow)) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
     getOutFlow(Node, NodeList, 0, OutFlow),
     getInFlow(Node, NodeList, 0, InFlow).
+
 getOutFlow(_, [], OutFlow, OutFlow) :- !.
 getOutFlow(Node, [edge(Node, _, Weight) | NodeList], OutFlow, Res) :-
     !,
