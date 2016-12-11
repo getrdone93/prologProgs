@@ -9,9 +9,10 @@ edge(d, t, 3).
 
 %edge(Outgoing, Incoming)
 
-getNodeOutFlow(Node, OutFlow) :-
+getNodeFlow(Node, OutFlow, InFlow) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
-    getOutFlow(Node, NodeList, 0, OutFlow).
+    getOutFlow(Node, NodeList, 0, OutFlow),
+    getInFlow(Node, NodeList, 0, InFlow).
 getOutFlow(_, [], OutFlow, OutFlow) :- !.
 getOutFlow(Node, [edge(Node, _, Weight) | NodeList], OutFlow, Res) :-
     !,
@@ -19,3 +20,11 @@ getOutFlow(Node, [edge(Node, _, Weight) | NodeList], OutFlow, Res) :-
     getOutFlow(Node, NodeList, TempOutFlow, Res).
 getOutFlow(Node, [_ | NodeList], OutFlow, Res) :-
     getOutFlow(Node, NodeList, OutFlow, Res).
+
+getInFlow(_, [], InFlow, InFlow) :- !.
+getInFlow(Node, [edge(_, Node, Weight) | NodeList], InFlow, Res) :-
+    !,
+    TempInFlow is InFlow + Weight,
+    getInFlow(Node, NodeList, TempInFlow, Res).
+getInFlow(Node, [_ | NodeList], InFlow, Res) :-
+    getInFlow(Node, NodeList, InFlow, Res).
