@@ -21,26 +21,16 @@ equationBuilder(Answer, 1) :-
     buildEquationOneFour(FourList, Answer).
 buildEquationOneFour([Four], Answer) :-
     findall(Operation, unary(u(Operation)), UnaryOps),
-    execute(Four, UnaryOps, AnswerList).
+    execute(Four, UnaryOps, AnswerList),
+    member(Answer, AnswerList).
 
-execute(Four, UnaryOps, AnswerList) :-
-    execute(Four, UnaryOps, [], AnswerList).
-execute(_, _, AnswerList, AnswerList).
-execute(Four, [+ | UnaryOps], AnswerList, Res) :-
-    Answer is 0 + Four,
-    execute(Four, UnaryOps, [Answer | AnswerList], Res).
-execute(Four, [- | UnaryOps], AnswerList, Res) :-
-    Answer is 0 - Four,
-    execute(Four, UnaryOps, [Answer | AnswerList], Res).
-execute(Four, [sqrt | UnaryOps], AnswerList, Res) :-
-    Answer is sqrt(Four),
-    execute(Four, UnaryOps, [Answer | AnswerList], Res).
-execute(Four, [! | UnaryOps], AnswerList, Res) :-
-    factorial(Four, Answer),
-    execute(Four, UnaryOps, [Answer | AnswerList], Res).
-execute(Four, [square | UnaryOps], AnswerList, Res) :-
-    Answer is Four ** 2,
-    execute(Four, UnaryOps, [Answer | AnswerList], Res).
+execute(Four, [+, -, sqrt, !, square], AnswerList) :-
+    PlusAnswer is 0 + Four,
+    MinusAnswer is 0 - Four,
+    SqrtAnswer is sqrt(Four),
+    factorialWrapper(Four, FactorialAnswer),
+    SquareAnswer is Four ** 2,
+    AnswerList = [PlusAnswer, MinusAnswer, SqrtAnswer, FactorialAnswer, SquareAnswer].
 
 fourPicker(FourList, N) :-
     findall(pick(Four, Count), pick(Four, Count), AllFours),
@@ -50,7 +40,9 @@ fourPicker(FourList, AllFours, N) :-
     length(FourList, Len),
     Len =:= N.
 
-
+factorialWrapper(N, F) :-
+    N1 is floor(N),
+    factorial(N1, F).
 factorial(0,1) :- !.
 factorial(N,F) :-
    N > 0,

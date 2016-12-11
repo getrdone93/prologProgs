@@ -1,3 +1,29 @@
+execute(Four, UnaryOps, AnswerList) :-
+    execute(Four, UnaryOps, [], AnswerList).
+execute(_, _, AnswerList, AnswerList).
+execute(Four, [+ | UnaryOps], AnswerList, Res) :-
+    Answer is 0 + Four,
+    execute(Four, UnaryOps, [Answer | AnswerList], Res).
+execute(Four, [- | UnaryOps], AnswerList, Res) :-
+    Answer is 0 - Four,
+    execute(Four, UnaryOps, [Answer | AnswerList], Res).
+execute(Four, [sqrt | UnaryOps], AnswerList, Res) :-
+    Answer is sqrt(Four),
+    execute(Four, UnaryOps, [Answer | AnswerList], Res).
+execute(Four, [! | UnaryOps], AnswerList, Res) :-
+    factorial(Four, Answer),
+    execute(Four, UnaryOps, [Answer | AnswerList], Res).
+execute(Four, [square | UnaryOps], AnswerList, Res) :-
+    Answer is Four ** 2,
+    execute(Four, UnaryOps, [Answer | AnswerList], Res).
+
+
+
+
+
+
+
+
 StreetTerms = [street(MulberryPlace, 'Mulberry'), street(BlueberryPlace, 'Blueberry'),
 street(HuckleberryPlace, 'Huckleberry'), street(CherryPlace, 'Cherry'),
 street(ElderberryPlace, 'Elderberry')],
