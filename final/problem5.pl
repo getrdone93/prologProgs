@@ -19,7 +19,7 @@ equationBuilder(Equation, N) :-
     fourPicker(FourList, N),
     buildEquation(FourList, Equation).
 buildEquation(FourList, Equation) :-
-    
+    //
 
 fourPicker(FourList, N) :-
     findall(pick(Four, Count), pick(Four, Count), AllFours),
