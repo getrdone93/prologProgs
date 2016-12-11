@@ -14,6 +14,13 @@ binary(b(-)).
 binary(b(*)).
 binary(b(/)).
 
+equationBuilder(Equation, N) :-
+    N =:= 1,
+    fourPicker(FourList, N),
+    buildEquation(FourList, Equation).
+buildEquation(FourList, Equation) :-
+    
+
 fourPicker(FourList, N) :-
     findall(pick(Four, Count), pick(Four, Count), AllFours),
     fourPicker(FourList, AllFours, N).
