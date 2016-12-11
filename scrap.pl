@@ -80,7 +80,13 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     % homogeneousList([E], E) :- !.
     % homogeneousList([E | T], E) :-
     %     homogeneousList(T, E).
-
+    label([Bsun, Csun, Dsun, Esun, Fsun]),
+    label([Cmon, Dmon, Emon, Fmon, Gmon]),
+    label([Atue, Dtue, Etue, Ftue, Gtue]),
+    label([Awed, Bwed, Ewed, Fwed, Gwed]),
+    label([Athu, Bthu, Cthu, Fthu, Gthu]),
+    label([Afri, Bfri, Cfri, Dfri, Gfri]),
+    label([Asat, Bsat, Csat, Dsat, Esat]),
     label(SunWork),
     label(MonWork),
     label(TueWork),
@@ -93,7 +99,13 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     display(Dsun),nl,
     display(Esun),nl,
     display(Fsun),nl,
-
+    % nl,display([Atue, Awed, Athu, Afri, Asat]),nl,
+    % nl,display([Bsun, Bwed, Bthu, Bfri, Bsat]),nl,
+    % nl,display([Csun, Cmon, Cthu, Cfri, Csat]),nl,
+    % nl,display([Dsun, Dmon, Dtue, Dfri, Dsat]),nl,
+    % nl,display([Esun, Emon, Etue, Ewed, Esat]),nl,
+    % nl,display([Fsun, Fmon, Ftue, Fwed, Fthu]),nl,
+    % nl,display([Gmon, Gtue, Gwed, Gthu, Gfri]),nl,
     SunWork = [Bsun, Csun, Dsun, Esun, Fsun],
     MonWork = [Cmon, Dmon, Emon, Fmon, Gmon],
     TueWork = [Atue, Dtue, Etue, Ftue, Gtue],
@@ -101,8 +113,20 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     ThuWork = [Athu, Bthu, Cthu, Fthu, Gthu],
     FriWork = [Afri, Bfri, Cfri, Dfri, Gfri],
     SatWork = [Asat, Bsat, Csat, Dsat, Esat],
-
-
+    display('Sunday: '),display([Bsun, Csun, Dsun, Esun, Fsun]),nl,
+    display('Monday: '),display([Cmon, Dmon, Emon, Fmon, Gmon]),nl,
+    display('Tuesday: '),nl,display([Atue, Dtue, Etue, Ftue, Gtue]),nl,
+    display('Wednesday: '),display([Awed, Bwed, Ewed, Fwed, Gwed]),nl,
+    display('Thursday: '),display([Athu, Bthu, Cthu, Fthu, Gthu]),nl,
+    display('Friday: '),display([Afri, Bfri, Cfri, Dfri, Gfri]),nl,
+    display('Saturday: '),display([Asat, Bsat, Csat, Dsat, Esat]),nl.
+    homogeneousList([Atue, Awed, Athu, Afri, Asat], Atue),
+    homogeneousList([Bsun, Bwed, Bthu, Bfri, Bsat], Bsun),
+    homogeneousList([Csun, Cmon, Cthu, Cfri, Csat], Csun),
+    homogeneousList([Dsun, Dmon, Dtue, Dfri, Dsat], Dsun),
+    homogeneousList([Esun, Emon, Etue, Ewed, Esat], Esun),
+    homogeneousList([Fsun, Fmon, Ftue, Fwed, Fthu], Fsun),
+    homogeneousList([Gmon, Gtue, Gwed, Gthu, Gfri], Gmon),
     [Bsun, Csun, Dsun, Esun, Fsun] ins 4..5,
     [Cmon, Dmon, Emon, Fmon, Gmon] ins 3..4,
     [Atue, Dtue, Etue, Ftue, Gtue] ins 2..3,
@@ -110,7 +134,13 @@ getNodeList([Node | AllNodes], [Node | NodeList], Res, N, C) :-
     [Athu, Bthu, Cthu, Fthu, Gthu] ins 3,
     [Afri, Bfri, Cfri, Dfri, Gfri] ins 3..4,
     [Asat, Bsat, Csat, Dsat, Esat] ins 4..5,
-
+    % [Atue, Awed, Athu, Afri, Asat] ins 2..4,
+    % [Bsun, Bwed, Bthu, Bfri, Bsat] ins 2..5,
+    % [Csun, Cmon, Cthu, Cfri, Csat] ins 3..5,
+    % [Dsun, Dmon, Dtue, Dfri, Dsat] ins 2..5,
+    % [Esun, Emon, Etue, Ewed, Esat] ins 2 \/ 3 \/ 5,
+    % [Fsun, Fmon, Ftue, Fwed, Fthu] ins 2..5,
+    % [Gmon, Gtue, Gwed, Gthu, Gfri] ins 1,
 
     sum([Bsun, Csun, Dsun, Esun, Fsun], #>=, Sun),
 sum([Cmon, Dmon, Emon, Fmon, Gmon], #>=, Mon),
