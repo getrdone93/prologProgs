@@ -8,7 +8,7 @@ edge(b, d, 2).
 edge(d, t, 3).
 
 %edge(Outgoing, Incoming)
- maxflow(F) :-
+ maxflow(_) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
     getAllNodes(AllNodes),
     normalizeNodes(AllNodes, AllEdges).
@@ -16,7 +16,7 @@ edge(d, t, 3).
 normalizeNodes(AllNodes, AllEdges) :-
     member(Node, AllNodes),
     normalize(Node, AllEdges),
-    checkNodesOkay(AllNodes),
+    checkNodesOkay(AllNodes, AllEdges),
     !.
 normalizeNodes(AllNodes, AllEdges) :-
     normalizeNodes(AllNodes, AllEdges).
@@ -24,9 +24,9 @@ normalizeNodes(AllNodes, AllEdges) :-
 % normalize(Node, AllEdges) :-
 
 
-checkNodesOkay([Node | AllNodes]) :-
-    isNodeOkay(Node),
-    checkNodesOkay(AllNodes).
+checkNodesOkay([Node | AllNodes], AllEdges) :-
+    isNodeOkay(Node, AllEdges),
+    checkNodesOkay(AllNodes, AllEdges).
 
 getAllNodes(AllNodes) :-
     findall(OutNode, edge(OutNode, _, _), OutNodes),
@@ -52,14 +52,13 @@ getOutEdgesByNode(Node, [edge(Node, EndNode, Weight) | AllEdges], EdgeList, Res)
 getOutEdgesByNode(Node, [_ | AllEdges], EdgeList, Res) :-
     getOutEdgesByNode(Node, AllEdges, EdgeList, Res).
 
-isNodeOkay(Node) :-
-    getNodeFlow(Node, OutFlow, InFlow),
+isNodeOkay(Node, AllEdges) :-
+    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
     OutFlow =:= InFlow.
 
-getNodeFlow(Node, OutFlow, InFlow) :-
-    findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
-    getOutFlow(Node, NodeList, 0, OutFlow),
-    getInFlow(Node, NodeList, 0, InFlow).
+getNodeFlow(Node, AllEdges, OutFlow, InFlow) :-
+    getOutFlow(Node, AllEdges, 0, OutFlow),
+    getInFlow(Node, AllEdges, 0, InFlow).
 
 getOutFlow(_, [], OutFlow, OutFlow) :- !.
 getOutFlow(Node, [edge(Node, _, Weight) | NodeList], OutFlow, Res) :-
