@@ -28,8 +28,15 @@ edge(d, t, 3).
 normalize(Node, AllEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
     OutFlow > InFlow,
+    !,
     getOutEdgesByNode(Node, AllEdges, OutEdgeList),
     subtractFromOut(Node, AllEdges, OutEdgeList).
+normalize(Node, AllEdges) :-
+   getNodeFlow(Node, AllEdges, OutFlow, InFlow),
+   OutFlow < InFlow,
+   !,
+   getInEdgesByNode(Node, AllEdges, OutEdgeList),
+   subtractFromOut(Node, AllEdges, OutEdgeList).
 
 subtractFromOut(Node, AllEdges, [Edge | OutEdgeList]) :-
      \+ isNodeOkay(Node, AllEdges),
