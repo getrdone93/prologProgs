@@ -2,6 +2,7 @@
 %     member(Node, AllNodes),
 %     \+ isNodeOkay(Node, AllEdges),
 %     normalize(Node, AllEdges),
+display('NewEdge: '),display(NewEdge),nl,
 
 findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
 
