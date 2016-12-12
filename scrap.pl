@@ -1,3 +1,6 @@
+findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
+
+
 getDeps(Node, node(Node, OutDeps, InDeps)) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
     getOutDeps(Node, NodeList, OutDeps),
