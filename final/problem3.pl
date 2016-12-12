@@ -38,7 +38,6 @@ subtractFromOut(Node, AllEdges, [Edge | OutEdgeList]) :-
      reconstructEdges(AllEdges, NewEdge, NewEdgeList),
      subtractFromOut(Node, NewEdgeList, OutEdgeList).
 subtractFromOut(Node, AllEdges, _) :-
-     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
      isNodeOkay(Node, AllEdges).
 
 reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
