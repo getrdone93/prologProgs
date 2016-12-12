@@ -27,27 +27,24 @@ edge(d, t, 3).
 
 normalize(Node, AllEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
+    display(AllEdges),nl,
     OutFlow > InFlow,
     getOutEdgesByNode(Node, AllEdges, OutEdgeList),
     subtractFromOut(Node, AllEdges, OutEdgeList).
 
 subtractFromOut(Node, AllEdges, [Edge | OutEdgeList]) :-
+     \+ isNodeOkay(Node, AllEdges),
+     !,
      subtractFromEdge(Edge, NewEdge),
      reconstructEdges(AllEdges, NewEdge, NewEdgeList),
-     \+ isNodeOkay(Node, NewEdgeList),
      subtractFromOut(Node, NewEdgeList, OutEdgeList).
 subtractFromOut(Node, AllEdges, _) :-
+     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
      isNodeOkay(Node, AllEdges).
-
-    % member(Edge, EdgeList),
-    % subtractFromEdge(Edge, NewEdge),
-    % reconstructEdges(AllEdges, NewEdge, NewEdges).
-    % % isNodeOkay(Node, NewEdges).
 
 reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
     append(TempNewEdges, [edge(Snode, Enode, Weight)], NewEdges).
-
 
 subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
     NewWeight is Weight - 1.
