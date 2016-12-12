@@ -1,3 +1,9 @@
+% normalizeNodes(AllNodes, AllEdges) :-
+%     member(Node, AllNodes),
+%     \+ isNodeOkay(Node, AllEdges),
+%     normalize(Node, AllEdges),
+
+
 findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
 
 
