@@ -34,14 +34,10 @@ normalizeNodes([_ | AllNodes], AllEdges, NodeList) :-
 %     reconstructEdges(AllEdges, NewEdge, NewEdges).
     % isNodeOkay(Node, NewEdges).
 
-reconstructEdges(AllEdges, NewEdge, NewEdges) :-
-    reconstructEdges(AllEdges, NewEdge, [], NewEdges).
-reconstructEdges([], _, Res, Res) :- !.
-reconstructEdges([edge(Snode, Enode, _) | AllEdges], edge(Snode, Enode, NWeight),  NewEdges, Res) :-
-    !,
-    reconstructEdges(AllEdges, edge(Snode, Enode, NWeight), [edge(Snode, Enode, NWeight) | NewEdges], Res).
-reconstructEdges([H | AllEdges], _,  NewEdges, Res) :-
-    reconstructEdges(AllEdges, _, [H | NewEdges], Res).
+reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
+    delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
+    append(TempNewEdges, edge(Snode, Enode, Weight), NewEdges).
+
 
 subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
     NewWeight is Weight - 1.
