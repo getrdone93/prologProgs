@@ -27,7 +27,6 @@ edge(d, t, 3).
 
 normalize(Node, AllEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
-    display(AllEdges),nl,
     OutFlow > InFlow,
     getOutEdgesByNode(Node, AllEdges, OutEdgeList),
     subtractFromOut(Node, AllEdges, OutEdgeList).
