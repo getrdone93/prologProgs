@@ -20,14 +20,31 @@ normalizeNodes([], AllEdges, NodeList) :-
     normalizeNodes(NodeList, AllEdges, NodeList).
 normalizeNodes([Node | AllNodes], AllEdges, NodeList) :-
     \+ isNodeOkay(Node, AllEdges),
-    normalize(Node, AllEdges),
-    normalizeNodes(AllNodes, AllEdges, NodeList).
+    normalize(Node, AllEdges, NewEdges),
+    normalizeNodes(AllNodes, NewEdges, NodeList).
 normalizeNodes([_ | AllNodes], AllEdges, NodeList) :-
     normalizeNodes(AllNodes, AllEdges, NodeList).
 
-normalize(Node, AllEdges) :-
-    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
-    subtract
+% normalize(Node, AllEdges, NewEdges) :-
+%     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
+%     OutFlow > Inflow,
+%     getOutEdgesByNode(Node, AllEdges, EdgeList),
+%     member(Edge, EdgeList),
+%     subtractFromEdge(Edge, NewEdge),
+%     reconstructEdges(AllEdges, NewEdge, NewEdges).
+    % isNodeOkay(Node, NewEdges).
+
+reconstructEdges(AllEdges, NewEdge, NewEdges) :-
+    reconstructEdges(AllEdges, NewEdge, [], NewEdges).
+reconstructEdges([], _, Res, Res) :- !.
+reconstructEdges([edge(Snode, Enode, _) | AllEdges], edge(Snode, Enode, NWeight),  NewEdges, Res) :-
+    !,
+    reconstructEdges(AllEdges, edge(Snode, Enode, NWeight), [edge(Snode, Enode, NWeight) | NewEdges], Res).
+reconstructEdges([H | AllEdges], _,  NewEdges, Res) :-
+    reconstructEdges(AllEdges, _, [H | NewEdges], Res).
+
+subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
+    NewWeight is Weight - 1.
 
 checkNodesOkay([Node | AllNodes], AllEdges) :-
     isNodeOkay(Node, AllEdges),
