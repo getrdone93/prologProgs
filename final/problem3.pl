@@ -9,7 +9,18 @@ edge(d, t, 3).
 
 %edge(Outgoing, Incoming)
 
+getDependencies(Node, node(Node, OutDeps, InDeps)) :-
+    findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
+    getOutDeps(Node, NodeList, OutDeps).
 
+getOutDeps(Node, NodeList, OutDeps) :-
+    getOutDeps(Node, NodeList, [], OutDeps).
+getOutDeps(_, [], OutDeps, OutDeps) :- !.
+getOutDeps(Node, [edge(Node, OutNode, _) | NodeList], OutDeps, Res) :-
+    !,
+    getOutDeps(Node, NodeList, [OutNode | OutDeps], Res).
+getOutDeps(Node, [_ | NodeList], OutDeps, Res) :-
+    getOutDeps(Node, NodeList, OutDeps, Res).
 
 getNodeFlow(Node, node(Node, OutFlow, InFlow)) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
