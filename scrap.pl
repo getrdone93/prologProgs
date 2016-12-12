@@ -1,3 +1,26 @@
+getDeps(Node, node(Node, OutDeps, InDeps)) :-
+    findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
+    getOutDeps(Node, NodeList, OutDeps),
+    getInDeps(Node, NodeList, InDeps).
+
+getOutDeps(Node, NodeList, OutDeps) :-
+    getOutDeps(Node, NodeList, [], OutDeps).
+getOutDeps(_, [], OutDeps, OutDeps) :- !.
+getOutDeps(Node, [edge(Node, OutNode, _) | NodeList], OutDeps, Res) :-
+    !,
+    getOutDeps(Node, NodeList, [OutNode | OutDeps], Res).
+getOutDeps(Node, [_ | NodeList], OutDeps, Res) :-
+    getOutDeps(Node, NodeList, OutDeps, Res).
+
+getInDeps(Node, NodeList, InDeps) :-
+    getInDeps(Node, NodeList, [], InDeps).
+getInDeps(_, [], InDeps, InDeps) :- !.
+getInDeps(Node, [edge(InNode, Node, _) | NodeList], InDeps, Res) :-
+    !,
+    getInDeps(Node, NodeList, [InNode | InDeps], Res).
+getInDeps(Node, [_ | NodeList], InDeps, Res) :-
+    getInDeps(Node, NodeList, InDeps, Res).
+
 fourPicker(FourList, AllFours, N) :-
     powerset(AllFours, FourList),
     length(FourList, Len),

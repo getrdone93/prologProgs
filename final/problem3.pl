@@ -8,31 +8,34 @@ edge(b, d, 2).
 edge(d, t, 3).
 
 %edge(Outgoing, Incoming)
+% maxflow(F) :-
 
-getDeps(Node, node(Node, OutDeps, InDeps)) :-
-    findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
-    getOutDeps(Node, NodeList, OutDeps),
-    getInDeps(Node, NodeList, InDeps).
 
-getOutDeps(Node, NodeList, OutDeps) :-
-    getOutDeps(Node, NodeList, [], OutDeps).
-getOutDeps(_, [], OutDeps, OutDeps) :- !.
-getOutDeps(Node, [edge(Node, OutNode, _) | NodeList], OutDeps, Res) :-
+getInEdgesByNode(Node, EdgeList) :-
+    findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
+    getInEdgesByNode(Node, AllEdges, [], EdgeList).
+getInEdgesByNode(_, [], Res, Res) :- !.
+getInEdgesByNode(Node, [edge(StartNode, Node, Weight) | AllEdges], EdgeList, Res) :-
     !,
-    getOutDeps(Node, NodeList, [OutNode | OutDeps], Res).
-getOutDeps(Node, [_ | NodeList], OutDeps, Res) :-
-    getOutDeps(Node, NodeList, OutDeps, Res).
+    getInEdgesByNode(Node, AllEdges, [edge(StartNode, Node, Weight) | EdgeList], Res).
+getInEdgesByNode(Node, [_ | AllEdges], EdgeList, Res) :-
+    getInEdgesByNode(Node, AllEdges, EdgeList, Res).
 
-getInDeps(Node, NodeList, InDeps) :-
-    getInDeps(Node, NodeList, [], InDeps).
-getInDeps(_, [], InDeps, InDeps) :- !.
-getInDeps(Node, [edge(InNode, Node, _) | NodeList], InDeps, Res) :-
+getOutEdgesByNode(Node, EdgeList) :-
+    findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
+    getOutEdgesByNode(Node, AllEdges, [], EdgeList).
+getOutEdgesByNode(_, [], Res, Res) :- !.
+getOutEdgesByNode(Node, [edge(Node, EndNode, Weight) | AllEdges], EdgeList, Res) :-
     !,
-    getInDeps(Node, NodeList, [InNode | InDeps], Res).
-getInDeps(Node, [_ | NodeList], InDeps, Res) :-
-    getInDeps(Node, NodeList, InDeps, Res).
+    getOutEdgesByNode(Node, AllEdges, [edge(Node, EndNode, Weight) | EdgeList], Res).
+getOutEdgesByNode(Node, [_ | AllEdges], EdgeList, Res) :-
+    getOutEdgesByNode(Node, AllEdges, EdgeList, Res).
 
-getNodeFlow(Node, node(Node, OutFlow, InFlow)) :-
+isNodeOkay(Node) :-
+    getNodeFlow(Node, OutFlow, InFlow),
+    OutFlow =:= InFlow.
+
+getNodeFlow(Node, OutFlow, InFlow) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), NodeList),
     getOutFlow(Node, NodeList, 0, OutFlow),
     getInFlow(Node, NodeList, 0, InFlow).
