@@ -1,8 +1,74 @@
+%%subtract from higher side (proven to not work on paper)
+% normalizeNodes([], NewEdges, NewEdges) :-
+%     getAllNodes(AllNodes),
+%     checkNodesOkay(AllNodes, NewEdges),
+%     !.
+% normalizeNodes([], NewEdges, Res) :-
+%     getAllNodes(AllNodes),
+%     normalizeNodes(AllNodes, NewEdges, Res).
+% normalizeNodes([Node | AllNodes], AllEdges, Res) :-
+%     \+ isNodeOkay(Node, AllEdges),
+%     normalize(Node, AllEdges, NewEdges),
+%     !,
+%     normalizeNodes(AllNodes, NewEdges, Res).
+% normalizeNodes([_ | AllNodes], AllEdges, Res) :-
+%     normalizeNodes(AllNodes, AllEdges, Res).
+
+normalize(Node, AllEdges, NewEdges) :-
+    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
+    OutFlow > InFlow,
+    !,
+    getOutEdgesByNode(Node, AllEdges, OutEdgeList),
+    subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
+normalize(Node, AllEdges, NewEdges) :-
+   getNodeFlow(Node, AllEdges, OutFlow, InFlow),
+   OutFlow < InFlow,
+   % !,
+   getInEdgesByNode(Node, AllEdges, OutEdgeList),
+   subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
+
+subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges) :-
+    subtractFromNode(Node, AllEdges, OutEdgeList, [], NewEdges).
+subtractFromNode(Node, AllEdges, [Edge | OutEdgeList], _, Res) :-
+     \+ isNodeOkay(Node, AllEdges),
+     !,
+     subtractFromEdge(Edge, NewEdge),
+     reconstructEdges(AllEdges, NewEdge, NewEdgeList),
+     subtractFromNode(Node, NewEdgeList, OutEdgeList, NewEdgeList, Res).
+subtractFromNode(Node, AllEdges, _, NewEdges, NewEdges) :-
+     isNodeOkay(Node, AllEdges).
+
+reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
+    delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
+    append(TempNewEdges, [edge(Snode, Enode, Weight)], NewEdges).
+
+subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
+    NewWeight is Weight - 1.
+%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 % normalizeNodes(AllNodes, AllEdges) :-
 %     member(Node, AllNodes),
 %     \+ isNodeOkay(Node, AllEdges),
 %     normalize(Node, AllEdges),
 display('NewEdge: '),display(NewEdge),nl,
+normalizeNodes([], Edges, Edges) :- !.
 
 findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
 

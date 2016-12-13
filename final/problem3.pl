@@ -7,56 +7,13 @@ edge(c, t, 3).
 edge(b, d, 2).
 edge(d, t, 3).
 
+%a normalized: [edge(s, a, 4), edge(s, b, 2), edge(c, t, 3), edge(b, d, 2), edge(d, t, 3), edge(a, d, 3), edge(a, b, 0), edge(a, c, 1)]
+
 %edge(Outgoing, Incoming)
  maxflow(NewEdges) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
     getAllNodes(AllNodes),
     normalizeNodes(AllNodes, AllEdges, NewEdges).
-
-% normalizeNodes([], AllEdges, NodeList) :-
-%     checkNodesOkay(NodeList, AllEdges),
-%     !.
-% normalizeNodes([], AllEdges, NodeList) :-
-%     normalizeNodes(NodeList, AllEdges, NodeList).
-
-normalizeNodes([], Edges, Edges) :- !.
-normalizeNodes([Node | AllNodes], AllEdges, NodeList) :-
-    normalize(Node, AllEdges, NewEdges),
-    !,
-    normalizeNodes(AllNodes, NewEdges, NodeList).
-normalizeNodes([_ | AllNodes], AllEdges, NodeList) :-
-    normalizeNodes(AllNodes, AllEdges, NodeList).
-
-normalize(Node, AllEdges, NewEdges) :-
-    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
-    OutFlow > InFlow,
-    !,
-    getOutEdgesByNode(Node, AllEdges, OutEdgeList),
-    subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
-normalize(Node, AllEdges, NewEdges) :-
-   getNodeFlow(Node, AllEdges, OutFlow, InFlow),
-   OutFlow < InFlow,
-   % !,
-   getInEdgesByNode(Node, AllEdges, OutEdgeList),
-   subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
-
-subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges) :-
-    subtractFromNode(Node, AllEdges, OutEdgeList, [], NewEdges).
-subtractFromNode(Node, AllEdges, [Edge | OutEdgeList], _, Res) :-
-     \+ isNodeOkay(Node, AllEdges),
-     !,
-     subtractFromEdge(Edge, NewEdge),
-     reconstructEdges(AllEdges, NewEdge, NewEdgeList),
-     subtractFromNode(Node, NewEdgeList, OutEdgeList, NewEdgeList, Res).
-subtractFromNode(Node, AllEdges, _, NewEdges, NewEdges) :-
-     isNodeOkay(Node, AllEdges).
-
-reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
-    delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
-    append(TempNewEdges, [edge(Snode, Enode, Weight)], NewEdges).
-
-subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
-    NewWeight is Weight - 1.
 
 checkNodesOkay([Node | AllNodes], AllEdges) :-
     isNodeOkay(Node, AllEdges),
