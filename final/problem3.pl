@@ -84,6 +84,7 @@ getAllNodes(AllNodes) :-
     delete(Temp2, t, Temp3),
     sort(Temp3, AllNodes).
 
+%Sort this by largest edge
 getInEdgesByNode(Node, AllEdges, EdgeList) :-
     getInEdgesByNode(Node, AllEdges, [], RevEdgeList),
     reverse(RevEdgeList, EdgeList).
@@ -94,6 +95,7 @@ getInEdgesByNode(Node, [edge(StartNode, Node, Weight) | AllEdges], EdgeList, Res
 getInEdgesByNode(Node, [_ | AllEdges], EdgeList, Res) :-
     getInEdgesByNode(Node, AllEdges, EdgeList, Res).
 
+%Sort this by largest edge
 getOutEdgesByNode(Node, AllEdges, EdgeList) :-
     getOutEdgesByNode(Node, AllEdges, [], RevEdgeList),
     reverse(RevEdgeList, EdgeList).
