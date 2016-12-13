@@ -32,10 +32,10 @@ normalizeNodes([Node | NodeList], AllEdges, NumNodes, GoodList, NewEdges) :-
     normalizeNodes(NodeList, AllEdges, NumNodes, NewGoodList, NewEdges).
 normalizeNodes([Node | _], AllEdges, NumNodes, GoodList, NewEdges) :-
     subtractFromNode(Node, AllEdges, NewEdges),
-    updateGoodList(NewEdges, [Node | GoodList], NewGoodList),
     getAllNodes(AllNodes),
-    subtract(AllNodes, NewGoodList, NewNodeList),
-    normalizeNodes(NewNodeList, NewEdges, NumNodes, NewGoodList, NewEdges).
+    updateGoodList(NewEdges, AllNodes, NewGoodList),
+    subtract(AllNodes, NewGoodList, NewBadList),
+    normalizeNodes(NewBadList, NewEdges, NumNodes, NewGoodList, NewEdges).
 
 updateGoodList(AllEdges, GoodList, NewGoodList) :-
      updateGoodList(AllEdges, GoodList, [], NewGoodList).
