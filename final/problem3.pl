@@ -25,28 +25,30 @@ edge(d, t, 3).
 % normalizeNodes([_ | AllNodes], AllEdges, NodeList) :-
 %     normalizeNodes(AllNodes, AllEdges, NodeList).
 
-normalize(Node, AllEdges) :-
+normalize(Node, AllEdges, NewEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
     OutFlow > InFlow,
     !,
     getOutEdgesByNode(Node, AllEdges, OutEdgeList),
-    subtractFromNode(Node, AllEdges, OutEdgeList).
-normalize(Node, AllEdges) :-
+    subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
+normalize(Node, AllEdges, NewEdges) :-
    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
    OutFlow < InFlow,
    % !,
    getInEdgesByNode(Node, AllEdges, OutEdgeList),
-   subtractFromNode(Node, AllEdges, OutEdgeList).
+   subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
 
-subtractFromNode(Node, AllEdges, [Edge | OutEdgeList]) :-
+subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges) :-
+    subtractFromNode(Node, AllEdges, OutEdgeList, [], NewEdges).
+subtractFromNode(Node, AllEdges, [Edge | OutEdgeList], _, Res) :-
      \+ isNodeOkay(Node, AllEdges),
      !,
      subtractFromEdge(Edge, NewEdge),
      reconstructEdges(AllEdges, NewEdge, NewEdgeList),
-     subtractFromNode(Node, NewEdgeList, OutEdgeList).
-subtractFromNode(Node, AllEdges, _) :-
+     subtractFromNode(Node, NewEdgeList, OutEdgeList, NewEdgeList, Res).
+subtractFromNode(Node, AllEdges, _, NewEdges, NewEdges) :-
      isNodeOkay(Node, AllEdges).
-     
+
 reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
     append(TempNewEdges, [edge(Snode, Enode, Weight)], NewEdges).
