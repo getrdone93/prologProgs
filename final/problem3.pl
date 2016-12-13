@@ -32,6 +32,8 @@ normalizeNodes([Node | AllNodes], AllEdges, NumNodes, GoodList, NewEdges) :-
     normalizeNodes(AllNodes, AllEdges, NumNodes, NewGoodList, NewEdges).
 normalizeNodes([Node | AllNodes], AllEdges, NumNodes, GoodList, NewEdges) :-
     subtractFromNode(Node, AllEdges, NewEdges),
+    %need to update GoodList here. Bad nodes get bound to NodeList and passed back through to normalizeNodes
+    %GoodList is updated with good nodes after subtractFromNode operation
     normalizeNodes(AllNodes, NewEdges, NumNodes, GoodList, NewEdges).
 
 subtractFromNode(Node, AllEdges, NewEdges) :-
