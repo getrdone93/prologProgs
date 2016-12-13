@@ -15,44 +15,22 @@ edge(d, t, 3).
     getAllNodes(AllNodes),
     normalizeNodes(AllNodes, AllEdges, NewEdges).
 
-% normalizeNodes([], NewEdges, NewEdges) :-
-%     getAllNodes(AllNodes),
-%     checkNodesOkay(AllNodes, NewEdges),
-%     !.
-% normalizeNodes([], NewEdges, Res) :-
-%     getAllNodes(AllNodes),
-%     normalizeNodes(AllNodes, NewEdges, Res).
-% normalizeNodes([Node | AllNodes], AllEdges, Res) :-
-%     \+ isNodeOkay(Node, AllEdges),
-%     normalize(Node, AllEdges, NewEdges),
-%     !,
-%     normalizeNodes(AllNodes, NewEdges, Res).
-% normalizeNodes([_ | AllNodes], AllEdges, Res) :-
-%     normalizeNodes(AllNodes, AllEdges, Res).
-
-normalize(Node, AllEdges, NewEdges) :-
+subtractFromNode(Node, AllEdges, NewEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
     OutFlow > InFlow,
     !,
-    getOutEdgesByNode(Node, AllEdges, OutEdgeList),
-    subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
-normalize(Node, AllEdges, NewEdges) :-
+    getOutEdgesByNode(Node, AllEdges, [Edge | _]),
+    subtractFromNode(Node, AllEdges, Edge, NewEdges).
+subtractFromNode(Node, AllEdges, NewEdges) :-
    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
    OutFlow < InFlow,
    % !,
-   getInEdgesByNode(Node, AllEdges, OutEdgeList),
-   subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges).
+   getInEdgesByNode(Node, AllEdges, [Edge | _]),
+   subtractFromNode(Node, AllEdges, Edge, NewEdges).
 
-subtractFromNode(Node, AllEdges, OutEdgeList, NewEdges) :-
-    subtractFromNode(Node, AllEdges, OutEdgeList, [], NewEdges).
-subtractFromNode(Node, AllEdges, [Edge | OutEdgeList], _, Res) :-
-     \+ isNodeOkay(Node, AllEdges),
-     !,
+subtractFromNode(Node, AllEdges, Edge, NewEdgeList) :-
      subtractFromEdge(Edge, NewEdge),
-     reconstructEdges(AllEdges, NewEdge, NewEdgeList),
-     subtractFromNode(Node, NewEdgeList, OutEdgeList, NewEdgeList, Res).
-subtractFromNode(Node, AllEdges, _, NewEdges, NewEdges) :-
-     isNodeOkay(Node, AllEdges).
+     reconstructEdges(AllEdges, NewEdge, NewEdgeList).
 
 reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
