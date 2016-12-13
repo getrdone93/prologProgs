@@ -33,8 +33,10 @@ getNewEdgeList(AllEdges, Edge, NewEdgeList) :-
      reconstructEdges(AllEdges, NewEdge, NewEdgeList).
 
 reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
+    nth0(Index, AllEdges, edge(Snode, Enode, _)),
     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
-    append(TempNewEdges, [edge(Snode, Enode, Weight)], NewEdges).
+    nth0(Index, NewEdges, edge(Snode, Enode, Weight), TempNewEdges),
+    !.
 
 subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
     NewWeight is Weight - 1.
@@ -90,3 +92,15 @@ getInFlow(Node, [edge(_, Node, Weight) | NodeList], InFlow, Res) :-
     getInFlow(Node, NodeList, TempInFlow, Res).
 getInFlow(Node, [_ | NodeList], InFlow, Res) :-
     getInFlow(Node, NodeList, InFlow, Res).
+
+
+
+    split(L, N, L1, L2) :-
+        split(L, N, N, L1, L2),
+        !.
+    split([], _, 0, [], []).
+    split([H | T], N, 0, L1, [H | L2]) :-
+        split(T, N, 0, L1, L2).
+    split([H | T], N, C, [H | L1], L2) :-
+        C1 is C - 1,
+        split(T, N, C1, L1, L2).
