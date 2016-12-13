@@ -20,15 +20,15 @@ subtractFromNode(Node, AllEdges, NewEdges) :-
     OutFlow > InFlow,
     !,
     getOutEdgesByNode(Node, AllEdges, [Edge | _]),
-    subtractFromNode(Node, AllEdges, Edge, NewEdges).
+    insertNewEdge(AllEdges, Edge, NewEdges).
 subtractFromNode(Node, AllEdges, NewEdges) :-
    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
    OutFlow < InFlow,
    % !,
    getInEdgesByNode(Node, AllEdges, [Edge | _]),
-   subtractFromNode(Node, AllEdges, Edge, NewEdges).
+   insertNewEdge(AllEdges, Edge, NewEdges).
 
-subtractFromNode(Node, AllEdges, Edge, NewEdgeList) :-
+insertNewEdge(AllEdges, Edge, NewEdgeList) :-
      subtractFromEdge(Edge, NewEdge),
      reconstructEdges(AllEdges, NewEdge, NewEdgeList).
 
