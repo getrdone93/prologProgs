@@ -15,6 +15,9 @@ edge(d, t, 3).
     getAllNodes(AllNodes),
     normalizeNodes(AllNodes, AllEdges, NewEdges).
 
+% normalizeNodes(AllNodes, AllEdges, NewEdges) :-
+
+
 subtractFromNode(Node, AllEdges, NewEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
     OutFlow > InFlow,
@@ -48,8 +51,10 @@ checkNodesOkay([Node | AllNodes], AllEdges) :-
 getAllNodes(AllNodes) :-
     findall(OutNode, edge(OutNode, _, _), OutNodes),
     findall(InNode, edge(_, InNode, _), InNodes),
-    append(OutNodes, InNodes, TempAllNodes),
-    sort(TempAllNodes, AllNodes).
+    append(OutNodes, InNodes, Temp),
+    delete(Temp, s, Temp2),
+    delete(Temp2, t, Temp3),
+    sort(Temp3, AllNodes).
 
 getInEdgesByNode(Node, AllEdges, EdgeList) :-
     getInEdgesByNode(Node, AllEdges, [], RevEdgeList),
