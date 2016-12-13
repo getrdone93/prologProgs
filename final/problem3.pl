@@ -8,22 +8,24 @@ edge(b, d, 2).
 edge(d, t, 3).
 
 %edge(Outgoing, Incoming)
- maxflow(_) :-
+ maxflow(NewEdges) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
     getAllNodes(AllNodes),
-    normalizeNodes(AllNodes, AllEdges, AllNodes).
+    normalizeNodes(AllNodes, AllEdges, NewEdges).
 
 % normalizeNodes([], AllEdges, NodeList) :-
 %     checkNodesOkay(NodeList, AllEdges),
 %     !.
 % normalizeNodes([], AllEdges, NodeList) :-
 %     normalizeNodes(NodeList, AllEdges, NodeList).
-% normalizeNodes([Node | AllNodes], AllEdges, NodeList) :-
-%     \+ isNodeOkay(Node, AllEdges),
-%     normalize(Node, AllEdges),
-%     normalizeNodes(AllNodes, NewEdges, NodeList).
-% normalizeNodes([_ | AllNodes], AllEdges, NodeList) :-
-%     normalizeNodes(AllNodes, AllEdges, NodeList).
+
+normalizeNodes([], Edges, Edges) :- !.
+normalizeNodes([Node | AllNodes], AllEdges, NodeList) :-
+    normalize(Node, AllEdges, NewEdges),
+    !,
+    normalizeNodes(AllNodes, NewEdges, NodeList).
+normalizeNodes([_ | AllNodes], AllEdges, NodeList) :-
+    normalizeNodes(AllNodes, AllEdges, NodeList).
 
 normalize(Node, AllEdges, NewEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
