@@ -21,20 +21,30 @@ normalizeNodes([], NewEdges, NumNodes, GoodList, NewEdges) :-
     LenGoodList =:= NumNodes,
     checkNodesOkay(GoodList, NewEdges),
     !.
-normalizeNodes([], NewEdges, NumNodes, GoodList, NewEdges) :-
-    getAllNodes(AllNodes),
-    subtract(AllNodes, GoodList, NodeList),
-    normalizeNodes(NodeList, NewEdges, NumNodes, GoodList, NewEdges).
-normalizeNodes([Node | AllNodes], AllEdges, NumNodes, GoodList, NewEdges) :-
+% normalizeNodes([], NewEdges, NumNodes, GoodList, NewEdges) :-
+%     getAllNodes(AllNodes),
+%     subtract(AllNodes, GoodList, NodeList),
+%     normalizeNodes(NodeList, NewEdges, NumNodes, GoodList, NewEdges).
+normalizeNodes([Node | NodeList], AllEdges, NumNodes, GoodList, NewEdges) :-
     isNodeOkay(Node, AllEdges),
     !,
     append([Node], GoodList, NewGoodList),
-    normalizeNodes(AllNodes, AllEdges, NumNodes, NewGoodList, NewEdges).
-normalizeNodes([Node | AllNodes], AllEdges, NumNodes, GoodList, NewEdges) :-
+    normalizeNodes(NodeList, AllEdges, NumNodes, NewGoodList, NewEdges).
+normalizeNodes([Node | _], AllEdges, NumNodes, GoodList, NewEdges) :-
     subtractFromNode(Node, AllEdges, NewEdges),
-    %need to update GoodList here. Bad nodes get bound to NodeList and passed back through to normalizeNodes
-    %GoodList is updated with good nodes after subtractFromNode operation
-    normalizeNodes(AllNodes, NewEdges, NumNodes, GoodList, NewEdges).
+    updateGoodList(NewEdges, [Node | GoodList], NewGoodList),
+    getAllNodes(AllNodes),
+    subtract(AllNodes, NewGoodList, NewNodeList),
+    normalizeNodes(NewNodeList, NewEdges, NumNodes, NewGoodList, NewEdges).
+
+updateGoodList(AllEdges, GoodList, NewGoodList) :-
+     updateGoodList(AllEdges, GoodList, [], NewGoodList).
+updateGoodList(AllEdges, [Node | GList], NewGoodList, Res) :-
+     isNodeOkay(Node, AllEdges),
+     !,
+     updateGoodList(AllEdges, GList, [Node | NewGoodList], Res).
+updateGoodList(AllEdges, [_ | GList], NewGoodList, Res) :-
+     updateGoodList(AllEdges, Glist, NewGoodList, Res).
 
 subtractFromNode(Node, AllEdges, NewEdges) :-
     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
