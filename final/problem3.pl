@@ -52,7 +52,8 @@ getAllNodes(AllNodes) :-
     sort(TempAllNodes, AllNodes).
 
 getInEdgesByNode(Node, AllEdges, EdgeList) :-
-    getInEdgesByNode(Node, AllEdges, [], EdgeList).
+    getInEdgesByNode(Node, AllEdges, [], RevEdgeList),
+    reverse(RevEdgeList, EdgeList).
 getInEdgesByNode(_, [], Res, Res) :- !.
 getInEdgesByNode(Node, [edge(StartNode, Node, Weight) | AllEdges], EdgeList, Res) :-
     !,
@@ -61,7 +62,8 @@ getInEdgesByNode(Node, [_ | AllEdges], EdgeList, Res) :-
     getInEdgesByNode(Node, AllEdges, EdgeList, Res).
 
 getOutEdgesByNode(Node, AllEdges, EdgeList) :-
-    getOutEdgesByNode(Node, AllEdges, [], EdgeList).
+    getOutEdgesByNode(Node, AllEdges, [], RevEdgeList),
+    reverse(RevEdgeList, EdgeList).
 getOutEdgesByNode(_, [], Res, Res) :- !.
 getOutEdgesByNode(Node, [edge(Node, EndNode, Weight) | AllEdges], EdgeList, Res) :-
     !,
