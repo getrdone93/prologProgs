@@ -13,29 +13,32 @@ edge(d, t, 3).
  maxflow(NewEdges) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
     getAllNodes(AllNodes),
-    length(AllNodes, NumNodes),
-    normalizeNodes(AllNodes, AllEdges, NumNodes, GoodList, NewEdges).
+    % length(AllNodes, NumNodes),
+    normalizeNodes(AllNodes, AllEdges, NewEdges).
 
-normalizeNodes([], NewEdges, NumNodes, GoodList, NewEdges) :-
-    length(GoodList, LenGoodList),
-    LenGoodList =:= NumNodes,
-    checkNodesOkay(GoodList, NewEdges),
+normalizeNodes([], NewEdges, NewEdges) :-
+    % length(GoodList, LenGoodList),
+    % LenGoodList =:= NumNodes,
+    % checkNodesOkay(GoodList, NewEdges),
+    getAllNodes(AllNodes),
+    updateGoodList(NewEdges, AllNodes, NewGoodList),
+    subtract(AllNodes, NewGoodList, []),
     !.
 % normalizeNodes([], NewEdges, NumNodes, GoodList, NewEdges) :-
 %     getAllNodes(AllNodes),
 %     subtract(AllNodes, GoodList, NodeList),
 %     normalizeNodes(NodeList, NewEdges, NumNodes, GoodList, NewEdges).
-normalizeNodes([Node | NodeList], AllEdges, NumNodes, GoodList, NewEdges) :-
-    isNodeOkay(Node, AllEdges),
-    !,
-    append([Node], GoodList, NewGoodList),
-    normalizeNodes(NodeList, AllEdges, NumNodes, NewGoodList, NewEdges).
-normalizeNodes([Node | _], AllEdges, NumNodes, GoodList, NewEdges) :-
+% normalizeNodes([Node | NodeList], AllEdges, NumNodes, GoodList, NewEdges) :-
+%     isNodeOkay(Node, AllEdges),
+%     !,
+%     append([Node], GoodList, NewGoodList),
+%     normalizeNodes(NodeList, AllEdges, NumNodes, NewGoodList, NewEdges).
+normalizeNodes([Node | _], AllEdges, NewEdges) :-
     subtractFromNode(Node, AllEdges, NewEdges),
     getAllNodes(AllNodes),
     updateGoodList(NewEdges, AllNodes, NewGoodList),
     subtract(AllNodes, NewGoodList, NewBadList),
-    normalizeNodes(NewBadList, NewEdges, NumNodes, NewGoodList, NewEdges).
+    normalizeNodes(NewBadList, NewEdges, NewEdges).
 
 updateGoodList(AllEdges, GoodList, NewGoodList) :-
      updateGoodList(AllEdges, GoodList, [], NewGoodList).
@@ -44,20 +47,23 @@ updateGoodList(AllEdges, [Node | GList], NewGoodList, Res) :-
      !,
      updateGoodList(AllEdges, GList, [Node | NewGoodList], Res).
 updateGoodList(AllEdges, [_ | GList], NewGoodList, Res) :-
-     updateGoodList(AllEdges, Glist, NewGoodList, Res).
+     updateGoodList(AllEdges, GList, NewGoodList, Res).
 
 subtractFromNode(Node, AllEdges, NewEdges) :-
-    getNodeFlow(Node, AllEdges, OutFlow, InFlow),
-    OutFlow > InFlow,
-    !,
-    getOutEdgesByNode(Node, AllEdges, [Edge | _]),
-    getNewEdgeList(AllEdges, Edge, NewEdges).
+     \+ isNodeOkay(Node, AllEdges),
+     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
+     OutFlow > InFlow,
+     !,
+     getOutEdgesByNode(Node, AllEdges, [Edge | _]),
+     getNewEdgeList(AllEdges, Edge, NewEdges).
 subtractFromNode(Node, AllEdges, NewEdges) :-
-   getNodeFlow(Node, AllEdges, OutFlow, InFlow),
-   OutFlow < InFlow,
-   % !,
-   getInEdgesByNode(Node, AllEdges, [Edge | _]),
-   getNewEdgeList(AllEdges, Edge, NewEdges).
+     \+ isNodeOkay(Node, AllEdges),
+     getNodeFlow(Node, AllEdges, OutFlow, InFlow),
+     OutFlow < InFlow,
+     !,
+     getInEdgesByNode(Node, AllEdges, [Edge | _]),
+     getNewEdgeList(AllEdges, Edge, NewEdges).
+subtractFromNode(_, AllEdges, AllEdges).
 
 getNewEdgeList(AllEdges, Edge, NewEdgeList) :-
      subtractFromEdge(Edge, NewEdge),
