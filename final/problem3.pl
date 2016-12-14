@@ -7,8 +7,7 @@ edge(c, t, 3).
 edge(b, d, 2).
 edge(d, t, 3).
 
-%a normalized: [edge(s, a, 4), edge(s, b, 2), edge(c, t, 3), edge(b, d, 2), edge(d, t, 3), edge(a, d, 3), edge(a, b, 0), edge(a, c, 1)]
-
+%[edge(s,a,4),edge(s,b,1),edge(a,c,2),edge(a,b,1),edge(a,d,1),edge(c,t,2),edge(b,d,2),edge(d,t,3)]
 %edge(Outgoing, Incoming)
  maxflow(NewEdges) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
@@ -16,7 +15,7 @@ edge(d, t, 3).
     normalizeNodes(AllNodes, AllEdges, NewEdges).
 
 normalizeNodes([], NewEdges, NewEdges) :-
-    getAllNodes(AllNodes),
+    getAllNodesWithoutSAndT(AllNodes),
     updateGoodList(NewEdges, AllNodes, NewGoodList),
     subtract(AllNodes, NewGoodList, []),
     !.
@@ -24,7 +23,8 @@ normalizeNodes([Node | _], AllEdges, _) :-
     subtractFromNode(Node, AllEdges, NewEdges),
     getAllNodes(AllNodes),
     updateGoodList(NewEdges, AllNodes, NewGoodList),
-    subtract(AllNodes, NewGoodList, NewBadList),
+    getAllNodesWithoutSAndT(CheckNodes),
+    subtract(CheckNodes, NewGoodList, NewBadList),
     normalizeNodes(NewBadList, NewEdges, _).
 
 updateGoodList(AllEdges, GoodList, NewGoodList) :-
@@ -74,9 +74,12 @@ getAllNodes(AllNodes) :-
     findall(OutNode, edge(OutNode, _, _), OutNodes),
     findall(InNode, edge(_, InNode, _), InNodes),
     append(OutNodes, InNodes, Temp),
-    delete(Temp, s, Temp2),
-    delete(Temp2, t, Temp3),
-    sort(Temp3, AllNodes).
+    sort(Temp, AllNodes).
+
+getAllNodesWithoutSAndT(AllNodes) :-
+    getAllNodes(TempAll),
+    delete(TempAll, s, TempAll2),
+    delete(TempAll2, t, AllNodes).
 
 getNumList(EdgeList, NumList) :-
     getNumList(EdgeList, [], NumList).
