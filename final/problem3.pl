@@ -78,23 +78,40 @@ getAllNodes(AllNodes) :-
     delete(Temp2, t, Temp3),
     sort(Temp3, AllNodes).
 
-%Sort this by largest edge
+getNumList(EdgeList, NumList) :-
+    getNumList(EdgeList, [], NumList).
+getNumList([], Res, Res).
+getNumList([edge(_, _, Weight) | T], NumList, Res) :-
+    getNumList(T, [Weight | NumList], Res).
+
+getMaxEdge(EdgeList, Edge) :-
+    getNumList(EdgeList, NumList),
+    max_member(Max, NumList),
+    getMax(EdgeList, Max, Edge).
+
+getMax([edge(S, E, Weight) | _], Weight, edge(S, E, Weight)) :- !.
+getMax([_ | T], MaxWeight, Edge) :-
+    getMax(T, MaxWeight, Edge).
+
+%Sort this by largest edge weight desc
 getInEdgesByNode(Node, AllEdges, EdgeList) :-
-    getInEdgesByNode(Node, AllEdges, [], RevEdgeList),
-    reverse(RevEdgeList, EdgeList).
+    getInEdgesByNode(Node, AllEdges, [], EList),
+    getMaxEdge(EList, [EdgeList]).
 getInEdgesByNode(_, [], Res, Res) :- !.
 getInEdgesByNode(Node, [edge(StartNode, Node, Weight) | AllEdges], EdgeList, Res) :-
+    Weight > 0,
     !,
     getInEdgesByNode(Node, AllEdges, [edge(StartNode, Node, Weight) | EdgeList], Res).
 getInEdgesByNode(Node, [_ | AllEdges], EdgeList, Res) :-
     getInEdgesByNode(Node, AllEdges, EdgeList, Res).
 
-%Sort this by largest edge
+%Sort this by largest edge weight desc
 getOutEdgesByNode(Node, AllEdges, EdgeList) :-
-    getOutEdgesByNode(Node, AllEdges, [], RevEdgeList),
-    reverse(RevEdgeList, EdgeList).
+    getOutEdgesByNode(Node, AllEdges, [], EList),
+    getMaxEdge(EList, [EdgeList]).
 getOutEdgesByNode(_, [], Res, Res) :- !.
 getOutEdgesByNode(Node, [edge(Node, EndNode, Weight) | AllEdges], EdgeList, Res) :-
+    Weight > 0,
     !,
     getOutEdgesByNode(Node, AllEdges, [edge(Node, EndNode, Weight) | EdgeList], Res).
 getOutEdgesByNode(Node, [_ | AllEdges], EdgeList, Res) :-
