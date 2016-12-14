@@ -19,13 +19,13 @@ normalizeNodes([], NewEdges, NewEdges) :-
     updateGoodList(NewEdges, AllNodes, NewGoodList),
     subtract(AllNodes, NewGoodList, []),
     !.
-normalizeNodes([Node | _], AllEdges, _) :-
+normalizeNodes([Node | _], AllEdges, Res) :-
     subtractFromNode(Node, AllEdges, NewEdges),
     getAllNodes(AllNodes),
     updateGoodList(NewEdges, AllNodes, NewGoodList),
     getAllNodesWithoutSAndT(CheckNodes),
     subtract(CheckNodes, NewGoodList, NewBadList),
-    normalizeNodes(NewBadList, NewEdges, _).
+    normalizeNodes(NewBadList, NewEdges, Res).
 
 updateGoodList(AllEdges, GoodList, NewGoodList) :-
      updateGoodList(AllEdges, GoodList, [], NewGoodList).
