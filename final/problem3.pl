@@ -20,21 +20,12 @@ normalizeNodes([], NewEdges, NewEdges) :-
     updateGoodList(NewEdges, AllNodes, NewGoodList),
     subtract(AllNodes, NewGoodList, []),
     !.
-% normalizeNodes([], NewEdges, NumNodes, GoodList, NewEdges) :-
-%     getAllNodes(AllNodes),
-%     subtract(AllNodes, GoodList, NodeList),
-%     normalizeNodes(NodeList, NewEdges, NumNodes, GoodList, NewEdges).
-% normalizeNodes([Node | NodeList], AllEdges, NumNodes, GoodList, NewEdges) :-
-%     isNodeOkay(Node, AllEdges),
-%     !,
-%     append([Node], GoodList, NewGoodList),
-%     normalizeNodes(NodeList, AllEdges, NumNodes, NewGoodList, NewEdges).
-normalizeNodes([Node | _], AllEdges, NewEdges) :-
+normalizeNodes([Node | _], AllEdges, _) :-
     subtractFromNode(Node, AllEdges, NewEdges),
     getAllNodes(AllNodes),
     updateGoodList(NewEdges, AllNodes, NewGoodList),
     subtract(AllNodes, NewGoodList, NewBadList),
-    normalizeNodes(NewBadList, NewEdges, NewEdges).
+    normalizeNodes(NewBadList, NewEdges, _).
 
 updateGoodList(AllEdges, GoodList, NewGoodList) :-
      updateGoodList(AllEdges, GoodList, [], NewGoodList).
@@ -71,6 +62,9 @@ reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
     nth0(Index, NewEdges, edge(Snode, Enode, Weight), TempNewEdges),
     !.
+% reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
+%     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
+%     append(TempNewEdges, [edge(Snode, Enode, Weight)], NewEdges).
 
 subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
     NewWeight is Weight - 1.
