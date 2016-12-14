@@ -7,12 +7,15 @@ edge(c, t, 3).
 edge(b, d, 2).
 edge(d, t, 3).
 
-%[edge(s,a,4),edge(s,b,1),edge(a,c,2),edge(a,b,1),edge(a,d,1),edge(c,t,2),edge(b,d,2),edge(d,t,3)]
-%edge(Outgoing, Incoming)
- maxflow(NewEdges) :-
+maxflow(F) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
     getAllNodes(AllNodes),
-    normalizeNodes(AllNodes, AllEdges, NewEdges).
+    normalizeNodes(AllNodes, AllEdges, NewEdges),
+    getNodeFlow(s, NewEdges, Sout, _),
+    getNodeFlow(t, NewEdges, _, Tin),
+    display('Node flow for s: '),display(Sout),nl,
+    display('Node flow for t: '),display(Tin),
+    F = Tin.
 
 normalizeNodes([], NewEdges, NewEdges) :-
     getAllNodesWithoutSAndT(AllNodes),

@@ -1,3 +1,10 @@
+%the magic state
+%%[edge(s,a,4),edge(s,b,1),edge(a,c,2),edge(a,b,1),edge(a,d,1),edge(c,t,2),edge(b,d,2),edge(d,t,3)]
+
+
+
+
+
 %%subtract from higher side (proven to not work on paper)
 % normalizeNodes([], NewEdges, NewEdges) :-
 %     getAllNodes(AllNodes),
