@@ -13,13 +13,9 @@ edge(d, t, 3).
  maxflow(NewEdges) :-
     findall(edge(OutNode, InNode, EdgeWeight), edge(OutNode, InNode, EdgeWeight), AllEdges),
     getAllNodes(AllNodes),
-    % length(AllNodes, NumNodes),
     normalizeNodes(AllNodes, AllEdges, NewEdges).
 
 normalizeNodes([], NewEdges, NewEdges) :-
-    % length(GoodList, LenGoodList),
-    % LenGoodList =:= NumNodes,
-    % checkNodesOkay(GoodList, NewEdges),
     getAllNodes(AllNodes),
     updateGoodList(NewEdges, AllNodes, NewGoodList),
     subtract(AllNodes, NewGoodList, []),
@@ -42,6 +38,7 @@ normalizeNodes([Node | _], AllEdges, NewEdges) :-
 
 updateGoodList(AllEdges, GoodList, NewGoodList) :-
      updateGoodList(AllEdges, GoodList, [], NewGoodList).
+updateGoodList(_, [], Res, Res).
 updateGoodList(AllEdges, [Node | GList], NewGoodList, Res) :-
      isNodeOkay(Node, AllEdges),
      !,
