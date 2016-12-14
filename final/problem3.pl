@@ -62,9 +62,6 @@ reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
     nth0(Index, NewEdges, edge(Snode, Enode, Weight), TempNewEdges),
     !.
-% reconstructEdges(AllEdges, edge(Snode, Enode, Weight), NewEdges) :-
-%     delete(AllEdges, edge(Snode, Enode, _), TempNewEdges),
-%     append(TempNewEdges, [edge(Snode, Enode, Weight)], NewEdges).
 
 subtractFromEdge(edge(Snode, Enode, Weight), edge(Snode, Enode, NewWeight)) :-
     NewWeight is Weight - 1.
