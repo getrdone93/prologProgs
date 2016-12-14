@@ -42,14 +42,14 @@ subtractFromNode(Node, AllEdges, NewEdges) :-
      getNodeFlow(Node, AllEdges, OutFlow, InFlow),
      OutFlow > InFlow,
      !,
-     getOutEdgesByNode(Node, AllEdges, [Edge | _]),
+     getOutEdgesByNode(Node, AllEdges, Edge),
      getNewEdgeList(AllEdges, Edge, NewEdges).
 subtractFromNode(Node, AllEdges, NewEdges) :-
      \+ isNodeOkay(Node, AllEdges),
      getNodeFlow(Node, AllEdges, OutFlow, InFlow),
      OutFlow < InFlow,
      !,
-     getInEdgesByNode(Node, AllEdges, [Edge | _]),
+     getInEdgesByNode(Node, AllEdges, Edge),
      getNewEdgeList(AllEdges, Edge, NewEdges).
 subtractFromNode(_, AllEdges, AllEdges).
 
