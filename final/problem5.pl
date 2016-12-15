@@ -18,11 +18,17 @@ binary(b(/)).
 getFourList(FourList) :-
     getFourList(FourList, 4).
 
-getFourList(_, 1).
+getFourList(_, 1) :- !.
+getFourList(FourList, 4) :-
+    findall(pick(F, C), pick(F, C), Initial),
+    member(H, Initial),
+    getFourList([H], FourList, 4).
 getFourList(FourList, N) :-
+    N =< 3,
     findall(pick(F, C), pick(F, C), TempList),
-    permutation(TempList, Initial),
-    getFourList(Initial, FourList, N).
+    member(H, TempList),
+    subtract(TempList, [H], EndList),
+    getFourList([H | EndList], FourList, N).
 getFourList(FourList, N) :-
     N1 is N - 1,
     getFourList(FourList, N1).
