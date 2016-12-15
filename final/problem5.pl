@@ -28,7 +28,8 @@ getFourList(FourList, N) :-
     findall(pick(F, C), pick(F, C), TempList),
     member(H, TempList),
     subtract(TempList, [H], EndList),
-    getFourList([H | EndList], FourList, N).
+    getFourList([H | EndList], TempFourList, N),
+    permutation(TempFourList, FourList).
 getFourList(FourList, N) :-
     N1 is N - 1,
     getFourList(FourList, N1).
