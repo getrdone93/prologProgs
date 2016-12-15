@@ -17,14 +17,18 @@ binary(b(/)).
 
 getFourList(FourList) :-
     getFourList(FourList, 4).
+
+getFourList(_, 1).
 getFourList(FourList, N) :-
-    findall(pick(F, C), pick(F, C), Initial),
-    getFourList(Initial, FourList, N),
+    findall(pick(F, C), pick(F, C), TempList),
+    permutation(TempList, Initial),
+    getFourList(Initial, FourList, N).
+getFourList(FourList, N) :-
     N1 is N - 1,
     getFourList(FourList, N1).
+
 getFourList([H | _], FourList, 4) :-
-    C =:= 4,
-    duplicateNTimes([H], C, FourList).
+    duplicateNTimes([H], 4, FourList).
 getFourList([H | Init], FourList, 3) :-
     duplicateNTimes([H], 3, Temp),
     member(L, Init),
