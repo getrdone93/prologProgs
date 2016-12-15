@@ -15,10 +15,14 @@ binary(b(*)).
 binary(b(/)).
 
 
+% generateFours(FourList) :-
+%     getFourList(FourList),
+%     validFourList(FourList).
+
 getFourList(FourList) :-
     getFourList(FourList, 4).
 
-getFourList(_, 1) :- !.
+getFourList(_, 0).
 getFourList(FourList, 4) :-
     findall(pick(F, C), pick(F, C), Initial),
     member(H, Initial),
@@ -44,6 +48,10 @@ getFourList([H | Init], FourList, 2) :-
     duplicateNTimes([H], 2, Temp),
     getPowerSet(Init, 2, EndList),
     append(Temp, EndList, FourList).
+getFourList([H | Init], FourList, 1) :-
+    getPowerSet(Init, 2, EndList),
+    append([H], EndList, FourList).
+% getFourList(_, [pick(44, 2), pick(44, 2)], 0) :- !. somehow include the 44s
 
 validFourList(FourList) :-
     validFourList(FourList, 0).
