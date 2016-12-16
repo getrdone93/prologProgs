@@ -251,8 +251,8 @@ duplicateNTimes([X | Xs], N, [X | Ys], K) :-
      powerset(T, P).
 
  factorialWrapper(N, F) :-
-     N1 is floor(N),
-     factorial(N1, F).
+    N > 0,
+    factorial(N, F).
  factorial(0,1) :- !.
  factorial(N,F) :-
     N > 0,
