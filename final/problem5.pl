@@ -19,10 +19,8 @@ binary(b(/)).
 
 solveFour4(N) :-
     solveFour4(N, 0).
-solveFour4(_, C) :-
-    C >= 101,
-    !.
 solveFour4(N, C) :-
+    C =< N,
     generateFours(FourList),
     buildEquation(FourList, Equation),
     evalEquation(Equation, Result),
@@ -32,6 +30,7 @@ solveFour4(N, C) :-
     C1 is C + 1,
     solveFour4(N, C1).
 solveFour4(N, C) :-
+    C =< N,
     generateFours(FourList),
     applyUnaryOps(FourList, UnaryOpsFourList),
     buildEquation(UnaryOpsFourList, Equation),
@@ -42,11 +41,14 @@ solveFour4(N, C) :-
     C1 is C + 1,
     solveFour4(N, C1).
 solveFour4(N, C) :-
+    C =< N,
+    !,
     display('Couldnt find answer for '),
-    display(C),
-    nl,
+    display(C),nl,
     C1 is C + 1,
     solveFour4(N, C1).
+solveFour4(N, C) :-
+    C >= N.
 
 equationOutputter([], A) :-
     display('= '),
@@ -169,6 +171,10 @@ buildEquation([Four1, Four2, Four3, Four4], [Four1, Op1, Four2, Op2, Four3, Op3,
 buildEquation([Four1, Four2, Four3, Four4], [Four1, Op, Four2, Op, Four3, Op, Four4]) :-
     findall(O, binary(b(O)), OpList),
     member(Op, OpList).
+buildEquation([Four1, Four2, Four3, Four4], [Four1, Op, Four2, Op, Four3, Op2, Four4]) :-
+    findall(O, binary(b(O)), OpList),
+    member(Op, OpList),
+    member(Op2, OpList).
 buildEquation([Four1, Four2, Four3], [Four1, Op1, Four2, Op2, Four3]) :-
     findall(O, binary(b(O)), OpList),
     getPowerSet(OpList, 2, [Op1, Op2]).
