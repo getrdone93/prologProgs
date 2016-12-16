@@ -64,21 +64,21 @@ evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
     eval(Four1, Op1, TempResult, Result),
     !.
 
-% evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
-%     permutation([[Four1, Op1, Four2], [Four2, Op2, Four3], [Four3, Op3, Four4]]
-%     , [L1, L2, L3]),
-%     [FourL1, OpL1, Four2L1] = L1,
-%     [_, OpL2, Four2L2] = L2,
-%     [_, OpL3, Four2L3] = L3,
-%     eval(FourL1, OpL1, Four2L1, TempRes),
-%     eval(TempRes, OpL2, Four2L2, TempRes2),
-%     eval(TempRes2, OpL3, Four2L3, Result).
+evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
+    permutation([[Four1, Op1, Four2], [Four2, Op2, Four3], [Four3, Op3, Four4]]
+    , [L1, L2, L3]),
+    [FourL1, OpL1, Four2L1] = L1,
+    [_, OpL2, Four2L2] = L2,
+    [_, OpL3, Four2L3] = L3,
+    eval(FourL1, OpL1, Four2L1, TempRes),
+    eval(TempRes, OpL2, Four2L2, TempRes2),
+    eval(TempRes2, OpL3, Four2L3, Result).
 
 %if this isnt permuted then we get 66 answers but much faster
-evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
-    eval(Four1, Op1, Four2, TempRes),
-    eval(TempRes, Op2, Four3, TempRes2),
-    eval(TempRes2, Op3, Four4, Result).
+% evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
+%     eval(Four1, Op1, Four2, TempRes),
+%     eval(TempRes, Op2, Four3, TempRes2),
+%     eval(TempRes2, Op3, Four4, Result).
 
 evalUnaryOp(((+), Operand), Result) :-
     !,
@@ -149,15 +149,10 @@ applyUnaryOps([Four1, Four2, Four3, Four4], [(Un1, Four1), (Un2, Four2), (Un3, F
 
 buildEquation([Four1, Four2, Four3, Four4], [Four1, Op1, Four2, Op2, Four3, Op3, Four4]) :-
     findall(O, binary(b(O)), OpList),
-    reverse(OpList, RevOpList),
-    member(Op1, OpList),
-    member(Op2, RevOpList),
-    member(Op3, OpList).
+    getPowerSet(OpList, 3, [Op1, Op2, Op3]).
 buildEquation([Four1, Four2, Four3], [Four1, Op1, Four2, Op2, Four3]) :-
     findall(O, binary(b(O)), OpList),
-    reverse(OpList, RevOpList),
-    member(Op1, OpList),
-    member(Op2, RevOpList).
+    getPowerSet(OpList, 2, [Op1, Op2]).
 buildEquation([Four1, Four2], [Four1, Op, Four2]) :-
     findall(O, binary(b(O)), OpList),
     member(Op, OpList).
