@@ -51,7 +51,6 @@ getFourList([H | Init], FourList, 2) :-
 getFourList([H | Init], FourList, 1) :-
     getPowerSet(Init, 2, EndList),
     append([H], EndList, FourList).
-% getFourList(_, [pick(44, 2), pick(44, 2)], 0) :- !. somehow include the 44s
 
 validFourList(FourList) :-
     validFourList(FourList, 0).
