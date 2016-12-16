@@ -17,6 +17,12 @@ binary(b(/)).
 %take unary ops and wrap them around fours
 % applyUnaryOps([4 | List]) :-
 
+equationOutputter([]).
+equationOutputter([H | T]) :-
+    display(H),
+    display(' '),
+    equationOutputter(T).
+    
 evalEquation([Four1, Op, Four2], Result) :-
     !,
     eval(Four1, Op, Four2, Result).
