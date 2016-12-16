@@ -35,9 +35,6 @@ evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
     [FourL1, OpL1, Four2L1] = L1,
     [_, OpL2, Four2L2] = L2,
     [_, OpL3, Four2L3] = L3,
-    display(L1),display(' '),
-    display(L2),display(' '),
-    display(L3),display(' '),nl,
     eval(FourL1, OpL1, Four2L1, TempRes),
     eval(TempRes, OpL2, Four2L2, TempRes2),
     eval(TempRes2, OpL3, Four2L3, Result).
