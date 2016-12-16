@@ -52,6 +52,26 @@ equationOutputter([], A) :-
     display('= '),
     display(A),
     nl.
+equationOutputter([(square, Four) | T], A) :-
+    !,
+    display(square),display('('),display(Four),display(')'),
+    display(' '),
+    equationOutputter(T, A).
+equationOutputter([(sqrt, Four) | T], A) :-
+    !,
+    display(square),display('('),display(Four),display(')'),
+    display(' '),
+    equationOutputter(T, A).
+equationOutputter([(-, Four) | T], A) :-
+    !,
+    display('(-'),display(Four),display(')'),
+    display(' '),
+    equationOutputter(T, A).
+equationOutputter([(!, Four) | T], A) :-
+    !,
+    display('('),display(Four),display('!)'),
+    display(' '),
+    equationOutputter(T, A).
 equationOutputter([H | T], A) :-
     display(H),
     display(' '),
