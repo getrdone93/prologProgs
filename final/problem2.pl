@@ -50,7 +50,8 @@ sortOutput(OrderList, SortList) :-
     sortOutput(OrderList, 1, SortList, []).
 sortOutput(_, 6, Res, Res).
 sortOutput(OList, N, [student(Place, Name, Street) | SortList], Res) :-
-    getStudentByPlace(OList, N, student(Place, Name, Street)),
+    getStudentByPlace(OList, N, student(Place, Name, TempStreet)),
+    mapNumToStreet(TempStreet, Street),
     N1 is N + 1,
     sortOutput(OList, N1,  SortList, Res).
 
