@@ -3,7 +3,10 @@ pick(44, 2).
 pick(0.4, 1).
 pick(infinity(0.4), 1).
 
-unary(u(+)).
+%keep this commented out to make program run faster.
+%it does not affect the number of answers found because of the way it is used.
+% unary(u(+)).
+
 unary(u(-)).
 unary(u(sqrt)).
 unary(u(!)).
