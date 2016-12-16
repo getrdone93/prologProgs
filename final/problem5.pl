@@ -157,7 +157,7 @@ buildEquation([Four1, Four2], [Four1, Op, Four2]) :-
     member(Op, OpList).
 
 listOfFours([], []).
-listOfFours([pick(infinity(_), _) | FourTerms], [0.44444444 | L]) :-
+listOfFours([pick(infinity(_), _) | FourTerms], [0.44444444444 | L]) :-
     !,
     listOfFours(FourTerms, L).
 listOfFours([pick(Four, _) | FourTerms], [Four | L]) :-
