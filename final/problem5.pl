@@ -14,8 +14,6 @@ binary(b(-)).
 binary(b(*)).
 binary(b(/)).
 
-%take unary ops and wrap them around fours
-% applyUnaryOps([4 | List]) :-
 
 solveFour4(N) :-
     solveFour4(N, 0).
