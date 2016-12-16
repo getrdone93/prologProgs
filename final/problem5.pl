@@ -16,7 +16,9 @@ binary(b(/)).
 
 solveFour4(N) :-
     solveFour4(N, 0).
-solveFour4(N, N) :- !.
+solveFour4(_, C) :-
+    C >= 101,
+    !.
 solveFour4(N, C) :-
     generateFours(FourList),
     buildEquation(FourList, Equation),
