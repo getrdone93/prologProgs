@@ -66,18 +66,40 @@ evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
     eval(TempRes2, OpL3, Four2L3, Result).
 
 eval(Op1, +, Op2, Result) :-
-    Result is Op1 + Op2,
-    !.
+    !,
+    Result is Op1 + Op2.
 eval(Op1, -, Op2, Result) :-
-    Result is Op1 - Op2,
-    !.
+    !,
+    Result is Op1 - Op2.
 eval(Op1, *, Op2, Result) :-
-    Result is Op1 * Op2,
-    !.
+    !,
+    Result is Op1 * Op2.
 eval(Op1, /, Op2, Result) :-
+    !,
     Op2 > 0,
-    Result is Op1 / Op2,
-    !.
+    Result is Op1 / Op2.
+
+applyUnaryOps([Four | TL], [(Un1, Four) | TL]) :-
+    findall(U, unary(u(U)), UnaryList),
+    member(Un1, UnaryList).
+applyUnaryOps([Four1, Four2 | TL], [(Un1, Four1), (Un2, Four2) | TL]) :-
+    findall(U, unary(u(U)), UnaryList),
+    reverse(UnaryList, RevUnaryList),
+    member(Un1, UnaryList),
+    member(Un2, RevUnaryList).
+applyUnaryOps([Four1, Four2, Four3 | TL], [(Un1, Four1), (Un2, Four2), (Un3, Four3) | TL]) :-
+    findall(U, unary(u(U)), UnaryList),
+    reverse(UnaryList, RevUnaryList),
+    member(Un1, UnaryList),
+    member(Un2, RevUnaryList),
+    member(Un3, UnaryList).
+applyUnaryOps([Four1, Four2, Four3, Four4], [(Un1, Four1), (Un2, Four2), (Un3, Four3), (Un4, Four4)]) :-
+    findall(U, unary(u(U)), UnaryList),
+    reverse(UnaryList, RevUnaryList),
+    member(Un1, UnaryList),
+    member(Un2, RevUnaryList),
+    member(Un3, UnaryList),
+    member(Un4, RevUnaryList).
 
 buildEquation([Four1, Four2, Four3, Four4], [Four1, Op1, Four2, Op2, Four3, Op3, Four4]) :-
     findall(O, binary(b(O)), OpList),
