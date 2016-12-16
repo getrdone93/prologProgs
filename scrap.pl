@@ -57,7 +57,9 @@ powerset([H | T], [H | P]) :-
 
 %the magic state
 %%[edge(s,a,4),edge(s,b,1),edge(a,c,2),edge(a,b,1),edge(a,d,1),edge(c,t,2),edge(b,d,2),edge(d,t,3)]
-
+display(L1),nl,
+display(L2),nl,
+display(L3),nl,
 getOpByPrecedence(Op, Op, Op).
 getOpByPrecedence(+, -, +).
 getOpByPrecedence(+, *, *).
