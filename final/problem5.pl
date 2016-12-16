@@ -81,8 +81,11 @@ evalUnaryOp((!, Operand), Result) :-
 evalUnaryOp((square, Operand), Result) :-
     Result is Operand ** 2.
 
-% eval((UnOp1, Operand1), BinOp, (UnOp2, Operand2), Result) :-
-%     UnOp1
+eval((UnOp1, Operand1), BinOp, (UnOp2, Operand2), Result) :-
+    !,
+    evalUnaryOp((UnOp1, Operand1), Op1Val),
+    evalUnaryOp((UnOp2, Operand2), Op2Val),
+    eval(Op1Val, BinOp, Op2Val, Result).
 
 eval(Op1, +, Op2, Result) :-
     !,
