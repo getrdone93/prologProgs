@@ -15,14 +15,14 @@ binary(b(*)).
 binary(b(/)).
 
 
-% generateFours(FourList) :-
-%     getFourList(FourList),
-%     validFourList(FourList).
+generateFours(FourList) :-
+    getFourList(FourList),
+    validFourList(FourList).
 
 getFourList(FourList) :-
     getFourList(FourList, 4).
 
-getFourList(_, 0).
+getFourList([pick(44, 2), pick(44, 2)], 0) :- !.
 getFourList(FourList, 4) :-
     findall(pick(F, C), pick(F, C), Initial),
     member(H, Initial),
