@@ -15,9 +15,18 @@ binary(b(*)).
 binary(b(/)).
 
 
+
+listOfFours([], []).
+listOfFours([pick(infinity(_), _) | FourTerms], [0.44444444 | L]) :-
+    !,
+    listOfFours(FourTerms, L).
+listOfFours([pick(Four, _) | FourTerms], [Four | L]) :-
+    listOfFours(FourTerms, L).
+
 generateFours(FourList) :-
-    getFourList(FourList),
-    validFourList(FourList).
+    getFourList(FourTerms),
+    validFourList(FourTerms),
+    listOfFours(FourTerms, FourList).
 
 getFourList(FourList) :-
     getFourList(FourList, 4).
