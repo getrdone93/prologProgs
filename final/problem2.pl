@@ -1,6 +1,6 @@
 :- [clputility].
 
-schoolBus(OrderList) :-
+schoolBus(Output) :-
     OrderList = [student(DianaPlace, 'Diana', DianaStreet), student(BrucePlace, 'Bruce', BruceStreet),
     student(TracyPlace, 'Tracy', TracyStreet), student(DannyPlace, 'Danny', DannyStreet),
     student(JustinPlace, 'Justin', JustinStreet)],
@@ -29,7 +29,8 @@ schoolBus(OrderList) :-
     StudentOnMulberry #< StudentOnBlueberry,
     checkNameOfSecondPerson(OrderList),
     4 #=< StudentOnElderberryPlace,
-    4 #>= StudentOnBlueberry.
+    4 #>= StudentOnBlueberry,
+    sortOutput(OrderList, Output).
 
 getStudentByStreet([student(Place, _, Street) | _], student(Place, _, Street)).
 getStudentByStreet([_ | T], Student) :-
