@@ -73,7 +73,11 @@ getOpByPrecedence(-, +, -).
 getOpByPrecedence(/, *, /).
 getOpByPrecedence(/, -, /).
 getOpByPrecedence(/, +, /).
-
+%if this isnt permuted then we get 66 answers but much faster
+% evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
+%     eval(Four1, Op1, Four2, TempRes),
+%     eval(TempRes, Op2, Four3, TempRes2),
+%     eval(TempRes2, Op3, Four4, Result).
 solveFour4(N, C, FoursCache) :-
     generateFours(FourList),
     \+ checkCache(FourList, FoursCache),

@@ -76,12 +76,6 @@ evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
     eval(TempRes, OpL2, Four2L2, TempRes2),
     eval(TempRes2, OpL3, Four2L3, Result).
 
-%if this isnt permuted then we get 66 answers but much faster
-% evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
-%     eval(Four1, Op1, Four2, TempRes),
-%     eval(TempRes, Op2, Four3, TempRes2),
-%     eval(TempRes2, Op3, Four4, Result).
-
 evalUnaryOp(((+), Operand), Result) :-
     !,
     Operand < 0,
