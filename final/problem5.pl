@@ -28,7 +28,7 @@ evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
     eval(Four2, Op2, Four3, TempResult),
     eval(Four1, Op1, TempResult, Result).
 
-evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
+% evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
 
 
 eval(Op1, +, Op2, Result) :-
@@ -41,6 +41,7 @@ eval(Op1, *, Op2, Result) :-
     Result is Op1 * Op2,
     !.
 eval(Op1, /, Op2, Result) :-
+    Op2 > 0,
     Result is Op1 / Op2,
     !.
 
