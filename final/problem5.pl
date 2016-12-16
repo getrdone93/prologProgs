@@ -37,7 +37,7 @@ solveFour4(N, C) :-
     solveFour4(N, C1).
 
 equationOutputter([], A) :-
-    display(' = '),
+    display('= '),
     display(A),
     nl.
 equationOutputter([H | T], A) :-
