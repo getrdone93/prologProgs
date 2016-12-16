@@ -14,6 +14,42 @@ binary(b(-)).
 binary(b(*)).
 binary(b(/)).
 
+%take unary ops and wrap them around fours
+% applyUnaryOps([4 | List]) :-
+
+evalEquation([Four1, Op, Four2], Result) :-
+    eval(Four1, Op, Four2, Result).
+
+% evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
+
+
+
+getOpByPrecedence(Op, Op, Op).
+getOpByPrecedence(+, -, +).
+getOpByPrecedence(+, *, *).
+getOpByPrecedence(+, /, /).
+getOpByPrecedence(*, /, *).
+getOpByPrecedence(*, -, *).
+getOpByPrecedence(*, +, *).
+getOpByPrecedence(-, /, /).
+getOpByPrecedence(-, *, *).
+getOpByPrecedence(-, +, -).
+getOpByPrecedence(/, *, /).
+getOpByPrecedence(/, -, /).
+getOpByPrecedence(/, +, /).
+
+eval(Four1, +, Four2, Result) :-
+    Result is Four1 + Four2,
+    !.
+eval(Four1, -, Four2, Result) :-
+    Result is Four1 - Four2,
+    !.
+eval(Four1, *, Four2, Result) :-
+    Result is Four1 * Four2,
+    !.
+eval(Four1, /, Four2, Result) :-
+    Result is Four1 / Four2,
+    !.
 
 buildEquation([Four1, Four2, Four3, Four4], [Four1, Op1, Four2, Op2, Four3, Op3, Four4]) :-
     findall(O, binary(b(O)), OpList),
