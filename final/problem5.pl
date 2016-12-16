@@ -22,29 +22,14 @@ evalEquation([Four1, Op, Four2], Result) :-
     eval(Four1, Op, Four2, Result).
 
 evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
-    getOpByPrecedence(Op1, Op2, ResOp),
-    ResOp = Op1,
-    !,
     eval(Four1, Op1, Four2, TempResult),
     eval(TempResult, Op2, Four3, Result).
 evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
-    !,
     eval(Four2, Op2, Four3, TempResult),
     eval(Four1, Op1, TempResult, Result).
 
-getOpByPrecedence(Op, Op, Op).
-getOpByPrecedence(+, -, +).
-getOpByPrecedence(+, *, *).
-getOpByPrecedence(+, /, /).
-getOpByPrecedence(*, /, *).
-getOpByPrecedence(*, -, *).
-getOpByPrecedence(*, +, *).
-getOpByPrecedence(-, /, /).
-getOpByPrecedence(-, *, *).
-getOpByPrecedence(-, +, -).
-getOpByPrecedence(/, *, /).
-getOpByPrecedence(/, -, /).
-getOpByPrecedence(/, +, /).
+evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
+
 
 eval(Op1, +, Op2, Result) :-
     Result is Op1 + Op2,
