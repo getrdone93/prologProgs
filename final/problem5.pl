@@ -14,13 +14,22 @@ binary(b(-)).
 binary(b(*)).
 binary(b(/)).
 
-
 solveFour4(N) :-
     solveFour4(N, 0).
 solveFour4(N, N) :- !.
 solveFour4(N, C) :-
     generateFours(FourList),
     buildEquation(FourList, Equation),
+    evalEquation(Equation, Result),
+    C =:= Result,
+    !,
+    equationOutputter(Equation, Result),
+    C1 is C + 1,
+    solveFour4(N, C1).
+solveFour4(N, C) :-
+    generateFours(FourList),
+    applyUnaryOps(FourList, UnaryOpsFourList),
+    buildEquation(UnaryOpsFourList, Equation),
     evalEquation(Equation, Result),
     C =:= Result,
     !,
@@ -65,9 +74,10 @@ evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
     eval(TempRes, OpL2, Four2L2, TempRes2),
     eval(TempRes2, OpL3, Four2L3, Result).
 
-% evalUnaryOp(((+), Operand), Result) :-
-%     Operand < 0,
-%     Result is Operand * -1.
+evalUnaryOp(((+), Operand), Result) :-
+    !,
+    Operand < 0,
+    Result is Operand * -1.
 evalUnaryOp(((-), Operand), Result) :-
     !,
     Operand > 0,
@@ -86,6 +96,14 @@ eval((UnOp1, Operand1), BinOp, (UnOp2, Operand2), Result) :-
     evalUnaryOp((UnOp1, Operand1), Op1Val),
     evalUnaryOp((UnOp2, Operand2), Op2Val),
     eval(Op1Val, BinOp, Op2Val, Result).
+eval(Op1, BinOp, (UnOp2, Operand2), Result) :-
+    !,
+    evalUnaryOp((UnOp2, Operand2), Op2Val),
+    eval(Op1, BinOp, Op2Val, Result).
+eval((UnOp1, Operand1), BinOp, Op2, Result) :-
+    !,
+    evalUnaryOp((UnOp1, Operand1), Op1Val),
+    eval(Op1Val, BinOp, Op2, Result).
 
 eval(Op1, +, Op2, Result) :-
     !,
