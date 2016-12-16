@@ -18,11 +18,19 @@ binary(b(/)).
 % applyUnaryOps([4 | List]) :-
 
 evalEquation([Four1, Op, Four2], Result) :-
+    !,
     eval(Four1, Op, Four2, Result).
 
-% evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
-
-
+evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
+    getOpByPrecedence(Op1, Op2, ResOp),
+    ResOp = Op1,
+    !,
+    eval(Four1, Op1, Four2, TempResult),
+    eval(TempResult, Op2, Four3, Result).
+evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
+    !,
+    eval(Four2, Op2, Four3, TempResult),
+    eval(Four1, Op1, TempResult, Result).
 
 getOpByPrecedence(Op, Op, Op).
 getOpByPrecedence(+, -, +).
@@ -38,17 +46,17 @@ getOpByPrecedence(/, *, /).
 getOpByPrecedence(/, -, /).
 getOpByPrecedence(/, +, /).
 
-eval(Four1, +, Four2, Result) :-
-    Result is Four1 + Four2,
+eval(Op1, +, Op2, Result) :-
+    Result is Op1 + Op2,
     !.
-eval(Four1, -, Four2, Result) :-
-    Result is Four1 - Four2,
+eval(Op1, -, Op2, Result) :-
+    Result is Op1 - Op2,
     !.
-eval(Four1, *, Four2, Result) :-
-    Result is Four1 * Four2,
+eval(Op1, *, Op2, Result) :-
+    Result is Op1 * Op2,
     !.
-eval(Four1, /, Four2, Result) :-
-    Result is Four1 / Four2,
+eval(Op1, /, Op2, Result) :-
+    Result is Op1 / Op2,
     !.
 
 buildEquation([Four1, Four2, Four3, Four4], [Four1, Op1, Four2, Op2, Four3, Op3, Four4]) :-
