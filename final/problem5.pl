@@ -64,15 +64,21 @@ evalEquation([Four1, Op1, Four2, Op2, Four3], Result) :-
     eval(Four1, Op1, TempResult, Result),
     !.
 
+% evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
+%     permutation([[Four1, Op1, Four2], [Four2, Op2, Four3], [Four3, Op3, Four4]]
+%     , [L1, L2, L3]),
+%     [FourL1, OpL1, Four2L1] = L1,
+%     [_, OpL2, Four2L2] = L2,
+%     [_, OpL3, Four2L3] = L3,
+%     eval(FourL1, OpL1, Four2L1, TempRes),
+%     eval(TempRes, OpL2, Four2L2, TempRes2),
+%     eval(TempRes2, OpL3, Four2L3, Result).
+
+%if this isnt permuted then we get 66 answers but much faster
 evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
-    permutation([[Four1, Op1, Four2], [Four2, Op2, Four3], [Four3, Op3, Four4]]
-    , [L1, L2, L3]),
-    [FourL1, OpL1, Four2L1] = L1,
-    [_, OpL2, Four2L2] = L2,
-    [_, OpL3, Four2L3] = L3,
-    eval(FourL1, OpL1, Four2L1, TempRes),
-    eval(TempRes, OpL2, Four2L2, TempRes2),
-    eval(TempRes2, OpL3, Four2L3, Result).
+    eval(Four1, Op1, Four2, TempRes),
+    eval(TempRes, Op2, Four3, TempRes2),
+    eval(TempRes2, Op3, Four4, Result).
 
 evalUnaryOp(((+), Operand), Result) :-
     !,

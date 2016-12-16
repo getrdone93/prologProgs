@@ -74,7 +74,39 @@ getOpByPrecedence(/, *, /).
 getOpByPrecedence(/, -, /).
 getOpByPrecedence(/, +, /).
 
-
+solveFour4(N, C, FoursCache) :-
+    generateFours(FourList),
+    \+ checkCache(FourList, FoursCache),
+    append([FourList], [FoursCache], NewFoursCache),
+    buildEquation(FourList, Equation),
+    evalEquation(Equation, Result),
+    C =:= Result,
+    !,
+    equationOutputter(Equation, Result),
+    C1 is C + 1,
+    solveFour4(N, C1, NewFoursCache).
+solveFour4(N, C, FoursCache) :-
+    generateFours(FourList),
+    \+ checkCache(FourList, FoursCache),
+    append([FourList], [FoursCache], NewFoursCache),
+    applyUnaryOps(FourList, UnaryOpsFourList),
+    buildEquation(UnaryOpsFourList, Equation),
+    evalEquation(Equation, Result),
+    C =:= Result,
+    !,
+    equationOutputter(Equation, Result),
+    C1 is C + 1,
+    solveFour4(N, C1, NewFoursCache).solveFour4(N, C, [F]) :-
+    generateFours(FourList),
+    \+ checkCache(FourList, FoursCache),
+    append([FourList], [FoursCache], NewFoursCache),
+    buildEquation(FourList, Equation),
+    evalEquation(Equation, Result),
+    C =:= Result,
+    !,
+    equationOutputter(Equation, Result),
+    C1 is C + 1,
+    solveFour4(N, C1, NewFoursCache).
 
 %%subtract from higher side (proven to not work on paper)
 % normalizeNodes([], NewEdges, NewEdges) :-
