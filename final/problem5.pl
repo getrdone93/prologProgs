@@ -145,10 +145,15 @@ applyUnaryOps([Four1, Four2, Four3, Four4], [(Un1, Four1), (Un2, Four2), (Un3, F
 
 buildEquation([Four1, Four2, Four3, Four4], [Four1, Op1, Four2, Op2, Four3, Op3, Four4]) :-
     findall(O, binary(b(O)), OpList),
-    getPowerSet(OpList, 3, [Op1, Op2, Op3]).
+    reverse(OpList, RevOpList),
+    member(Op1, OpList),
+    member(Op2, RevOpList),
+    member(Op3, OpList).
 buildEquation([Four1, Four2, Four3], [Four1, Op1, Four2, Op2, Four3]) :-
     findall(O, binary(b(O)), OpList),
-    getPowerSet(OpList, 2, [Op1, Op2]).
+    reverse(OpList, RevOpList),
+    member(Op1, OpList),
+    member(Op2, RevOpList).
 buildEquation([Four1, Four2], [Four1, Op, Four2]) :-
     findall(O, binary(b(O)), OpList),
     member(Op, OpList).
