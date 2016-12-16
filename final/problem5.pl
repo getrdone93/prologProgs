@@ -65,6 +65,25 @@ evalEquation([Four1, Op1, Four2, Op2, Four3, Op3, Four4], Result) :-
     eval(TempRes, OpL2, Four2L2, TempRes2),
     eval(TempRes2, OpL3, Four2L3, Result).
 
+% evalUnaryOp(((+), Operand), Result) :-
+%     Operand < 0,
+%     Result is Operand * -1.
+evalUnaryOp(((-), Operand), Result) :-
+    !,
+    Operand > 0,
+    Result is Operand * -1.
+evalUnaryOp((sqrt, Operand), Result) :-
+    !,
+    Result is sqrt(Operand).
+evalUnaryOp((!, Operand), Result) :-
+    !,
+    factorialWrapper(Operand, Result).
+evalUnaryOp((square, Operand), Result) :-
+    Result is Operand ** 2.
+
+% eval((UnOp1, Operand1), BinOp, (UnOp2, Operand2), Result) :-
+%     UnOp1
+
 eval(Op1, +, Op2, Result) :-
     !,
     Result is Op1 + Op2.
@@ -189,3 +208,13 @@ duplicateNTimes([X | Xs], N, [X | Ys], K) :-
      powerset(T, P).
  powerset([H | T], [H | P]) :-
      powerset(T, P).
+
+ factorialWrapper(N, F) :-
+     N1 is floor(N),
+     factorial(N1, F).
+ factorial(0,1) :- !.
+ factorial(N,F) :-
+    N > 0,
+    N1 is N - 1,
+    factorial(N1, F1),
+    F is N * F1.
